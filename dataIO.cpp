@@ -76,7 +76,7 @@ int main() {
         }
     }
 
-    //Print data rows, replace with "Not Available" specifiec string 
+    //Print data rows, replace with "Not Available" specified string 
     current = head;
     while (current != nullptr) {
         for (size_t i = 0; i < num_columns; i++) {
