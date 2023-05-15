@@ -20,10 +20,11 @@ const int CUSTOMER_MENU_TITLE_LENGTH = 73;
 const int GUEST_MENU_TITLE_LENGTH = 54;
 const int THANK_YOU_LENGTH = 49;
 
+Admin admin;
+Guest guest;
+
 void mainMenu()
 {
-    Admin admin;
-    Guest guest;
     while (true)
     {
         system("cls");
@@ -103,9 +104,25 @@ void loginMenu()
 
 void adminLogin()
 {
-    cout << "Admin Login" << endl;
-    //TODO: Admin authentication
-    adminMenu();
+    string adminID;
+    string password;
+
+    cout << "Admin ID: ";
+    cin >> adminID;
+    cout << "Password: ";
+    cin >> password;
+
+    if (admin.login(adminID, password))
+    {
+        cout << "Login successful!" << endl;
+        system("pause");
+        adminMenu();
+    }
+    else
+    {
+        cout << "Login failed!" << endl;
+        system("pause");
+    }
 }
 
 void adminMenu()
@@ -159,6 +176,8 @@ void adminMenu()
         }
         else if (option == 6)
         {
+            admin.logout();
+            system("pause");
             break;
         }
     }

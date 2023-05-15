@@ -6,18 +6,23 @@ using namespace std;
 
 Admin::Admin()
 {
+    this->adminID = "CXK";
+    this->password = "a";
 }
 
 Admin::~Admin()
 {
 }
 
-void Admin::login(string adminID, string password)
+bool Admin::login(string adminID, string password)
 {
+    if (adminID == this->adminID && password == this->password) return true;
+    else return false;
 }
 
 void Admin::logout()
 {
+    cout << "Logout successful!" << endl;
 }
 
 void Admin::displayCustomerDetails()

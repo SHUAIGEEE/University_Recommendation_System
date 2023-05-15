@@ -11,7 +11,7 @@ private:
 public:
     Admin();
     ~Admin();
-    void login(std::string adminID, std::string password);
+    bool login(std::string adminID, std::string password);
     void logout();
     void displayCustomerDetails();
     void modifyCustomerDetails(std::string customerID);
