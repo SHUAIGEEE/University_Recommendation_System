@@ -5,12 +5,16 @@
 #include "Admin.hpp"
 #include "University.hpp"
 #include "Feedback.hpp"
+#include "Utilities.hpp"
+#include "Shared_Variables.hpp"
 
 using namespace std;
 
 int main()
 {
     readFile();
-    // hi testing branch
+
+    mainMenu();
+    exitPage();
     return 0;
 }

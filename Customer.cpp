@@ -4,6 +4,16 @@
 
 using namespace std;
 
+// Customer::Customer(std::string customerID, std::string password)
+// {
+//     this->customerID = customerID;
+//     this->password = password;
+// }
+
+// Customer::~Customer()
+// {
+// }
+
 CustomerList::CustomerList()
 {
 }
@@ -93,6 +103,10 @@ FavouriteNode *CustomerList::createFavouriteNode(int universityRank)
 }
 
 void CustomerList::saveFavouriteUniversity(int universityRank)
+{
+}
+
+void CustomerList::deleteFavouriteUniversity(int universityRank)
 {
 }
 

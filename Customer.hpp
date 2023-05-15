@@ -1,5 +1,5 @@
-#ifndef Customer
-#define Customer
+#ifndef Customer_
+#define Customer_
 
 /* FAVOURITE */
 struct FavouriteNode
@@ -10,6 +10,16 @@ struct FavouriteNode
 
 
 /* CUSTOMER */
+// class Customer
+// {
+// private:
+//     std::string customerID;
+//     std::string password;
+// public:
+//     Customer(std::string customerID, std::string password);
+//     ~Customer();
+// };
+
 struct CustomerNode
 {
     std::string customerID;
@@ -40,6 +50,7 @@ public:
     void searchUniversity();
     FavouriteNode* createFavouriteNode(int universityRank);
     void saveFavouriteUniversity(int universityRank);
+    void deleteFavouriteUniversity(int universityRank);
     void showFavouriteUniversities();
     void sendFeedback();
     void viewFeedbackReply();

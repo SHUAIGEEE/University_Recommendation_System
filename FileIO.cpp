@@ -4,6 +4,10 @@
 #include "FileIO.hpp"
 #include "Customer.hpp"
 #include "University.hpp"
+#include "Feedback.hpp"
+#include "Admin.hpp"
+#include "Guest.hpp"
+#include "Shared_Variables.hpp"
 
 using namespace std;
 
@@ -11,6 +15,7 @@ void readFile()
 {
     UniversityList uniList;
     CustomerList customerList;
+    FeedbackList feedbackList;
 
     /* Universities */
     ifstream file("2023 QS World University Rankings.csv");
