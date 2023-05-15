@@ -13,7 +13,9 @@ int main() {
     Dataset* head = nullptr;
     Dataset* current = nullptr;
     string replace_str = "-";
+    //Used to replace blank values
 
+    //Open CSV file and read the column names from the first line 
     ifstream input_file("2023 QS World University Rankings.csv");
     if (!input_file) {
         cerr << "Error opening input file" << endl;
@@ -29,12 +31,14 @@ int main() {
         num_columns++;
     }
 
+    //Read datarows from CSV files and add into linked list
     while (true) {
         string input;
         if (!getline(input_file, input)) {
             break;
         }
 
+        //Split the input into columns and add into new linked list
         Dataset* new_data = new Dataset;
         new_data->columns = new string[num_columns];
         new_data->next = nullptr;
@@ -72,6 +76,7 @@ int main() {
         }
     }
 
+    //Print data rows, replace with "Not Available" specifiec string 
     current = head;
     while (current != nullptr) {
         for (size_t i = 0; i < num_columns; i++) {
