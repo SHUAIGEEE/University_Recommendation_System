@@ -30,7 +30,7 @@ public:
         std::string irnRank, std::string gerRank);
     void sortAscendingByName();
     void sortDescendingByArFsrErScore();
-    void sortByRank(std::string rank);
+    void sortByRank(std::string rank); // not sure if is sort or search
     void searchByName(std::string institutionName);
     void searchByLocation(std::string location);
     void searchByArRank(std::string arRank);

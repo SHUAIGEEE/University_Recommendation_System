@@ -333,3 +333,158 @@ int readInteger(int min, int max)
 
     return input;
 }
+
+
+/* MERGE SORT */
+void FrontBackSplit(UniversityNode* source, UniversityNode** frontRef, UniversityNode** backRef)
+{
+    UniversityNode* fast;
+    UniversityNode* slow;
+    slow = source;
+    fast = source->nextUniversity;
+
+    // Advance 'fast' two nodes, and advance 'slow' one node
+    while (fast != nullptr) 
+    {
+        fast = fast->nextUniversity;
+        if (fast != nullptr) 
+        {
+            slow = slow->nextUniversity;
+            fast = fast->nextUniversity;
+        }
+    }
+
+    // Split it at 'slow' (before the midpoint)
+    *frontRef = source;
+    *backRef = slow->nextUniversity;
+    slow->nextUniversity = nullptr;
+}
+
+template <FieldName Field>
+bool compareFieldAsc(UniversityNode* a, UniversityNode* b)
+{
+    switch (Field)
+    {
+    case FieldName::INSTITUTION_NAME:
+        return a->institutionName <= b->institutionName;
+    case FieldName::AR_FSR_ER_SCORE:
+        //TODO three scores
+    case FieldName::RANK:
+        return a->rank <= b->rank;
+    case FieldName::LOCATION:
+        return a->location <= b->location;
+    case FieldName::AR_RANK:
+        return a->arRank <= b->arRank;
+    case FieldName::ER_RANK:
+        return a->erRank <= b->erRank;
+    case FieldName::FSR_RANK:
+        return a->fsrRank <= b->fsrRank;
+    case FieldName::CPF_RANK:
+        return a->cpfRank <= b->cpfRank;
+    case FieldName::IFR_RANK:
+        return a->ifrRank <= b->ifrRank;
+    case FieldName::ISR_RANK:
+        return a->isrRank <= b->isrRank;
+    case FieldName::IRN_RANK:
+        return a->irnRank <= b->irnRank;
+    case FieldName::GER_RANK:
+        return a->gerRank <= b->gerRank;
+    }
+}
+
+template <FieldName Field>
+bool compareFieldDesc(UniversityNode* a, UniversityNode* b)
+{
+    switch (Field)
+    {
+    case FieldName::INSTITUTION_NAME:
+        return a->institutionName >= b->institutionName;
+    case FieldName::AR_FSR_ER_SCORE:
+        //TODO three scores
+    case FieldName::RANK:
+        return a->rank >= b->rank;
+    case FieldName::LOCATION:
+        return a->location >= b->location;
+    case FieldName::AR_RANK:
+        return a->arRank >= b->arRank;
+    case FieldName::ER_RANK:
+        return a->erRank >= b->erRank;
+    case FieldName::FSR_RANK:
+        return a->fsrRank >= b->fsrRank;
+    case FieldName::CPF_RANK:
+        return a->cpfRank >= b->cpfRank;
+    case FieldName::IFR_RANK:
+        return a->ifrRank >= b->ifrRank;
+    case FieldName::ISR_RANK:
+        return a->isrRank >= b->isrRank;
+    case FieldName::IRN_RANK:
+        return a->irnRank >= b->irnRank;
+    case FieldName::GER_RANK:
+        return a->gerRank >= b->gerRank;
+    }
+}
+
+template <FieldName Field>
+UniversityNode* SortedMerge(UniversityNode* a, UniversityNode* b, bool isAscending)
+{
+    UniversityNode* result = nullptr;
+
+    // Base cases 
+    if (a == nullptr)
+        return (b);
+    else if (b == nullptr)
+        return (a);
+
+    // Pick a or b, and recur
+    if (isAscending)
+    {
+        if (compareFieldAsc<Field>(a, b))
+        {
+            result = a;
+            result->nextUniversity = SortedMerge<Field>(a->nextUniversity, b, isAscending);
+        }
+        else
+        {
+            result = b;
+            result->nextUniversity = SortedMerge<Field>(a, b->nextUniversity, isAscending);
+        }
+    }
+    else
+    {
+        if (compareFieldDesc<Field>(a, b))
+        {
+            result = a;
+            result->nextUniversity = SortedMerge<Field>(a->nextUniversity, b, isAscending);
+        }
+        else
+        {
+            result = b;
+            result->nextUniversity = SortedMerge<Field>(a, b->nextUniversity, isAscending);
+        }
+    }
+    return (result);
+}
+
+template <FieldName Field>
+void MergeSort(UniversityNode** headRef, bool isAscending)
+{
+    UniversityNode* head = *headRef;
+    UniversityNode* a;
+    UniversityNode* b;
+  
+    // Base case -- length 0 or 1 
+    if ((head == nullptr) || (head->nextUniversity == nullptr)) 
+    {
+        return;
+    }
+  
+    // Split the list in two halves
+    FrontBackSplit(head, &a, &b);
+  
+    // Recursively sort the sublists 
+    MergeSort<Field>(&a, isAscending);
+    MergeSort<Field>(&b, isAscending);
+  
+    // Merge the two sorted halves
+    *headRef = SortedMerge<Field>(a, b, isAscending);
+}
