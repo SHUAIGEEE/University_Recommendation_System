@@ -187,6 +187,7 @@ void customerLogin()
 {
     cout << "Customer Login" << endl;
     //TODO: Customer authentication
+    system("pause");
     customerMenu();
 }
 
@@ -201,7 +202,7 @@ void customerMenu()
         cout << "| /  \\/_   _ ___| |_ ___  _ __ ___   ___ _ __  | .  . | ___ _ __  _   _ " << endl;
         cout << "| |   | | | / __| __/ _ \\| '_ ` _ \\ / _ \\ '__| | |\\/| |/ _ \\ '_ \\| | | |" << endl;
         cout << "| \\__/\\ |_| \\__ \\ || (_) | | | | | |  __/ |    | |  | |  __/ | | | |_| |" << endl;
-        cout << "\\____/\\__,_|___/\\__\\___/|_| |_| |_|\\___|_|    \\_|  |_/\\___|_| |_|\\__,_|" << endl;
+        cout << " \\____/\\__,_|___/\\__\\___/|_| |_| |_|\\___|_|    \\_|  |_/\\___|_| |_|\\__,_|" << endl;
         cout << string(CUSTOMER_MENU_TITLE_LENGTH, '-') << endl;
 
         cout << "1. Display All Universities" << endl;
@@ -368,7 +369,14 @@ bool compareFieldAsc(UniversityNode* a, UniversityNode* b)
     case FieldName::INSTITUTION_NAME:
         return a->institutionName <= b->institutionName;
     case FieldName::AR_FSR_ER_SCORE:
-        //TODO three scores
+        if (a->arScore != b->arScore) return a->arScore < b->arScore;
+        else if (a->fsrScore != b->fsrScore) return a->fsrScore < b->fsrScore;
+        else if (a->erScore != b->erScore) return a->erScore < b->erScore;
+        else return a->rank <= b->rank;
+    case FieldName::FSR_SCORE:
+        return a->fsrScore < b->fsrScore;
+    case FieldName::ER_SCORE:
+        return a->erScore < b->erScore;
     case FieldName::RANK:
         return a->rank <= b->rank;
     case FieldName::LOCATION:
@@ -400,7 +408,10 @@ bool compareFieldDesc(UniversityNode* a, UniversityNode* b)
     case FieldName::INSTITUTION_NAME:
         return a->institutionName >= b->institutionName;
     case FieldName::AR_FSR_ER_SCORE:
-        //TODO three scores
+        if (a->arScore != b->arScore) return a->arScore > b->arScore;
+        else if (a->fsrScore != b->fsrScore) return a->fsrScore > b->fsrScore;
+        else if (a->erScore != b->erScore) return a->erScore > b->erScore;
+        else return a->rank >= b->rank;
     case FieldName::RANK:
         return a->rank >= b->rank;
     case FieldName::LOCATION:
