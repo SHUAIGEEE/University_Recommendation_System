@@ -48,7 +48,7 @@ public:
     void displayList();
     CustomerNode* getHead();
     CustomerNode* getTail();
-    void login(std::string customerID, std::string password);
+    bool login(std::string customerID, std::string password);
     void logout();
     void displayUniversity();
     void sortUniversityDescending();

@@ -28,7 +28,7 @@ void mainMenu()
 {
     while (true)
     {
-        // system("cls");
+        system("cls");
 
         cout << string(MAIN_MENU_LENGTH, '-') << endl;
         cout << " _   _       _                    _ _          ______                                                  _       _   _               _____           _                 " << endl;
@@ -187,10 +187,22 @@ void adminMenu()
 /* CUSTOMER */
 void customerLogin()
 {
-    cout << "Customer Login" << endl;
-    //TODO: Customer authentication
-    system("pause");
-    customerMenu();
+    string customerID;
+    string password;
+
+    readIDAndPassword(&customerID, &password, "Customer");
+
+    if (customerList.login(customerID, password))
+    {
+        cout << "Login successful!" << endl;
+        system("pause");
+        customerMenu();
+    }
+    else
+    {
+        cout << "Login failed!" << endl;
+        system("pause");
+    }
 }
 
 void customerMenu()
@@ -325,6 +337,7 @@ void guestRegister()
     }
     system("pause");
 }
+
 
 void exitPage()
 {

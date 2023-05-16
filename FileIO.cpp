@@ -83,8 +83,6 @@ void readFile()
     }
 
     file.close();
-
-    customerList.displayList();
 }
 
 void writeFile()

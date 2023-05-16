@@ -108,12 +108,27 @@ CustomerNode* CustomerList::getTail()
     return tail;
 }
 
-void CustomerList::login(string customerID, string password)
+bool CustomerList::login(string customerID, string password)
 {
+    CustomerNode* temp = head;
+
+    while (temp != nullptr)
+    {
+        if (temp->customer.getCustomerID() == customerID && temp->customer.getPassword() == password)
+        {
+            return true;
+        }
+        else
+        {
+            temp = temp->nextCustomer;
+        }
+    }
+    return false;
 }
 
 void CustomerList::logout()
 {
+    cout << "Logout successful!" << endl;
 }
 
 void CustomerList::displayUniversity()
