@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "Customer.hpp"
+#include "Shared_Variables.hpp"
 
 using namespace std;
 
@@ -50,8 +51,6 @@ CustomerNode* CustomerList::createCustomerNode(string customerID, string passwor
 {
     CustomerNode * newNode = new CustomerNode;
 
-    // newNode->customerID = customerID;
-    // newNode->password = password;
     newNode->customer = Customer(customerID, password);
     newNode->favourites = nullptr;
     newNode->nextCustomer = nullptr;
@@ -128,6 +127,8 @@ bool CustomerList::login(string customerID, string password)
 
 void CustomerList::logout()
 {
+    loginCustomer.setCustomerID("");
+    loginCustomer.setPassword("");
     cout << "Logout successful!" << endl;
 }
 

@@ -194,6 +194,9 @@ void customerLogin()
 
     if (customerList.login(customerID, password))
     {
+        loginCustomer.setCustomerID(customerID);
+        loginCustomer.setPassword(password);
+
         cout << "Login successful!" << endl;
         system("pause");
         customerMenu();
@@ -257,6 +260,7 @@ void customerMenu()
         }
         else if (option == 6)
         {
+            customerList.logout();
             break;
         }
     }
