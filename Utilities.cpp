@@ -22,12 +22,13 @@ const int THANK_YOU_LENGTH = 49;
 
 Admin admin;
 Guest guest;
+Customer loginCustomer;
 
 void mainMenu()
 {
     while (true)
     {
-        system("cls");
+        // system("cls");
 
         cout << string(MAIN_MENU_LENGTH, '-') << endl;
         cout << " _   _       _                    _ _          ______                                                  _       _   _               _____           _                 " << endl;
@@ -102,15 +103,14 @@ void loginMenu()
     }
 }
 
+
+/* ADMIN */
 void adminLogin()
 {
     string adminID;
     string password;
 
-    cout << "Admin ID: ";
-    cin >> adminID;
-    cout << "Password: ";
-    cin >> password;
+    readIDAndPassword(&adminID, &password, "Admin");
 
     if (admin.login(adminID, password))
     {
@@ -183,6 +183,8 @@ void adminMenu()
     }
 }
 
+
+/* CUSTOMER */
 void customerLogin()
 {
     cout << "Customer Login" << endl;
@@ -248,6 +250,8 @@ void customerMenu()
     }
 }
 
+
+/* GUEST */
 void guestMenu()
 {
     while (true)
@@ -294,15 +298,32 @@ void guestMenu()
         }
         else if (option == 5)
         {
-            cout << "Register" << endl;
-            // guest.registerAccount();
-            
+            guestRegister();
         }
         else if (option == 6)
         {
             break;
         }
     }
+}
+
+void guestRegister()
+{
+    string customerID;
+    string password;
+
+    readIDAndPassword(&customerID, &password, "Unique Customer");
+
+    if (guest.registerAccount(customerID, password))
+    {
+        cout << "Registration successful!" << endl;
+        cout << "You can login your account from main menu now!" << endl;
+    }
+    else
+    {
+        cout << "Registration failed!" << endl;
+    }
+    system("pause");
 }
 
 void exitPage()
@@ -335,7 +356,16 @@ int readInteger(int min, int max)
     return input;
 }
 
+void readIDAndPassword(string* ID, string* password, string message)
+{
+    cout << message << " ID: ";
+    cin >> *ID;
+    cout << "Password: ";
+    cin >> *password;
+}
 
+
+/* Sorting Algorithms */
 /* MERGE SORT */
 void FrontBackSplit(UniversityNode* source, UniversityNode** frontRef, UniversityNode** backRef)
 {
@@ -373,10 +403,6 @@ bool compareFieldAsc(UniversityNode* a, UniversityNode* b)
         else if (a->fsrScore != b->fsrScore) return a->fsrScore < b->fsrScore;
         else if (a->erScore != b->erScore) return a->erScore < b->erScore;
         else return a->rank <= b->rank;
-    case FieldName::FSR_SCORE:
-        return a->fsrScore < b->fsrScore;
-    case FieldName::ER_SCORE:
-        return a->erScore < b->erScore;
     case FieldName::RANK:
         return a->rank <= b->rank;
     case FieldName::LOCATION:
@@ -499,3 +525,14 @@ void MergeSort(UniversityNode** headRef, bool isAscending)
     // Merge the two sorted halves
     *headRef = SortedMerge<Field>(a, b, isAscending);
 }
+
+
+/* QUICK SORT */
+
+
+
+/* SEARCHING ALGORITHMS */
+/* LINEAR SEARCH */
+
+
+/* EXPONENTIAL SEARCH */

@@ -16,5 +16,7 @@ int main()
 
     mainMenu();
     exitPage();
+
+    writeFile();
     return 0;
 }

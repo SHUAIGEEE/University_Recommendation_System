@@ -4,15 +4,39 @@
 
 using namespace std;
 
-// Customer::Customer(std::string customerID, std::string password)
-// {
-//     this->customerID = customerID;
-//     this->password = password;
-// }
+Customer::Customer()
+{
+}
 
-// Customer::~Customer()
-// {
-// }
+Customer::Customer(string customerID, string password)
+{
+    this->customerID = customerID;
+    this->password = password;
+}
+
+Customer::~Customer()
+{
+}
+
+string Customer::getCustomerID()
+{
+    return this->customerID;
+}
+
+string Customer::getPassword()
+{
+    return this->password;
+}
+
+void Customer::setCustomerID(string customerID)
+{
+    this->customerID = customerID;
+}
+
+void Customer::setPassword(string password)
+{
+    this->password = password;
+}
 
 CustomerList::CustomerList()
 {
@@ -26,8 +50,9 @@ CustomerNode* CustomerList::createCustomerNode(string customerID, string passwor
 {
     CustomerNode * newNode = new CustomerNode;
 
-    newNode->customerID = customerID;
-    newNode->password = password;
+    // newNode->customerID = customerID;
+    // newNode->password = password;
+    newNode->customer = Customer(customerID, password);
     newNode->favourites = nullptr;
     newNode->nextCustomer = nullptr;
 
@@ -64,13 +89,23 @@ void CustomerList::displayList()
 {
 	CustomerNode* temp = head;
 
-	while (temp != NULL)
+	while (temp != nullptr)
 	{
-		cout << temp->customerID << " - " << temp->password << endl;
+		cout << temp->customer.getCustomerID() << " - " << temp->customer.getPassword() << endl;
 		temp = temp->nextCustomer;
 	}
 
 	cout << endl << "List is ended here!" << endl << endl;
+}
+
+CustomerNode* CustomerList::getHead()
+{
+    return head;
+}
+
+CustomerNode* CustomerList::getTail()
+{
+    return tail;
 }
 
 void CustomerList::login(string customerID, string password)

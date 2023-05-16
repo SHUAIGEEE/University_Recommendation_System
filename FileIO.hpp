@@ -2,5 +2,6 @@
 #define FileIO
 
 void readFile();
+void writeFile();
 
 #endif

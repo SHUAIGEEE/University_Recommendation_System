@@ -6,7 +6,7 @@ using namespace std;
 
 Admin::Admin()
 {
-    this->adminID = "CXK";
+    this->adminID = "cxk";
     this->password = "a";
 }
 

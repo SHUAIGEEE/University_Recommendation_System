@@ -10,20 +10,24 @@ struct FavouriteNode
 
 
 /* CUSTOMER */
-// class Customer
-// {
-// private:
-//     std::string customerID;
-//     std::string password;
-// public:
-//     Customer(std::string customerID, std::string password);
-//     ~Customer();
-// };
+class Customer
+{
+private:
+    std::string customerID;
+    std::string password;
+public:
+    Customer();
+    Customer(std::string customerID, std::string password);
+    ~Customer();
+    std::string getCustomerID();
+    std::string getPassword();
+    void setCustomerID(std::string customerID);
+    void setPassword(std::string password);
+};
 
 struct CustomerNode
 {
-    std::string customerID;
-    std::string password;
+    Customer customer;
     FavouriteNode* favourites;
     CustomerNode* nextCustomer;
 };
@@ -42,6 +46,8 @@ public:
     void insertEnd(std::string customerID, std::string password);
     void deleteCustomer();
     void displayList();
+    CustomerNode* getHead();
+    CustomerNode* getTail();
     void login(std::string customerID, std::string password);
     void logout();
     void displayUniversity();

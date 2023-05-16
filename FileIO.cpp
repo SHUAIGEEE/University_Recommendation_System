@@ -11,11 +11,12 @@
 
 using namespace std;
 
+UniversityList uniList;
+CustomerList customerList;
+FeedbackList feedbackList;
+
 void readFile()
 {
-    UniversityList uniList;
-    CustomerList customerList;
-    FeedbackList feedbackList;
 
     /* Universities */
     ifstream file("2023 QS World University Rankings.csv");
@@ -63,9 +64,9 @@ void readFile()
     // uniList.displayList();
     
 
-    /* Members */
+    /* Customer */
     file.close();
-    file.open("Member.txt");
+    file.open("Customer.txt");
     string memberID, password;
 
     while (file.good())
@@ -84,4 +85,19 @@ void readFile()
     file.close();
 
     customerList.displayList();
+}
+
+void writeFile()
+{
+    /* Customer */
+    ofstream file("Customer.txt");
+    CustomerNode* temp = customerList.getHead();
+
+    while (temp != nullptr)
+    {
+        file << temp->customer.getCustomerID() << ";" << temp->customer.getPassword() << endl;
+        temp = temp->nextCustomer;
+    }
+
+    file.close();
 }

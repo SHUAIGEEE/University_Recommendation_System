@@ -1,8 +1,15 @@
 #ifndef Shared_Variables
 #define Shared_Variables
 
+#include "Admin.hpp"
+#include "Customer.hpp"
+#include "Guest.hpp"
+#include "University.hpp"
+#include "Feedback.hpp"
+
 extern Admin admin;
 extern Guest guest;
+extern Customer loginCustomer;
 extern UniversityList uniList;
 extern CustomerList customerList;
 extern FeedbackList feedbackList;
