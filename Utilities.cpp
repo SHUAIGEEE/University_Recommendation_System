@@ -69,7 +69,8 @@ void loginMenu()
 {
     while (true)
     {
-        cout << endl << endl;
+        system("cls");
+
         cout << string(LOGIN_MENU_TITLE_LENGTH, '-') << endl;
         cout << " _                 _        ___  ___                 " << endl;
         cout << "| |               (_)       |  \\/  |                 " << endl;
@@ -129,7 +130,8 @@ void adminMenu()
 {
     while (true)
     {
-        cout << endl << endl;
+        system("cls");
+
         cout << string(ADMIN_MENU_TITLE_LENGTH, '-') << endl;
         cout << "  ___      _           _        ___  ___                 " << endl;
         cout << " / _ \\    | |         (_)       |  \\/  |                 " << endl;
@@ -212,7 +214,8 @@ void customerMenu()
 {
     while (true)
     {
-        cout << endl << endl;
+        system("cls");
+
         cout << string(CUSTOMER_MENU_TITLE_LENGTH, '-') << endl;
         cout << " _____           _                             ___  ___                 " << endl;
         cout << "/  __ \\         | |                            |  \\/  |                 " << endl;
@@ -272,7 +275,8 @@ void guestMenu()
 {
     while (true)
     {
-        cout << endl << endl;
+        system("cls");
+
         cout << string(GUEST_MENU_TITLE_LENGTH, '-') << endl;
         cout << " _____                 _    ___  ___                 " << endl;
         cout << "|  __ \\               | |   |  \\/  |                 " << endl;
@@ -345,6 +349,7 @@ void guestRegister()
 
 void exitPage()
 {
+    system("cls");
     cout << string(THANK_YOU_LENGTH, '-') << endl;
     cout << " _____ _                 _     __   __          " << endl;
     cout << "|_   _| |               | |    \\ \\ / /          " << endl;
