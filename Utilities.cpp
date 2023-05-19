@@ -555,6 +555,48 @@ void MergeSort(UniversityNode** headRef, bool isAscending)
 
 /* SEARCHING ALGORITHMS */
 /* LINEAR SEARCH */
+void linearSearch(UniversityNode** headRef, string searchValue, int attribute)
+{
+    cout << searchValue << "," << attribute << endl;
+    UniversityNode* current = *headRef;
+    while (current != nullptr) {
+        if (attribute == 1 && current->institutionName == searchValue) {
+            //cout 过后可以换format，看要怎样，不过我觉得是跟着displayList()一样的好
+            cout << "Match Found: " << current->rank << endl;
+        }
+        else if (attribute == 2 && current->location == searchValue) {
+            cout << "Match Found: " << current->rank << endl;
+        }
+        else if (attribute == 3 && std::to_string(current->rank) == searchValue) {
+            cout << "Match Found: " << current->rank << endl;
+        }
+        else if (attribute == 4 && current->arRank == searchValue) {
+            cout << "Match Found: " << current->rank << endl;
+        }
+        else if (attribute == 5 && current->erRank == searchValue) {
+            cout << "Match Found: " << current->rank << endl;
+        }
+        else if (attribute == 6 && current->fsrRank == searchValue) {
+            cout << "Match Found: " << current->rank << endl;
+        }
+        else if (attribute == 7 && current->cpfRank == searchValue) {
+            cout << "Match Found: " << current->rank << endl;
+        }
+        else if (attribute == 8 && current->ifrRank == searchValue) {
+            cout << "Match Found: " << current->rank << endl;
+        }
+        else if (attribute == 9 && current->isrRank == searchValue) {
+            cout << "Match Found: " << current->rank << endl;
+        }
+        else if (attribute == 10 && current->irnRank == searchValue) {
+            cout << "Match Found: " << current->rank << endl;
+        }
+        else if (attribute == 11 && current->gerRank == searchValue) {
+            cout << "Match Found: " << current->rank << endl;
+        }
 
+        current = current->nextUniversity;
+    }
+}
 
 /* EXPONENTIAL SEARCH */

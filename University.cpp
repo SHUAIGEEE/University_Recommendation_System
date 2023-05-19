@@ -49,8 +49,9 @@ void UniversityList::insertEnd(string rank, string arScore, string erScore, stri
     string isrScore, string irnScore, string gerScore, string scoreScaled, string institutionName, string locationCode, string location,
     string arRank, string erRank, string fsrRank, string cpfRank, string ifrRank, string isrRank, string irnRank, string gerRank)
 {
-    UniversityNode* newNode = createUniversityNode(rank, institutionName, locationCode, location, arScore, arRank, erScore, erRank,
-    fsrScore, fsrRank, cpfScore, cpfRank, ifrScore, ifrRank, isrScore, isrRank, irnScore, irnRank, gerScore, gerRank, scoreScaled);
+    UniversityNode* newNode = createUniversityNode(rank, arScore, erScore, fsrScore, cpfScore, ifrScore,
+        isrScore, irnScore, gerScore, scoreScaled, institutionName, locationCode, location,
+        arRank, erRank, fsrRank, cpfRank, ifrRank, isrRank, irnRank, gerRank);
 
     if (head == nullptr)
     {

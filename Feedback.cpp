@@ -29,13 +29,13 @@ void FeedbackList::displayList()
 {
 }
 
-FeedbackNode* FeedbackList::moveFoward()
-{
-}
-
-FeedbackNode* FeedbackList::moveBackward()
-{
-}
+//FeedbackNode* FeedbackList::moveFoward()
+//{
+//}
+//
+//FeedbackNode* FeedbackList::moveBackward()
+//{
+//}
 
 ReplyNode FeedbackList::createReplyNode(std::string content, bool isAdmin, tm *timePosted)
 {
