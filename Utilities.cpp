@@ -555,43 +555,62 @@ void MergeSort(UniversityNode** headRef, bool isAscending)
 
 /* SEARCHING ALGORITHMS */
 /* LINEAR SEARCH */
-void linearSearch(UniversityNode** headRef, string searchValue, int attribute)
+FieldName getSearchField() {
+    int fieldNum;
+    //TODO: Show searching field list
+    cout << "Please select searching field: ";
+    cin >> fieldNum;
+    switch (fieldNum) {
+    case 1: return FieldName::INSTITUTION_NAME; break;
+    case 2: return FieldName::LOCATION; break;
+    case 3: return FieldName::RANK; break;
+    case 4: return FieldName::AR_RANK; break;
+    case 5: return FieldName::ER_RANK; break;
+    case 6: return FieldName::FSR_RANK; break;
+    case 7: return FieldName::CPF_RANK; break;
+    case 8: return FieldName::IFR_RANK; break;
+    case 9: return FieldName::ISR_RANK; break;
+    case 10: return FieldName::IRN_RANK; break;
+    case 11: return FieldName::GER_RANK; break;
+    }
+}
+
+void linearSearch(UniversityNode** headRef, string searchValue, FieldName field = getSearchField())
 {
-    cout << searchValue << "," << attribute << endl;
     UniversityNode* current = *headRef;
     while (current != nullptr) {
-        if (attribute == 1 && current->institutionName == searchValue) {
+        if (field == FieldName::INSTITUTION_NAME && current->institutionName == searchValue) {
             //cout 过后可以换format，看要怎样，不过我觉得是跟着displayList()一样的好
             cout << "Match Found: " << current->rank << endl;
         }
-        else if (attribute == 2 && current->location == searchValue) {
+        else if (field == FieldName::LOCATION && current->location == searchValue) {
             cout << "Match Found: " << current->rank << endl;
         }
-        else if (attribute == 3 && std::to_string(current->rank) == searchValue) {
+        else if (field == FieldName::RANK && std::to_string(current->rank) == searchValue) {
             cout << "Match Found: " << current->rank << endl;
         }
-        else if (attribute == 4 && current->arRank == searchValue) {
+        else if (field == FieldName::AR_RANK && current->arRank == searchValue) {
             cout << "Match Found: " << current->rank << endl;
         }
-        else if (attribute == 5 && current->erRank == searchValue) {
+        else if (field == FieldName::ER_RANK && current->erRank == searchValue) {
             cout << "Match Found: " << current->rank << endl;
         }
-        else if (attribute == 6 && current->fsrRank == searchValue) {
+        else if (field == FieldName::FSR_RANK && current->fsrRank == searchValue) {
             cout << "Match Found: " << current->rank << endl;
         }
-        else if (attribute == 7 && current->cpfRank == searchValue) {
+        else if (field == FieldName::CPF_RANK && current->cpfRank == searchValue) {
             cout << "Match Found: " << current->rank << endl;
         }
-        else if (attribute == 8 && current->ifrRank == searchValue) {
+        else if (field == FieldName::IFR_RANK && current->ifrRank == searchValue) {
             cout << "Match Found: " << current->rank << endl;
         }
-        else if (attribute == 9 && current->isrRank == searchValue) {
+        else if (field == FieldName::ISR_RANK && current->isrRank == searchValue) {
             cout << "Match Found: " << current->rank << endl;
         }
-        else if (attribute == 10 && current->irnRank == searchValue) {
+        else if (field == FieldName::IRN_RANK && current->irnRank == searchValue) {
             cout << "Match Found: " << current->rank << endl;
         }
-        else if (attribute == 11 && current->gerRank == searchValue) {
+        else if (field == FieldName::GER_RANK && current->gerRank == searchValue) {
             cout << "Match Found: " << current->rank << endl;
         }
 
