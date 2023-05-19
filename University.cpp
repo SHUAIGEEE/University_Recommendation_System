@@ -55,7 +55,7 @@ void UniversityList::insertEnd(string rank, string arScore, string erScore, stri
 
     if (head == nullptr)
     {
-        head = newNode;
+        head = tail = newNode;
     }
     else 
     {
@@ -67,6 +67,7 @@ void UniversityList::insertEnd(string rank, string arScore, string erScore, stri
         }
         
         current->nextUniversity = newNode;
+        tail = newNode;
     }
     size++;
 }
@@ -148,5 +149,13 @@ void UniversityList::searchByIrnRank(std::string irnRank)
 void UniversityList::searchByGerRank(std::string gerRank)
 {
 
+}
+
+UniversityNode* UniversityList::getHead() {
+    return head;
+}
+
+UniversityNode* UniversityList::getTail() {
+    return tail;
 }
 

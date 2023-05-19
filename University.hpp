@@ -42,6 +42,8 @@ public:
     void searchByIrnRank(std::string irnRank);
     void searchByGerRank(std::string gerRank);
     void displayList();
+    UniversityNode* getHead();
+    UniversityNode* getTail();
 };
 
 

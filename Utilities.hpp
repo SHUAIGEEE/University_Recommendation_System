@@ -29,6 +29,8 @@ void MergeSort(UniversityNode** headRef, bool isAscending);
 /* QUICK SORT */
 
 /* LINEAR SEARCH */
+FieldName getSearchField();
+void linearSearch(std::string searchValue, FieldName field);
 
 /* EXPONENTIAL SEARCH */
 
