@@ -28,7 +28,7 @@ void mainMenu()
 {
     while (true)
     {
-        system("cls");
+        // system("cls");
 
         cout << string(MAIN_MENU_LENGTH, '-') << endl;
         cout << " _   _       _                    _ _          ______                                                  _       _   _               _____           _                 " << endl;
@@ -416,34 +416,85 @@ void FrontBackSplit(UniversityNode* source, UniversityNode** frontRef, Universit
 template <FieldName Field>
 bool compareFieldAsc(UniversityNode* a, UniversityNode* b)
 {
-    switch (Field)
+    // switch (Field)
+    // {
+    // case FieldName::INSTITUTION_NAME:
+    //     return a->institutionName <= b->institutionName;
+    // case FieldName::AR_FSR_ER_SCORE:
+    //     if (a->arScore != b->arScore) return a->arScore < b->arScore;
+    //     else if (a->fsrScore != b->fsrScore) return a->fsrScore < b->fsrScore;
+    //     else if (a->erScore != b->erScore) return a->erScore < b->erScore;
+    //     else return a->rank <= b->rank;
+    // case FieldName::RANK:
+    //     return a->rank <= b->rank;
+    // case FieldName::LOCATION:
+    //     return a->location <= b->location;
+    // case FieldName::AR_RANK:
+    //     return a->arRank <= b->arRank;
+    // case FieldName::ER_RANK:
+    //     return a->erRank <= b->erRank;
+    // case FieldName::FSR_RANK:
+    //     return a->fsrRank <= b->fsrRank;
+    // case FieldName::CPF_RANK:
+    //     return a->cpfRank <= b->cpfRank;
+    // case FieldName::IFR_RANK:
+    //     return a->ifrRank <= b->ifrRank;
+    // case FieldName::ISR_RANK:
+    //     return a->isrRank <= b->isrRank;
+    // case FieldName::IRN_RANK:
+    //     return a->irnRank <= b->irnRank;
+    // case FieldName::GER_RANK:
+    //     return a->gerRank <= b->gerRank;
+    // }
+    if constexpr (Field == FieldName::INSTITUTION_NAME)
     {
-    case FieldName::INSTITUTION_NAME:
         return a->institutionName <= b->institutionName;
-    case FieldName::AR_FSR_ER_SCORE:
+    }
+    else if constexpr (Field == FieldName::AR_FSR_ER_SCORE)
+    {
         if (a->arScore != b->arScore) return a->arScore < b->arScore;
         else if (a->fsrScore != b->fsrScore) return a->fsrScore < b->fsrScore;
         else if (a->erScore != b->erScore) return a->erScore < b->erScore;
         else return a->rank <= b->rank;
-    case FieldName::RANK:
+    }
+    else if constexpr (Field == FieldName::RANK)
+    {
         return a->rank <= b->rank;
-    case FieldName::LOCATION:
+    }
+    else if constexpr (Field == FieldName::LOCATION)
+    {
         return a->location <= b->location;
-    case FieldName::AR_RANK:
+    }
+    else if constexpr (Field == FieldName::AR_RANK)
+    {
         return a->arRank <= b->arRank;
-    case FieldName::ER_RANK:
+    }
+    else if constexpr (Field == FieldName::ER_RANK)
+    {
         return a->erRank <= b->erRank;
-    case FieldName::FSR_RANK:
+    }
+    else if constexpr (Field == FieldName::FSR_RANK)
+    {
         return a->fsrRank <= b->fsrRank;
-    case FieldName::CPF_RANK:
+    }
+    else if constexpr (Field == FieldName::CPF_RANK)
+    {
         return a->cpfRank <= b->cpfRank;
-    case FieldName::IFR_RANK:
+    }
+    else if constexpr (Field == FieldName::IFR_RANK)
+    {
         return a->ifrRank <= b->ifrRank;
-    case FieldName::ISR_RANK:
+    }
+    else if constexpr (Field == FieldName::ISR_RANK)
+    {
         return a->isrRank <= b->isrRank;
-    case FieldName::IRN_RANK:
+    }
+    else if constexpr (Field == FieldName::IRN_RANK)
+    {
         return a->irnRank <= b->irnRank;
-    case FieldName::GER_RANK:
+    }
+    else if constexpr (Field == FieldName::GER_RANK)
+    {
         return a->gerRank <= b->gerRank;
     }
 }
@@ -451,34 +502,85 @@ bool compareFieldAsc(UniversityNode* a, UniversityNode* b)
 template <FieldName Field>
 bool compareFieldDesc(UniversityNode* a, UniversityNode* b)
 {
-    switch (Field)
+    // switch (Field)
+    // {
+    // case FieldName::INSTITUTION_NAME:
+    //     return a->institutionName >= b->institutionName;
+    // case FieldName::AR_FSR_ER_SCORE:
+    //     if (a->arScore != b->arScore) return a->arScore > b->arScore;
+    //     else if (a->fsrScore != b->fsrScore) return a->fsrScore > b->fsrScore;
+    //     else if (a->erScore != b->erScore) return a->erScore > b->erScore;
+    //     else return a->rank >= b->rank;
+    // case FieldName::RANK:
+    //     return a->rank >= b->rank;
+    // case FieldName::LOCATION:
+    //     return a->location >= b->location;
+    // case FieldName::AR_RANK:
+    //     return a->arRank >= b->arRank;
+    // case FieldName::ER_RANK:
+    //     return a->erRank >= b->erRank;
+    // case FieldName::FSR_RANK:
+    //     return a->fsrRank >= b->fsrRank;
+    // case FieldName::CPF_RANK:
+    //     return a->cpfRank >= b->cpfRank;
+    // case FieldName::IFR_RANK:
+    //     return a->ifrRank >= b->ifrRank;
+    // case FieldName::ISR_RANK:
+    //     return a->isrRank >= b->isrRank;
+    // case FieldName::IRN_RANK:
+    //     return a->irnRank >= b->irnRank;
+    // case FieldName::GER_RANK:
+    //     return a->gerRank >= b->gerRank;
+    // }
+    if constexpr (Field == FieldName::INSTITUTION_NAME)
     {
-    case FieldName::INSTITUTION_NAME:
         return a->institutionName >= b->institutionName;
-    case FieldName::AR_FSR_ER_SCORE:
+    }
+    else if constexpr (Field == FieldName::AR_FSR_ER_SCORE)
+    {
         if (a->arScore != b->arScore) return a->arScore > b->arScore;
         else if (a->fsrScore != b->fsrScore) return a->fsrScore > b->fsrScore;
         else if (a->erScore != b->erScore) return a->erScore > b->erScore;
         else return a->rank >= b->rank;
-    case FieldName::RANK:
+    }
+    else if constexpr (Field == FieldName::RANK)
+    {
         return a->rank >= b->rank;
-    case FieldName::LOCATION:
+    }
+    else if constexpr (Field == FieldName::LOCATION)
+    {
         return a->location >= b->location;
-    case FieldName::AR_RANK:
+    }
+    else if constexpr (Field == FieldName::AR_RANK)
+    {
         return a->arRank >= b->arRank;
-    case FieldName::ER_RANK:
+    }
+    else if constexpr (Field == FieldName::ER_RANK)
+    {
         return a->erRank >= b->erRank;
-    case FieldName::FSR_RANK:
+    }
+    else if constexpr (Field == FieldName::FSR_RANK)
+    {
         return a->fsrRank >= b->fsrRank;
-    case FieldName::CPF_RANK:
+    }
+    else if constexpr (Field == FieldName::CPF_RANK)
+    {
         return a->cpfRank >= b->cpfRank;
-    case FieldName::IFR_RANK:
+    }
+    else if constexpr (Field == FieldName::IFR_RANK)
+    {
         return a->ifrRank >= b->ifrRank;
-    case FieldName::ISR_RANK:
+    }
+    else if constexpr (Field == FieldName::ISR_RANK)
+    {
         return a->isrRank >= b->isrRank;
-    case FieldName::IRN_RANK:
+    }
+    else if constexpr (Field == FieldName::IRN_RANK)
+    {
         return a->irnRank >= b->irnRank;
-    case FieldName::GER_RANK:
+    }
+    else if constexpr (Field == FieldName::GER_RANK)
+    {
         return a->gerRank >= b->gerRank;
     }
 }
