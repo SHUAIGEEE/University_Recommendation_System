@@ -193,8 +193,28 @@ void CustomerList::sendFeedback(Customer customer, UniversityNode* university, F
     system("pause");
 }
 
-void CustomerList::viewFeedbackReply()
+void CustomerList::viewFeedbackReply(Customer customer)
 {
+    FeedbackList customerFeedbacks;
+    FeedbackNode* current = feedbackList.getHead();
+    while (current != nullptr) {
+        if (current->customerID == customer.getCustomerID()) {
+            customerFeedbacks.insertIntoSortedList(current->customerID, current->university, current->feedbackContent, current->timePosted);
+        }
+        current = current->nextFeedback;
+    }
+
+    current = customerFeedbacks.getHead();
+    while (current != nullptr) {
+        cout << current->university->institutionName << endl;
+        cout << current->customerID << endl;
+        cout << current->feedbackContent << endl;
+        current = current->nextFeedback;
+        //ReplyNode* current = current->replies;
+    }
+    /*while (current != nullptr) {
+        cout << current->content << endl;
+    }*/
 }
 
 void CustomerList::sendFeedbackReply()

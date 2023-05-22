@@ -282,7 +282,8 @@ void customerMenu()
         else if (option == 5)
         {
             cout << "View Feedbacks and Replies" << endl;
-            //customerList.viewFeedbackReply();
+            customerList.viewFeedbackReply(loginCustomer);
+            system("pause");
         }
         else if (option == 6)
         {
