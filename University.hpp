@@ -44,6 +44,7 @@ public:
     void displayList();
     UniversityNode* getHead();
     UniversityNode* getTail();
+    int getSize();
 };
 
 

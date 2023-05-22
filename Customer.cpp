@@ -180,8 +180,17 @@ void CustomerList::showFavouriteUniversities()
 {
 }
 
-void CustomerList::sendFeedback()
+void CustomerList::sendFeedback(Customer customer, UniversityNode* university, FeedbackList* feedbackList, UniversityList* universityList)
 {
+    string feedbackContent = "";
+    cin.ignore();
+    cout << "Please enter your feedback: ";
+    getline(cin, feedbackContent);
+
+    time_t rawTime = time(nullptr);
+    feedbackList->insertIntoSortedList(customer.getCustomerID(), university, feedbackContent, rawTime);
+    cout << "Thank you for your feedback!" << endl;
+    system("pause");
 }
 
 void CustomerList::viewFeedbackReply()

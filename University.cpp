@@ -159,3 +159,7 @@ UniversityNode* UniversityList::getTail() {
     return tail;
 }
 
+int UniversityList::getSize() {
+    return size;
+}
+

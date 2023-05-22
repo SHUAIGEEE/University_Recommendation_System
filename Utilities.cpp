@@ -238,7 +238,25 @@ void customerMenu()
         if (option == 1)
         {
             cout << "All universities" << endl;
-            // uniList.displayList();
+            uniList.displayList();
+
+            //如果要换成一个一个uni view的话，可以直接pass currentUni 进去write feedback
+            int selectedUni = -1;
+            while (selectedUni < 1 || selectedUni > uniList.getSize()) {
+                cout << "Select University(1 - " << uniList.getSize() << "): ";
+                selectedUni = readInteger(1, uniList.getSize());
+            }
+            UniversityNode* selectedUniversity = uniList.getHead();
+            for (int i = 1; i < selectedUni; i++) {
+                selectedUniversity = selectedUniversity->nextUniversity;
+            }
+            //
+
+            customerList.sendFeedback(loginCustomer, selectedUniversity, &feedbackList, &uniList);
+            feedbackList.displayList();
+            system("pause");
+            
+            
         }
         else if (option == 2)
         {
@@ -264,7 +282,7 @@ void customerMenu()
         else if (option == 5)
         {
             cout << "View Feedbacks and Replies" << endl;
-            // customer.viewFeedbackReply();
+            //customerList.viewFeedbackReply();
         }
         else if (option == 6)
         {
