@@ -15,16 +15,16 @@ Guest::~Guest()
 
 }
 
-bool Guest::registerAccount(string memberID, string password)
+bool Guest::registerAccount(string username, string email, string password)
 {
-    //Check if memberID already exists
+    //Check if username already exists
 	CustomerNode* temp = customerList.getHead();
 
 	while (temp != nullptr)
 	{
-		if (temp->customer.getCustomerID() == memberID)
+		if (temp->customer.getUsername() == username)
         {
-            cout << "Member ID already exists!" << endl;
+            cout << "Username already exists!" << endl;
             return false;
         }
         else
@@ -32,27 +32,29 @@ bool Guest::registerAccount(string memberID, string password)
             temp = temp->nextCustomer;
         }
 	}
-    customerList.insertEnd(memberID, password);
+    string customerID = customerList.generateCustomerID();
+
+    customerList.insertEnd(customerID, username, email, password);
     return true;
 }
 
 void Guest::displayUniversity()
 {
-
+    uniList.displayList();
 }
 
 void Guest::sortUniversityByName()
 {
-
+    uniList.sortByName();
 }
 
 void Guest::searchUniversityByName()
 {
-
+    //TODO: Read university name from user
 }
 
 void Guest::searchUniversityByLocation()
 {
-
+    //TODO: Read location from user
 }
 

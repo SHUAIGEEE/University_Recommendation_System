@@ -7,7 +7,7 @@ class Guest
 public:
     Guest();
     ~Guest();
-    bool registerAccount(std::string memberID, std::string password);
+    bool registerAccount(std::string memberID, std::string email, std::string password);
     void displayUniversity();
     void sortUniversityByName();
     void searchUniversityByName();

@@ -6,7 +6,7 @@ using namespace std;
 
 Admin::Admin()
 {
-    this->adminID = "cxk";
+    this->adminName = "cxk";
     this->password = "a";
 }
 
@@ -14,9 +14,9 @@ Admin::~Admin()
 {
 }
 
-bool Admin::login(string adminID, string password)
+bool Admin::login(string adminName, string password)
 {
-    if (adminID == this->adminID && password == this->password) return true;
+    if (adminName == this->adminName && password == this->password) return true;
     else return false;
 }
 

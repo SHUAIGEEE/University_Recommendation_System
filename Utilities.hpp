@@ -13,7 +13,8 @@ void guestMenu();
 void guestRegister();
 void exitPage();
 int readInteger(int min, int max);
-void readIDAndPassword(std::string* ID, std::string* password, std::string message);
+void readUsernameAndPassword(std::string* username, std::string* password, std::string message);
+void readEmail(std::string* email);
 
 /* MERGE SORT */
 void FrontBackSplit(UniversityNode* source, UniversityNode** frontRef, UniversityNode** backRef);

@@ -5,13 +5,13 @@
 class Admin
 {
 private:
-    std::string adminID;
+    std::string adminName;
     std::string password;
 
 public:
     Admin();
     ~Admin();
-    bool login(std::string adminID, std::string password);
+    bool login(std::string adminName, std::string password);
     void logout();
     void displayCustomerDetails();
     void modifyCustomerDetails(std::string customerID);

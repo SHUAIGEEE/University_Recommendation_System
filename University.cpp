@@ -1,8 +1,12 @@
 #include <iostream>
 #include <string>
+#include <chrono>
 #include "University.hpp"
+#include "Utilities.hpp"
+#include "Shared_Variables.hpp"
 
 using namespace std;
+using namespace chrono;
 
 
 UniversityList::UniversityList()
@@ -70,14 +74,87 @@ void UniversityList::insertEnd(string rank, string arScore, string erScore, stri
     size++;
 }
 
-void UniversityList::sortAscendingByName()
+void UniversityList::sortByName()
 {
+    cout << "Sorting in..." << endl;
+    cout << "1. Ascending order" << endl;
+    cout << "2. Descending order" << endl;
+    cout << "Enter your choice: ";
 
+    int order = readInteger(1, 2);
+
+    cout << "Sorting with..." << endl;
+    cout << "1. Merge sort" << endl;
+    cout << "2. Quick sort" << endl;
+    cout << "Enter your choice: ";
+
+    int sort = readInteger(1, 2);
+
+    if (order == 1)
+    {
+        cout << "Sorting in ascending order..." << endl;
+
+        if (sort == 1)
+        {
+            auto start = high_resolution_clock::now();
+            MergeSort<FieldName::INSTITUTION_NAME>(&head, true);
+            auto stop = high_resolution_clock::now();
+            auto duration = duration_cast<microseconds>(stop - start);
+            cout << "Time taken by MERGE SORT algorithm: " << duration.count() << " microseconds." << endl;
+        }
+        else if (sort == 2)
+        {
+            auto start = high_resolution_clock::now();
+            // QuickSort<FieldName::INSTITUTION_NAME>(&head, true);
+            auto stop = high_resolution_clock::now();
+            auto duration = duration_cast<microseconds>(stop - start);
+            cout << "Time taken by QUICK SORT algorithm: " << duration.count() << " microseconds." << endl;
+        }
+    }
+    else
+    {
+        cout << "Sorting in descending order..." << endl;
+
+        if (sort == 1)
+        {
+            auto start = high_resolution_clock::now();
+            MergeSort<FieldName::INSTITUTION_NAME>(&head, false);
+            auto stop = high_resolution_clock::now();
+            auto duration = duration_cast<microseconds>(stop - start);
+            cout << "Time taken by MERGE SORT algorithm: " << duration.count() << " microseconds." << endl;
+        }
+        else if (sort == 2)
+        {
+            auto start = high_resolution_clock::now();
+            // QuickSort<FieldName::INSTITUTION_NAME>(&head, false);
+            auto stop = high_resolution_clock::now();
+            auto duration = duration_cast<microseconds>(stop - start);
+            cout << "Time taken by QUICK SORT algorithm: " << duration.count() << " microseconds." << endl;
+        }
+    }
 }
 
 void UniversityList::sortDescendingByArFsrErScore()
 {
+    cout << "Sorting in..." << endl;
+    cout << "1. Ascending order" << endl;
+    cout << "2. Descending order" << endl;
+    cout << "Enter your choice: ";
 
+    int order = readInteger(1, 2);
+
+    if (order == 1)
+    {
+        cout << "Sorting in ascending order..." << endl;
+        MergeSort<FieldName::INSTITUTION_NAME>(&head, true);
+        // QuickSort<FieldName::INSTITUTION_NAME>(&head, true);
+    }
+    else
+    {
+        cout << "Sorting in descending order..." << endl;
+        MergeSort<FieldName::INSTITUTION_NAME>(&head, false);
+        // QuickSort<FieldName::INSTITUTION_NAME>(&head, false);
+    }
 }
 
 void UniversityList::sortByRank(string rank)
@@ -99,52 +176,52 @@ void UniversityList::displayList()
 	cout << endl << "List is ended here!" << endl << endl;
 }
 
-void UniversityList::searchByName(std::string institutionName)
+void UniversityList::searchByName(string institutionName)
 {
 
 }
 
-void UniversityList::searchByLocation(std::string location)
+void UniversityList::searchByLocation(string location)
 {
 
 }
 
-void UniversityList::searchByArRank(std::string arRank)
+void UniversityList::searchByArRank(string arRank)
 {
 
 }
 
-void UniversityList::searchByErRank(std::string erRank)
+void UniversityList::searchByErRank(string erRank)
 {
 
 }
 
-void UniversityList::searchByFsrRank(std::string fsrRank)
+void UniversityList::searchByFsrRank(string fsrRank)
 {
 
 }
 
-void UniversityList::searchByCpfRank(std::string cpfRank)
+void UniversityList::searchByCpfRank(string cpfRank)
 {
 
 }
 
-void UniversityList::searchByIfrRank(std::string ifrRank)
+void UniversityList::searchByIfrRank(string ifrRank)
 {
 
 }
 
-void UniversityList::searchByIsrRank(std::string isrRank)
+void UniversityList::searchByIsrRank(string isrRank)
 {
 
 }
 
-void UniversityList::searchByIrnRank(std::string irnRank)
+void UniversityList::searchByIrnRank(string irnRank)
 {
 
 }
 
-void UniversityList::searchByGerRank(std::string gerRank)
+void UniversityList::searchByGerRank(string gerRank)
 {
 
 }

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <limits>
+#include <regex>
 #include "Utilities.hpp"
 #include "Admin.hpp"
 #include "Customer.hpp"
@@ -108,12 +109,12 @@ void loginMenu()
 /* ADMIN */
 void adminLogin()
 {
-    string adminID;
+    string adminName;
     string password;
 
-    readIDAndPassword(&adminID, &password, "Admin");
+    readUsernameAndPassword(&adminName, &password, "Admin");
 
-    if (admin.login(adminID, password))
+    if (admin.login(adminName, password))
     {
         cout << "Login successful!" << endl;
         system("pause");
@@ -189,16 +190,13 @@ void adminMenu()
 /* CUSTOMER */
 void customerLogin()
 {
-    string customerID;
+    string username;
     string password;
 
-    readIDAndPassword(&customerID, &password, "Customer");
+    readUsernameAndPassword(&username, &password, "Customer");
 
-    if (customerList.login(customerID, password))
+    if (customerList.login(username, password))
     {
-        loginCustomer.setCustomerID(customerID);
-        loginCustomer.setPassword(password);
-
         cout << "Login successful!" << endl;
         system("pause");
         customerMenu();
@@ -299,22 +297,22 @@ void guestMenu()
         if (option == 1)
         {
             cout << "All universities" << endl;
-            // uniList.displayList();
+            // guest.displayUniversity();
         }
         else if (option == 2)
         {
             cout << "Sort Universities" << endl;
-            // uniList.sortAscendingByName();
+            // guest.sortUniversityByName();
         }
         else if (option == 3)
         {
             cout << "Search Name" << endl;
-            // uniList.searchByName();
+            // guest.searchUniversityByName();
         }
         else if (option == 4)
         {
             cout << "Search Location" << endl;
-            // uniList.searchByLocation();
+            // guest.searchUniversityByLocation();
         }
         else if (option == 5)
         {
@@ -329,12 +327,14 @@ void guestMenu()
 
 void guestRegister()
 {
-    string customerID;
+    string username;
+    string email;
     string password;
 
-    readIDAndPassword(&customerID, &password, "Unique Customer");
+    readUsernameAndPassword(&username, &password, "Unique Customer");
+    readEmail(&email);
 
-    if (guest.registerAccount(customerID, password))
+    if (guest.registerAccount(username, email, password))
     {
         cout << "Registration successful!" << endl;
         cout << "You can login your account from main menu now!" << endl;
@@ -378,14 +378,30 @@ int readInteger(int min, int max)
     return input;
 }
 
-void readIDAndPassword(string* ID, string* password, string message)
+void readUsernameAndPassword(string* username, string* password, string message)
 {
-    cout << message << " ID: ";
-    cin >> *ID;
+    cout << message << " Usernanme: ";
+    cin >> *username;
     cout << "Password: ";
     cin >> *password;
 }
 
+void readEmail(string* email)
+{
+    cout << "Email: ";
+    cin >> *email;
+    regex rgx("\\w{6,30}@gmail.com");
+
+    while (cin.fail() || !regex_match(*email, rgx))
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid email! Email should contain 6-30 alphanumeric characters followed by @gmail.com" << endl;
+        system("pause");
+        cout << "Email: ";
+        cin >> *email;
+    }
+}
 
 /* Sorting Algorithms */
 /* MERGE SORT */
@@ -416,36 +432,6 @@ void FrontBackSplit(UniversityNode* source, UniversityNode** frontRef, Universit
 template <FieldName Field>
 bool compareFieldAsc(UniversityNode* a, UniversityNode* b)
 {
-    // switch (Field)
-    // {
-    // case FieldName::INSTITUTION_NAME:
-    //     return a->institutionName <= b->institutionName;
-    // case FieldName::AR_FSR_ER_SCORE:
-    //     if (a->arScore != b->arScore) return a->arScore < b->arScore;
-    //     else if (a->fsrScore != b->fsrScore) return a->fsrScore < b->fsrScore;
-    //     else if (a->erScore != b->erScore) return a->erScore < b->erScore;
-    //     else return a->rank <= b->rank;
-    // case FieldName::RANK:
-    //     return a->rank <= b->rank;
-    // case FieldName::LOCATION:
-    //     return a->location <= b->location;
-    // case FieldName::AR_RANK:
-    //     return a->arRank <= b->arRank;
-    // case FieldName::ER_RANK:
-    //     return a->erRank <= b->erRank;
-    // case FieldName::FSR_RANK:
-    //     return a->fsrRank <= b->fsrRank;
-    // case FieldName::CPF_RANK:
-    //     return a->cpfRank <= b->cpfRank;
-    // case FieldName::IFR_RANK:
-    //     return a->ifrRank <= b->ifrRank;
-    // case FieldName::ISR_RANK:
-    //     return a->isrRank <= b->isrRank;
-    // case FieldName::IRN_RANK:
-    //     return a->irnRank <= b->irnRank;
-    // case FieldName::GER_RANK:
-    //     return a->gerRank <= b->gerRank;
-    // }
     if constexpr (Field == FieldName::INSTITUTION_NAME)
     {
         return a->institutionName <= b->institutionName;
@@ -502,36 +488,6 @@ bool compareFieldAsc(UniversityNode* a, UniversityNode* b)
 template <FieldName Field>
 bool compareFieldDesc(UniversityNode* a, UniversityNode* b)
 {
-    // switch (Field)
-    // {
-    // case FieldName::INSTITUTION_NAME:
-    //     return a->institutionName >= b->institutionName;
-    // case FieldName::AR_FSR_ER_SCORE:
-    //     if (a->arScore != b->arScore) return a->arScore > b->arScore;
-    //     else if (a->fsrScore != b->fsrScore) return a->fsrScore > b->fsrScore;
-    //     else if (a->erScore != b->erScore) return a->erScore > b->erScore;
-    //     else return a->rank >= b->rank;
-    // case FieldName::RANK:
-    //     return a->rank >= b->rank;
-    // case FieldName::LOCATION:
-    //     return a->location >= b->location;
-    // case FieldName::AR_RANK:
-    //     return a->arRank >= b->arRank;
-    // case FieldName::ER_RANK:
-    //     return a->erRank >= b->erRank;
-    // case FieldName::FSR_RANK:
-    //     return a->fsrRank >= b->fsrRank;
-    // case FieldName::CPF_RANK:
-    //     return a->cpfRank >= b->cpfRank;
-    // case FieldName::IFR_RANK:
-    //     return a->ifrRank >= b->ifrRank;
-    // case FieldName::ISR_RANK:
-    //     return a->isrRank >= b->isrRank;
-    // case FieldName::IRN_RANK:
-    //     return a->irnRank >= b->irnRank;
-    // case FieldName::GER_RANK:
-    //     return a->gerRank >= b->gerRank;
-    // }
     if constexpr (Field == FieldName::INSTITUTION_NAME)
     {
         return a->institutionName >= b->institutionName;
@@ -650,6 +606,57 @@ void MergeSort(UniversityNode** headRef, bool isAscending)
     *headRef = SortedMerge<Field>(a, b, isAscending);
 }
 
+template void MergeSort<FieldName::RANK>(UniversityNode** headRef, bool isAscending);
+template void MergeSort<FieldName::INSTITUTION_NAME>(UniversityNode** headRef, bool isAscending);
+template void MergeSort<FieldName::LOCATION>(UniversityNode** headRef, bool isAscending);
+template void MergeSort<FieldName::AR_FSR_ER_SCORE>(UniversityNode** headRef, bool isAscending);
+template void MergeSort<FieldName::AR_RANK>(UniversityNode** headRef, bool isAscending);
+template void MergeSort<FieldName::ER_RANK>(UniversityNode** headRef, bool isAscending);
+template void MergeSort<FieldName::FSR_RANK>(UniversityNode** headRef, bool isAscending);
+template void MergeSort<FieldName::CPF_RANK>(UniversityNode** headRef, bool isAscending);
+template void MergeSort<FieldName::IFR_RANK>(UniversityNode** headRef, bool isAscending);
+template void MergeSort<FieldName::ISR_RANK>(UniversityNode** headRef, bool isAscending);
+template void MergeSort<FieldName::IRN_RANK>(UniversityNode** headRef, bool isAscending);
+template void MergeSort<FieldName::GER_RANK>(UniversityNode** headRef, bool isAscending);
+
+template UniversityNode* SortedMerge<FieldName::RANK>(UniversityNode* a, UniversityNode* b, bool isAscending);
+template UniversityNode* SortedMerge<FieldName::INSTITUTION_NAME>(UniversityNode* a, UniversityNode* b, bool isAscending);
+template UniversityNode* SortedMerge<FieldName::LOCATION>(UniversityNode* a, UniversityNode* b, bool isAscending);
+template UniversityNode* SortedMerge<FieldName::AR_FSR_ER_SCORE>(UniversityNode* a, UniversityNode* b, bool isAscending);
+template UniversityNode* SortedMerge<FieldName::AR_RANK>(UniversityNode* a, UniversityNode* b, bool isAscending);
+template UniversityNode* SortedMerge<FieldName::ER_RANK>(UniversityNode* a, UniversityNode* b, bool isAscending);
+template UniversityNode* SortedMerge<FieldName::FSR_RANK>(UniversityNode* a, UniversityNode* b, bool isAscending);
+template UniversityNode* SortedMerge<FieldName::CPF_RANK>(UniversityNode* a, UniversityNode* b, bool isAscending);
+template UniversityNode* SortedMerge<FieldName::IFR_RANK>(UniversityNode* a, UniversityNode* b, bool isAscending);
+template UniversityNode* SortedMerge<FieldName::ISR_RANK>(UniversityNode* a, UniversityNode* b, bool isAscending);
+template UniversityNode* SortedMerge<FieldName::IRN_RANK>(UniversityNode* a, UniversityNode* b, bool isAscending);
+template UniversityNode* SortedMerge<FieldName::GER_RANK>(UniversityNode* a, UniversityNode* b, bool isAscending);
+
+template bool compareFieldAsc<FieldName::RANK>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldAsc<FieldName::INSTITUTION_NAME>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldAsc<FieldName::LOCATION>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldAsc<FieldName::AR_FSR_ER_SCORE>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldAsc<FieldName::AR_RANK>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldAsc<FieldName::ER_RANK>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldAsc<FieldName::FSR_RANK>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldAsc<FieldName::CPF_RANK>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldAsc<FieldName::IFR_RANK>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldAsc<FieldName::ISR_RANK>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldAsc<FieldName::IRN_RANK>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldAsc<FieldName::GER_RANK>(UniversityNode* a, UniversityNode* b);
+
+template bool compareFieldDesc<FieldName::RANK>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldDesc<FieldName::INSTITUTION_NAME>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldDesc<FieldName::LOCATION>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldDesc<FieldName::AR_FSR_ER_SCORE>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldDesc<FieldName::AR_RANK>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldDesc<FieldName::ER_RANK>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldDesc<FieldName::FSR_RANK>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldDesc<FieldName::CPF_RANK>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldDesc<FieldName::IFR_RANK>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldDesc<FieldName::ISR_RANK>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldDesc<FieldName::IRN_RANK>(UniversityNode* a, UniversityNode* b);
+template bool compareFieldDesc<FieldName::GER_RANK>(UniversityNode* a, UniversityNode* b);
 
 /* QUICK SORT */
 

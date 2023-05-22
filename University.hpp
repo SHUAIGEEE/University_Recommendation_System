@@ -28,7 +28,7 @@ public:
         std::string isrScore, std::string irnScore, std::string gerScore, std::string scoreScaled, std::string institutionName, std::string locationCode,
         std::string location, std::string arRank, std::string erRank, std::string fsrRank, std::string cpfRank, std::string ifrRank, std::string isrRank,
         std::string irnRank, std::string gerRank);
-    void sortAscendingByName();
+    void sortByName();
     void sortDescendingByArFsrErScore();
     void sortByRank(std::string rank); // not sure if is sort or search
     void searchByName(std::string institutionName);

@@ -67,19 +67,21 @@ void readFile()
     /* Customer */
     file.close();
     file.open("Customer.txt");
-    string memberID, password;
+    string customerID, username, email, password;
 
     while (file.good())
     {
-        getline(file, memberID, ';');
+        getline(file, customerID, ';');
+        getline(file, username, ';');
+        getline(file, email, ';');
         getline(file, password);
 
-        if (memberID == "")
+        if (customerID == "")
         {
             break;
         }
         
-        customerList.insertEnd(memberID, password);
+        customerList.insertEnd(customerID, username, email, password);
     }
 
     file.close();
@@ -93,7 +95,8 @@ void writeFile()
 
     while (temp != nullptr)
     {
-        file << temp->customer.getCustomerID() << ";" << temp->customer.getPassword() << endl;
+        file << temp->customer.getCustomerID() << ";" << temp->customer.getUsername() << ";"
+        << temp->customer.getEmail() << ";" << temp->customer.getPassword() << endl;
         temp = temp->nextCustomer;
     }
 
