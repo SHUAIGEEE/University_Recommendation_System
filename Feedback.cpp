@@ -29,7 +29,6 @@ FeedbackNode *FeedbackList::createFeedbackNode(std::string customerID, Universit
     return newNode;
 }
 
-//TODO: Sort
 void FeedbackList::insertIntoSortedList(std::string customerID, UniversityNode* university, std::string feedbackContent, time_t timePosted)
 {
     FeedbackNode* newNode = createFeedbackNode(customerID, university, feedbackContent, timePosted);
@@ -100,26 +99,14 @@ void FeedbackList::displayFeedback(FeedbackNode* feedback)
     }
 }
 
-void FeedbackList::moveFoward(FeedbackNode* current)
+FeedbackNode* FeedbackList::moveFoward(FeedbackNode* current)
 {
-    if (current->nextFeedback != nullptr) {
-        current = current->nextFeedback;
-        //displayFeedback(currentFeedback);
-    }
-    else {
-        cout << "This is the last feedback." << endl;
-    }
+    return current->nextFeedback;
 }
 
-void FeedbackList::moveBackward(FeedbackNode* current)
+FeedbackNode* FeedbackList::moveBackward(FeedbackNode* current)
 {
-    if (current->prevFeedback != nullptr) {
-        current = current->prevFeedback;
-        //displayFeedback(currentFeedback);
-    }
-    else {
-        cout << "This is the first feedback." << endl;
-    }
+    return current->prevFeedback;
 }
 
 ReplyNode* FeedbackList::createReplyNode(std::string content, bool isAdmin, time_t timePosted)
@@ -151,4 +138,18 @@ void FeedbackList::addReply(std::string content, bool isAdmin, time_t timePosted
 
 FeedbackNode* FeedbackList::getHead() {
     return head;
+}
+
+FeedbackNode*FeedbackList::getFeedbackNode(int index, FeedbackList* feedbackList) {
+    int i = 1;
+    FeedbackNode* current = feedbackList->getHead();
+    while (i < index) {
+        current = current->nextFeedback;
+        i++;
+    }
+    return current;
+}
+
+int FeedbackList::getSize() {
+    return size;
 }

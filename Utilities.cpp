@@ -243,7 +243,7 @@ void customerMenu()
             //如果要换成一个一个uni view的话，可以直接pass currentUni 进去write feedback
             int selectedUni = -1;
             while (selectedUni < 1 || selectedUni > uniList.getSize()) {
-                cout << "Select University(1 - " << uniList.getSize() << "): ";
+                cout << "Select University to Write a Feedback (1 - " << uniList.getSize() << "): ";
                 selectedUni = readInteger(1, uniList.getSize());
             }
             UniversityNode* selectedUniversity = uniList.getHead();
@@ -252,11 +252,7 @@ void customerMenu()
             }
             //
 
-            customerList.sendFeedback(loginCustomer, selectedUniversity, &feedbackList, &uniList);
-            feedbackList.displayList();
-            system("pause");
-            
-            
+            customerList.sendFeedback(loginCustomer, selectedUniversity, &feedbackList, &uniList); 
         }
         else if (option == 2)
         {
@@ -282,8 +278,7 @@ void customerMenu()
         else if (option == 5)
         {
             cout << "View Feedbacks and Replies" << endl;
-            customerList.viewFeedbackReply(loginCustomer);
-            system("pause");
+            customerList.viewFeedback(loginCustomer);
         }
         else if (option == 6)
         {

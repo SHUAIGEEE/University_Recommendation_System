@@ -2,6 +2,7 @@
 #include <string>
 #include "Customer.hpp"
 #include "Shared_Variables.hpp"
+#include "Utilities.hpp";
 
 using namespace std;
 
@@ -193,30 +194,82 @@ void CustomerList::sendFeedback(Customer customer, UniversityNode* university, F
     system("pause");
 }
 
-void CustomerList::viewFeedbackReply(Customer customer)
-{
+void CustomerList::viewFeedback(Customer customer) {
     FeedbackList customerFeedbacks;
     FeedbackNode* current = feedbackList.getHead();
     while (current != nullptr) {
         if (current->customerID == customer.getCustomerID()) {
             customerFeedbacks.insertIntoSortedList(current->customerID, current->university, current->feedbackContent, current->timePosted);
+            cout << customerFeedbacks.getSize() << ". " << current->university->institutionName << " - " << current->feedbackContent << endl;
         }
         current = current->nextFeedback;
     }
-
-    current = customerFeedbacks.getHead();
-    while (current != nullptr) {
-        cout << current->university->institutionName << endl;
-        cout << current->customerID << endl;
-        cout << current->feedbackContent << endl;
-        current = current->nextFeedback;
-        //ReplyNode* current = current->replies;
+    cout << "Please select a feedback to view (Press 0 to go back): ";
+    int viewFeedbackOption = readInteger(0, customerFeedbacks.getSize());
+    cout << "option is : " << viewFeedbackOption << endl;
+    if (viewFeedbackOption == 0) {
+        return;
     }
-    /*while (current != nullptr) {
-        cout << current->content << endl;
-    }*/
+    viewFeedbackReply(customer, customerFeedbacks.getFeedbackNode(viewFeedbackOption, &feedbackList));
 }
 
-void CustomerList::sendFeedbackReply()
+void CustomerList::viewFeedbackReply(Customer customer, FeedbackNode* feedback)
 {
+    cout << feedback->university->institutionName << endl;
+    cout << feedback->customerID << endl;
+    cout << feedback->feedbackContent << endl;
+    ReplyNode* currentReplies = feedback->replies;
+    while (currentReplies != nullptr) {
+        cout << endl << currentReplies->content << endl;
+        currentReplies = currentReplies->nextReply;
+    }
+
+    cout << "1. Write a Reply" << endl;
+    cout << "2. View Previous Feedback" << endl;
+    cout << "3. View Next Feedback" << endl;
+    cout << "4. Back" << endl;
+    cout << "Please select an option: ";
+    int viewFeedbackOption = readInteger(1, 4);
+    switch (viewFeedbackOption)
+    {
+    case 1:
+        sendFeedbackReply(feedback);
+        break;
+    case 2:
+        if (feedback->prevFeedback != NULL) {
+            viewFeedbackReply(customer, feedback->prevFeedback);
+            break;
+        }
+        else {
+            cout << "This is already the first feedback!" << endl;
+            viewFeedbackReply(customer, feedback);
+            break;
+        }
+    case 3:
+        if (feedback->nextFeedback != NULL) {
+            viewFeedbackReply(customer, feedback->nextFeedback);
+            break;
+        }
+        else {
+            cout << "This is already the last feedback!" << endl;
+            viewFeedbackReply(customer, feedback);
+            break;
+        }
+    case 4:
+        viewFeedback(customer);
+    default:
+        break;
+    }
+}
+
+void CustomerList::sendFeedbackReply(FeedbackNode* feedback)
+{
+    string replyContent = "";
+    cin.ignore();
+    cout << "Please enter your reply: ";
+    getline(cin, replyContent);
+
+    time_t rawTime = time(nullptr);
+    feedbackList.addReply(replyContent, false, rawTime, feedback);
+    cout << "Your reply has been sent!" << endl;
 }

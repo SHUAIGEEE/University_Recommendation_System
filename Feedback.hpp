@@ -40,11 +40,13 @@ public:
     void sortFeedback();
     void displayList();
     void displayFeedback(FeedbackNode* feedback);
-    void moveFoward(FeedbackNode* current);
-    void moveBackward(FeedbackNode* current);
+    FeedbackNode* moveFoward(FeedbackNode* current);
+    FeedbackNode* moveBackward(FeedbackNode* current);
     ReplyNode* createReplyNode(std::string content, bool isAdmin, time_t timePosted);
     void addReply(std::string content, bool isAdmin, time_t timePosted, FeedbackNode* feedback);
     FeedbackNode* getHead();
+    FeedbackNode* getFeedbackNode(int index, FeedbackList* feedbackList);
+    int getSize();
 };
 
 #endif

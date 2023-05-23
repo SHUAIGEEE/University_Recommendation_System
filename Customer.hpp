@@ -62,8 +62,9 @@ public:
     void deleteFavouriteUniversity(int universityRank);
     void showFavouriteUniversities();
     void sendFeedback(Customer customer, UniversityNode* university, FeedbackList* feedbackList, UniversityList* universityList);
-    void viewFeedbackReply(Customer customer);
-    void sendFeedbackReply();
+    void viewFeedback(Customer customer);
+    void viewFeedbackReply(Customer customer, FeedbackNode* feedback);
+    void sendFeedbackReply(FeedbackNode* feedback);
 };
 
 #endif
