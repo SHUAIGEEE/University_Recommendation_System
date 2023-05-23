@@ -190,7 +190,8 @@ void CustomerList::sendFeedback(Customer customer, UniversityNode* university, F
     getline(cin, feedbackContent);
 
     time_t rawTime = time(nullptr);
-    feedbackList->insertIntoSortedList(customer.getCustomerID(), university, feedbackContent, rawTime);
+    struct tm* timeInfo = localtime(&rawTime);
+    feedbackList->insertIntoSortedList(customer.getCustomerID(), university, feedbackContent, *timeInfo);
     cout << "Thank you for your feedback!" << endl;
     system("pause");
 }
@@ -203,9 +204,8 @@ void CustomerList::viewAllFeedbacks(Customer customer) {
             customerFeedbackList.insertIntoSortedList(current->customerID, current->university, current->feedbackContent, current->timePosted);
             cout << customerFeedbackList.getSize() << ". " << current->university->institutionName << " - " << current->feedbackContent << endl;
             
-            struct tm* timeInfo = localtime(&current->timePosted);
             char formattedTime[50];
-            strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y %a %H:%M%p", timeInfo);
+            strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y %a %H:%M:%S", &current->timePosted);
             cout << "   Last Updated: " << formattedTime << endl;
         }
         current = current->nextFeedback;
@@ -221,9 +221,8 @@ void CustomerList::viewAllFeedbacks(Customer customer) {
 void CustomerList::viewFeedbackReply(Customer customer, FeedbackNode* feedback)
 {
     cout << "University Name: " << feedback->university->institutionName << endl;
-    struct tm* timeInfo = localtime(&feedback->timePosted);
     char formattedTime[50];
-    strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y %a %H:%M%p", timeInfo);
+    strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y %a %H:%M:%S", &feedback->timePosted);
     cout << "Last Updated: " << formattedTime << endl;
     cout << "Feedback: " << feedback->feedbackContent << endl;
     if (feedback->replies != nullptr) {
@@ -259,7 +258,8 @@ void CustomerList::viewFeedbackReply(Customer customer, FeedbackNode* feedback)
             break;
         }
         else {
-            cout << "This is already the first feedback!" << endl;
+            cout << endl << "This is already the first feedback!" << endl;
+            system("pause");
             viewFeedbackReply(customer, feedback);
             break;
         }
@@ -269,7 +269,8 @@ void CustomerList::viewFeedbackReply(Customer customer, FeedbackNode* feedback)
             break;
         }
         else {
-            cout << "This is already the last feedback!" << endl;
+            cout << endl << "This is already the last feedback!" << endl;
+            system("pause");
             viewFeedbackReply(customer, feedback);
             break;
         }
@@ -288,7 +289,8 @@ void CustomerList::sendFeedbackReply(FeedbackNode* feedback)
     getline(cin, replyContent);
 
     time_t rawTime = time(nullptr);
-    feedbackList.addReply(replyContent, false, rawTime, feedback);
+    struct tm* timeInfo = localtime(&rawTime);
+    feedbackList.addReply(replyContent, false, *timeInfo, feedback);
     cout << "Your reply has been sent!" << endl;
     system("pause");
 }

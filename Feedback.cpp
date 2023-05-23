@@ -15,7 +15,7 @@ FeedbackList::~FeedbackList()
 {
 }
 
-FeedbackNode *FeedbackList::createFeedbackNode(std::string customerID, UniversityNode* university, std::string feedbackContent, time_t timePosted)
+FeedbackNode *FeedbackList::createFeedbackNode(std::string customerID, UniversityNode* university, std::string feedbackContent, struct tm timePosted)
 {
     FeedbackNode* newNode = new FeedbackNode;
 
@@ -30,7 +30,7 @@ FeedbackNode *FeedbackList::createFeedbackNode(std::string customerID, Universit
     return newNode;
 }
 
-void FeedbackList::insertIntoSortedList(std::string customerID, UniversityNode* university, std::string feedbackContent, time_t timePosted)
+void FeedbackList::insertIntoSortedList(std::string customerID, UniversityNode* university, std::string feedbackContent, struct tm timePosted)
 {
     FeedbackNode* newNode = createFeedbackNode(customerID, university, feedbackContent, timePosted);
 
@@ -38,7 +38,7 @@ void FeedbackList::insertIntoSortedList(std::string customerID, UniversityNode* 
     {
         head = tail = newNode;
     }
-    else if (difftime(timePosted, head->timePosted) >= 0)
+    else if(mktime(&timePosted) >= mktime(&head->timePosted))
     {
         newNode->nextFeedback = head;
         head->prevFeedback = newNode;
@@ -50,7 +50,7 @@ void FeedbackList::insertIntoSortedList(std::string customerID, UniversityNode* 
 
         while (current != nullptr)
         {
-            if (difftime(timePosted, current->timePosted) >= 0) {
+            if (mktime(&timePosted) >= mktime(&head->timePosted)) {
                 break;
             }
             prev = current;
@@ -84,9 +84,8 @@ void FeedbackList::displayList()
     {
         //cout 可以换format
         cout << index << ". " << temp->university->institutionName << " - " << temp->customerID << " - " << temp->feedbackContent << endl;
-        struct tm* timeInfo = localtime(&temp->timePosted);
         char formattedTime[50];
-        strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y %a %H:%M%p", timeInfo);
+        strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y %a %H:%M:%S", &temp->timePosted);
         cout << "   Last Updated: " << formattedTime << endl;
         temp = temp->nextFeedback;
         index++;
@@ -106,7 +105,7 @@ void FeedbackList::displayFeedback(FeedbackNode* feedback)
     }
 }
 
-ReplyNode* FeedbackList::createReplyNode(std::string content, bool isAdmin, time_t timePosted)
+ReplyNode* FeedbackList::createReplyNode(std::string content, bool isAdmin, struct tm timePosted)
 {
     ReplyNode* newNode = new ReplyNode;
 
@@ -117,7 +116,7 @@ ReplyNode* FeedbackList::createReplyNode(std::string content, bool isAdmin, time
     return newNode;
 }
 
-void FeedbackList::addReply(std::string content, bool isAdmin, time_t timePosted, FeedbackNode* feedback)
+void FeedbackList::addReply(std::string content, bool isAdmin, struct tm timePosted, FeedbackNode* feedback)
 {
     ReplyNode* newNode = createReplyNode(content, isAdmin, timePosted);
 
