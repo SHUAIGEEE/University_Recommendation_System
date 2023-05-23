@@ -272,4 +272,5 @@ void CustomerList::sendFeedbackReply(FeedbackNode* feedback)
     time_t rawTime = time(nullptr);
     feedbackList.addReply(replyContent, false, rawTime, feedback);
     cout << "Your reply has been sent!" << endl;
+    system("pause");
 }
