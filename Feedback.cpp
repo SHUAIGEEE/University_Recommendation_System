@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <ctime>
 #include "Feedback.hpp"
 #include <time.h>
@@ -77,12 +77,14 @@ void FeedbackList::sortFeedback()
 void FeedbackList::displayList()
 {
     FeedbackNode* temp = head;
+    int index = 1;
 
     while (temp != NULL)
     {
-        //cout << temp->customerID << " : " << temp->universityRank << " : " << temp->feedbackContent << " :" << temp->timePosted << endl;
-        cout << temp->customerID << " : " << temp->university->institutionName << " : " << temp->feedbackContent << " :" << asctime(localtime(&temp->timePosted)) << endl;
+        //cout 可以换format
+        cout << index << ". " << temp->university->institutionName << " - " << temp->feedbackContent << endl;
         temp = temp->nextFeedback;
+        index++;
     }
 
     cout << endl << "List is ended here!" << endl << endl;
@@ -97,16 +99,6 @@ void FeedbackList::displayFeedback(FeedbackNode* feedback)
     while (current != nullptr) {
         cout << current->content << endl;
     }
-}
-
-FeedbackNode* FeedbackList::moveFoward(FeedbackNode* current)
-{
-    return current->nextFeedback;
-}
-
-FeedbackNode* FeedbackList::moveBackward(FeedbackNode* current)
-{
-    return current->prevFeedback;
 }
 
 ReplyNode* FeedbackList::createReplyNode(std::string content, bool isAdmin, time_t timePosted)

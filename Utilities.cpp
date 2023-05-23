@@ -169,7 +169,7 @@ void adminMenu()
         else if (option == 4)
         {
             cout << "View Customer Feedback" << endl;
-            // admin.viewCustomerFeedback();
+            admin.viewAllFeedbacks();
         }
         else if (option == 5)
         {
@@ -278,7 +278,7 @@ void customerMenu()
         else if (option == 5)
         {
             cout << "View Feedbacks and Replies" << endl;
-            customerList.viewFeedback(loginCustomer);
+            customerList.viewAllFeedbacks(loginCustomer);
         }
         else if (option == 6)
         {

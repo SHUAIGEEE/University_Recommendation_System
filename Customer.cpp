@@ -194,36 +194,43 @@ void CustomerList::sendFeedback(Customer customer, UniversityNode* university, F
     system("pause");
 }
 
-void CustomerList::viewFeedback(Customer customer) {
-    FeedbackList customerFeedbacks;
+void CustomerList::viewAllFeedbacks(Customer customer) {
+    FeedbackList customerFeedbackList;
     FeedbackNode* current = feedbackList.getHead();
     while (current != nullptr) {
         if (current->customerID == customer.getCustomerID()) {
-            customerFeedbacks.insertIntoSortedList(current->customerID, current->university, current->feedbackContent, current->timePosted);
-            cout << customerFeedbacks.getSize() << ". " << current->university->institutionName << " - " << current->feedbackContent << endl;
+            customerFeedbackList.insertIntoSortedList(current->customerID, current->university, current->feedbackContent, current->timePosted);
+            cout << customerFeedbackList.getSize() << ". " << current->university->institutionName << " - " << current->feedbackContent << endl;
         }
         current = current->nextFeedback;
     }
     cout << "Please select a feedback to view (Press 0 to go back): ";
-    int viewFeedbackOption = readInteger(0, customerFeedbacks.getSize());
-    cout << "option is : " << viewFeedbackOption << endl;
+    int viewFeedbackOption = readInteger(0, customerFeedbackList.getSize());
     if (viewFeedbackOption == 0) {
         return;
     }
-    viewFeedbackReply(customer, customerFeedbacks.getFeedbackNode(viewFeedbackOption, &feedbackList));
+    viewFeedbackReply(customer, customerFeedbackList.getFeedbackNode(viewFeedbackOption, &customerFeedbackList));
 }
 
 void CustomerList::viewFeedbackReply(Customer customer, FeedbackNode* feedback)
 {
-    cout << feedback->university->institutionName << endl;
-    cout << feedback->customerID << endl;
-    cout << feedback->feedbackContent << endl;
-    ReplyNode* currentReplies = feedback->replies;
-    while (currentReplies != nullptr) {
-        cout << endl << currentReplies->content << endl;
-        currentReplies = currentReplies->nextReply;
+    cout << "University Name: " << feedback->university->institutionName << endl;
+    cout << "Feedback: " << feedback->feedbackContent << endl;
+    if (feedback->replies != nullptr) {
+        cout << "Replies: " << endl;
+        ReplyNode* currentReplies = feedback->replies;
+        while (currentReplies != nullptr) {
+            if (currentReplies->isAdmin) {
+                cout << "Admin: " << currentReplies->content << endl;
+            }
+            else {
+                cout << feedback->customerID << ": " << currentReplies->content << endl;
+            }
+            currentReplies = currentReplies->nextReply;
+        }
     }
 
+    cout << endl;
     cout << "1. Write a Reply" << endl;
     cout << "2. View Previous Feedback" << endl;
     cout << "3. View Next Feedback" << endl;
@@ -234,6 +241,7 @@ void CustomerList::viewFeedbackReply(Customer customer, FeedbackNode* feedback)
     {
     case 1:
         sendFeedbackReply(feedback);
+        viewFeedbackReply(customer, feedback);
         break;
     case 2:
         if (feedback->prevFeedback != NULL) {
@@ -256,7 +264,7 @@ void CustomerList::viewFeedbackReply(Customer customer, FeedbackNode* feedback)
             break;
         }
     case 4:
-        viewFeedback(customer);
+        viewAllFeedbacks(customer);
     default:
         break;
     }
