@@ -56,6 +56,10 @@ void Admin::viewSelectedFeedback(FeedbackNode* feedback)
 {
     cout << "University Name: " << feedback->university->institutionName << endl;
     cout << "Customer ID: " << feedback->customerID << endl;
+    struct tm* timeInfo = localtime(&feedback->timePosted);
+    char formattedTime[50];
+    strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y %a %H:%M%p", timeInfo);
+    cout << "Last Updated: " << formattedTime << endl;
     cout << "Feedback: " << feedback->feedbackContent << endl;
     if (feedback->replies != nullptr) {
         cout << "Replies: " << endl;

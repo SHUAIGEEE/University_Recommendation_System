@@ -43,6 +43,9 @@ public:
     ReplyNode* createReplyNode(std::string content, bool isAdmin, time_t timePosted);
     void addReply(std::string content, bool isAdmin, time_t timePosted, FeedbackNode* feedback);
     FeedbackNode* getHead();
+    FeedbackNode* getTail();
+    void setHead(FeedbackNode* feedback);
+    void setTail(FeedbackNode* feedback);
     FeedbackNode* getFeedbackNode(int index, FeedbackList* feedbackList);
     int getSize();
 };

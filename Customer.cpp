@@ -3,6 +3,7 @@
 #include "Customer.hpp"
 #include "Shared_Variables.hpp"
 #include "Utilities.hpp";
+#include <sstream>
 
 using namespace std;
 
@@ -201,6 +202,11 @@ void CustomerList::viewAllFeedbacks(Customer customer) {
         if (current->customerID == customer.getCustomerID()) {
             customerFeedbackList.insertIntoSortedList(current->customerID, current->university, current->feedbackContent, current->timePosted);
             cout << customerFeedbackList.getSize() << ". " << current->university->institutionName << " - " << current->feedbackContent << endl;
+            
+            struct tm* timeInfo = localtime(&current->timePosted);
+            char formattedTime[50];
+            strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y %a %H:%M%p", timeInfo);
+            cout << "   Last Updated: " << formattedTime << endl;
         }
         current = current->nextFeedback;
     }
@@ -215,6 +221,10 @@ void CustomerList::viewAllFeedbacks(Customer customer) {
 void CustomerList::viewFeedbackReply(Customer customer, FeedbackNode* feedback)
 {
     cout << "University Name: " << feedback->university->institutionName << endl;
+    struct tm* timeInfo = localtime(&feedback->timePosted);
+    char formattedTime[50];
+    strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y %a %H:%M%p", timeInfo);
+    cout << "Last Updated: " << formattedTime << endl;
     cout << "Feedback: " << feedback->feedbackContent << endl;
     if (feedback->replies != nullptr) {
         cout << "Replies: " << endl;

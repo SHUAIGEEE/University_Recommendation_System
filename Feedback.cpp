@@ -3,6 +3,7 @@
 #include "Feedback.hpp"
 #include <time.h>
 #include <string>
+#include "Shared_Variables.hpp";
 
 using namespace std;
 
@@ -37,7 +38,7 @@ void FeedbackList::insertIntoSortedList(std::string customerID, UniversityNode* 
     {
         head = tail = newNode;
     }
-    else if (difftime(timePosted, head->timePosted) <= 0)
+    else if (difftime(timePosted, head->timePosted) >= 0)
     {
         newNode->nextFeedback = head;
         head->prevFeedback = newNode;
@@ -49,7 +50,7 @@ void FeedbackList::insertIntoSortedList(std::string customerID, UniversityNode* 
 
         while (current != nullptr)
         {
-            if (difftime(timePosted, current->timePosted) <= 0) {
+            if (difftime(timePosted, current->timePosted) >= 0) {
                 break;
             }
             prev = current;
@@ -82,7 +83,11 @@ void FeedbackList::displayList()
     while (temp != NULL)
     {
         //cout 可以换format
-        cout << index << ". " << temp->university->institutionName << " - " << temp->feedbackContent << endl;
+        cout << index << ". " << temp->university->institutionName << " - " << temp->customerID << " - " << temp->feedbackContent << endl;
+        struct tm* timeInfo = localtime(&temp->timePosted);
+        char formattedTime[50];
+        strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y %a %H:%M%p", timeInfo);
+        cout << "   Last Updated: " << formattedTime << endl;
         temp = temp->nextFeedback;
         index++;
     }
@@ -126,10 +131,35 @@ void FeedbackList::addReply(std::string content, bool isAdmin, time_t timePosted
         }
         current->nextReply = newNode;
     }
+    feedback->timePosted = newNode->timePosted;
+    FeedbackNode* temp = feedback;
+    if (feedbackList.getSize() > 1 && feedback == feedbackList.getTail()) {
+        temp->prevFeedback->nextFeedback = nullptr;
+        feedbackList.setTail(temp->prevFeedback);
+    }
+    else if (feedbackList.getSize() > 1 && feedback != feedbackList.getHead()) {
+        temp->prevFeedback->nextFeedback = temp->nextFeedback;
+        temp->nextFeedback->prevFeedback = temp->prevFeedback;
+    }
+    temp->nextFeedback = feedbackList.getHead();
+    feedbackList.getHead()->prevFeedback = temp;
+    feedbackList.setHead(temp);
 }
 
 FeedbackNode* FeedbackList::getHead() {
     return head;
+}
+
+FeedbackNode* FeedbackList::getTail() {
+    return tail;
+}
+
+void FeedbackList::setHead(FeedbackNode* feedback) {
+    head = feedback;
+}
+
+void FeedbackList::setTail(FeedbackNode* feedback) {
+    tail = feedback;
 }
 
 FeedbackNode*FeedbackList::getFeedbackNode(int index, FeedbackList* feedbackList) {
