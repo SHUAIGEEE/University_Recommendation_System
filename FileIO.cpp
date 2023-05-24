@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <time.h>
+#include <ctime>
 #include "FileIO.hpp"
 #include "Customer.hpp"
 #include "University.hpp"
@@ -8,6 +10,8 @@
 #include "Admin.hpp"
 #include "Guest.hpp"
 #include "Shared_Variables.hpp"
+#include <iomanip>
+#include <sstream>
 
 using namespace std;
 
@@ -17,9 +21,10 @@ FeedbackList feedbackList;
 
 void readFile()
 {
-
+    
     /* Universities */
     ifstream file("2023 QS World University Rankings.csv");
+    ifstream feedbackFile("Feedback.txt");
     string rank; // int
     string arScore, erScore, fsrScore, cpfScore, ifrScore, isrScore, irnScore, gerScore, scoreScaled; // double
     string institutionName, locationCode, location, arRank, erRank, fsrRank, cpfRank, ifrRank, isrRank, irnRank, gerRank; // string
@@ -83,6 +88,38 @@ void readFile()
     }
 
     file.close();
+
+    /* Feedback */
+    string line;
+    string feedbackCustomerID, feedbackUniRank, feedbackContent, timePosted, reply;
+    string replyContent, isAdmin, replyTimePosted;
+
+    while (getline(feedbackFile, line))
+    {
+        istringstream feedbackiss(line);
+        getline(feedbackiss, feedbackCustomerID, ';');
+        getline(feedbackiss, feedbackUniRank, ';');
+        getline(feedbackiss, feedbackContent, ';');
+        getline(feedbackiss, timePosted, ';');
+
+        std::string format = "%d-%m-%Y %a %H:%M:%S";
+        std::tm timeStruct = {};
+        std::istringstream timeiss(timePosted);
+        timeiss >> std::get_time(&timeStruct, format.c_str());
+        feedbackList.insertIntoSortedList(feedbackCustomerID, uniList.getUniversity(stoi(feedbackUniRank)), feedbackContent, timeStruct);
+
+        while (getline(feedbackiss, reply, ';')) {
+            istringstream replyiss(reply);
+            getline(replyiss, replyContent, ',');
+            getline(replyiss, isAdmin, ',');
+            getline(replyiss, replyTimePosted, ',');
+            std::istringstream iss(replyTimePosted);
+            iss >> std::get_time(&timeStruct, format.c_str());
+            feedbackList.addReply(replyContent, isAdmin == "1", timeStruct, feedbackList.getTail(), true);
+        }
+    }
+
+    feedbackFile.close();
 }
 
 void writeFile()
@@ -98,4 +135,25 @@ void writeFile()
     }
 
     file.close();
+
+    /* Feedback */
+    ofstream feedbackFile("Feedback.txt");
+    FeedbackNode* feedbackTemp = feedbackList.getHead();
+
+    while (feedbackTemp != nullptr)
+    {
+        char formattedTime[50];
+        strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y %a %H:%M:%S", &feedbackTemp->timePosted);
+        feedbackFile << feedbackTemp->customerID << ";" << feedbackTemp->university->rank << ";" << feedbackTemp->feedbackContent << ";" << formattedTime;
+        ReplyNode* reply = feedbackTemp->replies;
+        while (reply != nullptr) {
+            strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y %a %H:%M:%S", &reply->timePosted);
+            feedbackFile << ";" << reply->content << "," << reply->isAdmin << "," << formattedTime;
+            reply = reply->nextReply;
+        }
+        feedbackFile << endl;
+        feedbackTemp = feedbackTemp->nextFeedback;
+    }
+
+    feedbackFile.close();
 }

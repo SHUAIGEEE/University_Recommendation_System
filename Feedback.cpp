@@ -94,17 +94,6 @@ void FeedbackList::displayList()
     cout << endl << "List is ended here!" << endl << endl;
 }
 
-void FeedbackList::displayFeedback(FeedbackNode* feedback)
-{
-    cout << feedback->university->institutionName << endl;
-    cout << feedback->customerID << endl;
-    cout << feedback->feedbackContent << endl;
-    ReplyNode* current = feedback->replies;
-    while (current != nullptr) {
-        cout << current->content << endl;
-    }
-}
-
 ReplyNode* FeedbackList::createReplyNode(std::string content, bool isAdmin, struct tm timePosted)
 {
     ReplyNode* newNode = new ReplyNode;
@@ -116,7 +105,7 @@ ReplyNode* FeedbackList::createReplyNode(std::string content, bool isAdmin, stru
     return newNode;
 }
 
-void FeedbackList::addReply(std::string content, bool isAdmin, struct tm timePosted, FeedbackNode* feedback)
+void FeedbackList::addReply(std::string content, bool isAdmin, struct tm timePosted, FeedbackNode* feedback, bool readFromFile)
 {
     ReplyNode* newNode = createReplyNode(content, isAdmin, timePosted);
 
@@ -130,19 +119,24 @@ void FeedbackList::addReply(std::string content, bool isAdmin, struct tm timePos
         }
         current->nextReply = newNode;
     }
-    feedback->timePosted = newNode->timePosted;
-    FeedbackNode* temp = feedback;
-    if (feedbackList.getSize() > 1 && feedback == feedbackList.getTail()) {
-        temp->prevFeedback->nextFeedback = nullptr;
-        feedbackList.setTail(temp->prevFeedback);
+
+    if (!readFromFile) {
+        feedback->timePosted = newNode->timePosted;
+        FeedbackNode* temp = feedback;
+        if (feedbackList.getSize() > 1 && feedback == feedbackList.getTail()) {
+            temp->prevFeedback->nextFeedback = nullptr;
+            feedbackList.setTail(temp->prevFeedback);
+        }
+        else if (feedbackList.getSize() > 1 && feedback != feedbackList.getHead()) {
+            temp->prevFeedback->nextFeedback = temp->nextFeedback;
+            temp->nextFeedback->prevFeedback = temp->prevFeedback;
+        }
+        if (feedback != feedbackList.getHead()) {
+            temp->nextFeedback = feedbackList.getHead();
+            feedbackList.getHead()->prevFeedback = temp;
+            feedbackList.setHead(temp);
+        }
     }
-    else if (feedbackList.getSize() > 1 && feedback != feedbackList.getHead()) {
-        temp->prevFeedback->nextFeedback = temp->nextFeedback;
-        temp->nextFeedback->prevFeedback = temp->prevFeedback;
-    }
-    temp->nextFeedback = feedbackList.getHead();
-    feedbackList.getHead()->prevFeedback = temp;
-    feedbackList.setHead(temp);
 }
 
 FeedbackNode* FeedbackList::getHead() {
@@ -161,7 +155,7 @@ void FeedbackList::setTail(FeedbackNode* feedback) {
     tail = feedback;
 }
 
-FeedbackNode*FeedbackList::getFeedbackNode(int index, FeedbackList* feedbackList) {
+FeedbackNode* FeedbackList::getFeedbackNode(int index, FeedbackList* feedbackList) {
     int i = 1;
     FeedbackNode* current = feedbackList->getHead();
     while (i < index) {

@@ -197,25 +197,28 @@ void CustomerList::sendFeedback(Customer customer, UniversityNode* university, F
 }
 
 void CustomerList::viewAllFeedbacks(Customer customer) {
-    FeedbackList customerFeedbackList;
     FeedbackNode* current = feedbackList.getHead();
+    int* feedbackIndeces = new int(feedbackList.getSize());
+    int index = 0;
+    int loopIndex = 0;
     while (current != nullptr) {
         if (current->customerID == customer.getCustomerID()) {
-            customerFeedbackList.insertIntoSortedList(current->customerID, current->university, current->feedbackContent, current->timePosted);
-            cout << customerFeedbackList.getSize() << ". " << current->university->institutionName << " - " << current->feedbackContent << endl;
-            
+            feedbackIndeces[index] = loopIndex;
+            cout << index + 1 << ". " << current->university->institutionName << " - " << current->feedbackContent << endl;
+            index++;
             char formattedTime[50];
             strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y %a %H:%M:%S", &current->timePosted);
             cout << "   Last Updated: " << formattedTime << endl;
         }
         current = current->nextFeedback;
+        loopIndex++;
     }
     cout << "Please select a feedback to view (Press 0 to go back): ";
-    int viewFeedbackOption = readInteger(0, customerFeedbackList.getSize());
+    int viewFeedbackOption = readInteger(0, index);
     if (viewFeedbackOption == 0) {
         return;
     }
-    viewFeedbackReply(customer, customerFeedbackList.getFeedbackNode(viewFeedbackOption, &customerFeedbackList));
+    viewFeedbackReply(customer, feedbackList.getFeedbackNode(feedbackIndeces[viewFeedbackOption - 1], &feedbackList));
 }
 
 void CustomerList::viewFeedbackReply(Customer customer, FeedbackNode* feedback)
@@ -290,7 +293,7 @@ void CustomerList::sendFeedbackReply(FeedbackNode* feedback)
 
     time_t rawTime = time(nullptr);
     struct tm* timeInfo = localtime(&rawTime);
-    feedbackList.addReply(replyContent, false, *timeInfo, feedback);
+    feedbackList.addReply(replyContent, false, *timeInfo, feedback, false);
     cout << "Your reply has been sent!" << endl;
     system("pause");
 }

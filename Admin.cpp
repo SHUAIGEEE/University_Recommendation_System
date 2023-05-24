@@ -126,7 +126,7 @@ void Admin::replyToFeedback(FeedbackNode* feedback)
 
     time_t rawTime = time(nullptr);
     struct tm* timeInfo = localtime(&rawTime);
-    feedbackList.addReply(replyContent, true, *timeInfo, feedback);
+    feedbackList.addReply(replyContent, true, *timeInfo, feedback, false);
     cout << "Your reply has been sent!" << endl;
     system("pause");
 }

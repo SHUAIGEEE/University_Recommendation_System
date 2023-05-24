@@ -246,10 +246,7 @@ void customerMenu()
                 cout << "Select University to Write a Feedback (1 - " << uniList.getSize() << "): ";
                 selectedUni = readInteger(1, uniList.getSize());
             }
-            UniversityNode* selectedUniversity = uniList.getHead();
-            for (int i = 1; i < selectedUni; i++) {
-                selectedUniversity = selectedUniversity->nextUniversity;
-            }
+            UniversityNode* selectedUniversity = uniList.getUniversity(selectedUni);
             //
 
             customerList.sendFeedback(loginCustomer, selectedUniversity, &feedbackList, &uniList); 

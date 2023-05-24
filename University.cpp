@@ -159,6 +159,14 @@ UniversityNode* UniversityList::getTail() {
     return tail;
 }
 
+UniversityNode* UniversityList::getUniversity(int index) {
+    UniversityNode* current = head;
+    for (int i = 1; i < index; i++) {
+        current = current->nextUniversity;
+    }
+    return current;
+}
+
 int UniversityList::getSize() {
     return size;
 }

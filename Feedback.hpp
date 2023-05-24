@@ -39,9 +39,8 @@ public:
     void insertIntoSortedList(std::string customerID, UniversityNode* university, std::string feedbackContent, struct tm timePosted);
     void sortFeedback();
     void displayList();
-    void displayFeedback(FeedbackNode* feedback);
     ReplyNode* createReplyNode(std::string content, bool isAdmin, struct tm timePosted);
-    void addReply(std::string content, bool isAdmin, struct tm timePosted, FeedbackNode* feedback);
+    void addReply(std::string content, bool isAdmin, struct tm timePosted, FeedbackNode* feedback, bool readFromFile);
     FeedbackNode* getHead();
     FeedbackNode* getTail();
     void setHead(FeedbackNode* feedback);
