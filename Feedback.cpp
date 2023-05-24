@@ -1,9 +1,8 @@
 ﻿#include <iostream>
 #include <ctime>
 #include "Feedback.hpp"
-#include <time.h>
 #include <string>
-#include "Shared_Variables.hpp";
+#include "Shared_Variables.hpp"
 
 using namespace std;
 

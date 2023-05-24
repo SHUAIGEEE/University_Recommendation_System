@@ -2,8 +2,9 @@
 #include <string>
 #include "Customer.hpp"
 #include "Shared_Variables.hpp"
-#include "Utilities.hpp";
+#include "Utilities.hpp"
 #include <sstream>
+#include <ctime>
 
 using namespace std;
 

@@ -1,6 +1,6 @@
 #ifndef Admin_
 #define Admin_
-#include "Feedback.hpp";
+#include "Feedback.hpp"
 
 /* ADMIN */
 class Admin
