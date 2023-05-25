@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Shared_Variables.hpp"
 #include "FileIO.hpp"
 #include "Guest.hpp"
 #include "Customer.hpp"
@@ -6,7 +7,6 @@
 #include "University.hpp"
 #include "Feedback.hpp"
 #include "Utilities.hpp"
-#include "Shared_Variables.hpp"
 
 using namespace std;
 

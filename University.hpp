@@ -1,6 +1,8 @@
 #ifndef University
 #define University
 
+#include "Shared_Variables.hpp"
+
 /* UNIVERSITY */
 struct UniversityNode
 {
@@ -29,8 +31,7 @@ public:
         std::string location, std::string arRank, std::string erRank, std::string fsrRank, std::string cpfRank, std::string ifrRank, std::string isrRank,
         std::string irnRank, std::string gerRank);
     void sortByName();
-    void sortDescendingByArFsrErScore();
-    void sortByRank(std::string rank); // not sure if is sort or search
+    void sortUniversities(FieldName field);
     void searchByName(std::string institutionName);
     void searchByLocation(std::string location);
     void searchByArRank(std::string arRank);

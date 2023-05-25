@@ -59,8 +59,7 @@ public:
     bool login(std::string username, std::string password);
     void logout();
     void displayUniversity();
-    void sortUniversityDescending();
-    void sortUniversityByRank();
+    void sortUniversities();
     void searchUniversity();
     FavouriteNode* createFavouriteNode(int universityRank);
     void saveFavouriteUniversity(int universityRank);

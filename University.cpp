@@ -134,7 +134,7 @@ void UniversityList::sortByName()
     }
 }
 
-void UniversityList::sortDescendingByArFsrErScore()
+void UniversityList::sortUniversities(FieldName field)
 {
     cout << "Sorting in..." << endl;
     cout << "1. Ascending order" << endl;
@@ -142,23 +142,59 @@ void UniversityList::sortDescendingByArFsrErScore()
     cout << "Enter your choice: ";
 
     int order = readInteger(1, 2);
+    bool isAscending = order == 1 ? true : false;
 
-    if (order == 1)
+    switch (field)
     {
-        cout << "Sorting in ascending order..." << endl;
-        MergeSort<FieldName::INSTITUTION_NAME>(&head, true);
-        // QuickSort<FieldName::INSTITUTION_NAME>(&head, true);
+        case FieldName::RANK:
+            MergeSort<FieldName::RANK>(&head, isAscending);
+            // QuickSort<FieldName::RANK>(&head, isAscending);
+            break;
+        case FieldName::INSTITUTION_NAME:
+            MergeSort<FieldName::INSTITUTION_NAME>(&head, isAscending);
+            // QuickSort<FieldName::INSTITUTION_NAME>(&head, isAscending);
+            break;
+        case FieldName::LOCATION:
+            MergeSort<FieldName::LOCATION>(&head, isAscending);
+            // QuickSort<FieldName::LOCATION>(&head, isAscending);
+            break;
+        case FieldName::AR_FSR_ER_SCORE:
+            MergeSort<FieldName::AR_FSR_ER_SCORE>(&head, isAscending);
+            // QuickSort<FieldName::AR_FSR_ER_SCORE>(&head, isAscending);
+            break;
+        case FieldName::AR_RANK:
+            MergeSort<FieldName::AR_RANK>(&head, isAscending);
+            // QuickSort<FieldName::AR_RANK>(&head, isAscending);
+            break;
+        case FieldName::ER_RANK:
+            MergeSort<FieldName::ER_RANK>(&head, isAscending);
+            // QuickSort<FieldName::ER_RANK>(&head, isAscending);
+            break;
+        case FieldName::FSR_RANK:
+            MergeSort<FieldName::FSR_RANK>(&head, isAscending);
+            // QuickSort<FieldName::FSR_RANK>(&head, isAscending);
+            break;
+        case FieldName::CPF_RANK:
+            MergeSort<FieldName::CPF_RANK>(&head, isAscending);
+            // QuickSort<FieldName::CPF_RANK>(&head, isAscending);
+            break;  
+        case FieldName::IFR_RANK:
+            MergeSort<FieldName::IFR_RANK>(&head, isAscending);
+            // QuickSort<FieldName::IFR_RANK>(&head, isAscending);
+            break;
+        case FieldName::ISR_RANK:
+            MergeSort<FieldName::ISR_RANK>(&head, isAscending);
+            // QuickSort<FieldName::ISR_RANK>(&head, isAscending);
+            break;
+        case FieldName::IRN_RANK:
+            MergeSort<FieldName::IRN_RANK>(&head, isAscending);
+            // QuickSort<FieldName::IRN_RANK>(&head, isAscending);
+            break;
+        case FieldName::GER_RANK:
+            MergeSort<FieldName::GER_RANK>(&head, isAscending);
+            // QuickSort<FieldName::GER_RANK>(&head, isAscending);
+            break;
     }
-    else
-    {
-        cout << "Sorting in descending order..." << endl;
-        MergeSort<FieldName::INSTITUTION_NAME>(&head, false);
-        // QuickSort<FieldName::INSTITUTION_NAME>(&head, false);
-    }
-}
-
-void UniversityList::sortByRank(string rank)
-{
 }
 
 void UniversityList::displayList()

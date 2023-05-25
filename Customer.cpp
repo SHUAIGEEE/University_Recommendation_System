@@ -1,7 +1,9 @@
 #include <iostream>
 #include <string>
 #include "Customer.hpp"
+#include "Utilities.hpp"
 #include "Shared_Variables.hpp"
+#include "University.hpp"
 
 using namespace std;
 
@@ -176,14 +178,12 @@ void CustomerList::logout()
 
 void CustomerList::displayUniversity()
 {
+    uniList.displayList();
 }
 
-void CustomerList::sortUniversityDescending()
+void CustomerList::sortUniversities()
 {
-}
-
-void CustomerList::sortUniversityByRank()
-{
+    uniList.sortUniversities(getSortField());
 }
 
 void CustomerList::searchUniversity()

@@ -17,6 +17,7 @@ void readUsernameAndPassword(std::string* username, std::string* password, std::
 void readEmail(std::string* email);
 
 /* MERGE SORT */
+FieldName getSortField();
 void FrontBackSplit(UniversityNode* source, UniversityNode** frontRef, UniversityNode** backRef);
 template <FieldName Field>
 bool compareFieldAsc(UniversityNode* a, UniversityNode* b);

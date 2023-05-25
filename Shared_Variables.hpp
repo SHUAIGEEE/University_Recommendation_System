@@ -1,11 +1,22 @@
 #ifndef Shared_Variables
 #define Shared_Variables
 
-#include "Admin.hpp"
-#include "Customer.hpp"
-#include "Guest.hpp"
-#include "University.hpp"
-#include "Feedback.hpp"
+// #include "Admin.hpp"
+// #include "Customer.hpp"
+// #include "Guest.hpp"
+// #include "University.hpp"
+// #include "Feedback.hpp"
+
+class Admin;
+class Guest;
+class Customer;
+class UniversityList;
+class CustomerList;
+class FeedbackList;
+
+struct UniversityNode;
+struct CustomerNode;
+struct FeedbackNode;
 
 extern Admin admin;
 extern Guest guest;

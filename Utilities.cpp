@@ -405,6 +405,26 @@ void readEmail(string* email)
 
 /* Sorting Algorithms */
 /* MERGE SORT */
+FieldName getSortField()
+{
+    cout << endl;
+    cout << "1.  RANK" << endl;
+    cout << "2.  INSTITUTION_NAME" << endl;
+    cout << "3.  LOCATION" << endl;
+    cout << "4.  AR_FSR_ER_SCORE" << endl;
+    cout << "5.  AR_RANK" << endl;
+    cout << "6.  ER_RANK" << endl;
+    cout << "7.  FSR_RANK" << endl;
+    cout << "8.  CPF_RANK" << endl;
+    cout << "9.  IFR_RANK" << endl;
+    cout << "10. ISR_RANK" << endl;
+    cout << "11. IRN_RANK" << endl;
+    cout << "12. GER_RANK" << endl;
+    cout << "Please select sorting field: ";
+
+    return static_cast<FieldName>(readInteger(1, 12) - 1);
+}
+
 void FrontBackSplit(UniversityNode* source, UniversityNode** frontRef, UniversityNode** backRef)
 {
     UniversityNode* fast;
