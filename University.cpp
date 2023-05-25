@@ -84,6 +84,7 @@ void UniversityList::sortByName()
     cout << "Enter your choice: ";
 
     int order = readInteger(1, 2);
+    bool isAscending = order == 1 ? true : false;
 
     cout << "Sorting with..." << endl;
     cout << "1. Merge sort" << endl;
@@ -92,47 +93,21 @@ void UniversityList::sortByName()
 
     int sort = readInteger(1, 2);
 
-    if (order == 1)
+    if (sort == 1)
     {
-        cout << "Sorting in ascending order..." << endl;
-
-        if (sort == 1)
-        {
-            auto start = high_resolution_clock::now();
-            MergeSort<FieldName::INSTITUTION_NAME>(&head, true);
-            auto stop = high_resolution_clock::now();
-            auto duration = duration_cast<microseconds>(stop - start);
-            cout << "Time taken by MERGE SORT algorithm: " << duration.count() << " microseconds." << endl;
-        }
-        else if (sort == 2)
-        {
-            auto start = high_resolution_clock::now();
-            // QuickSort<FieldName::INSTITUTION_NAME>(&head, true);
-            auto stop = high_resolution_clock::now();
-            auto duration = duration_cast<microseconds>(stop - start);
-            cout << "Time taken by QUICK SORT algorithm: " << duration.count() << " microseconds." << endl;
-        }
+        auto start = high_resolution_clock::now();
+        MergeSort<FieldName::INSTITUTION_NAME>(&head, isAscending);
+        auto stop = high_resolution_clock::now();
+        auto duration = duration_cast<microseconds>(stop - start);
+        cout << "Time taken by MERGE SORT algorithm: " << duration.count() << " microseconds." << endl;
     }
-    else
+    else if (sort == 2)
     {
-        cout << "Sorting in descending order..." << endl;
-
-        if (sort == 1)
-        {
-            auto start = high_resolution_clock::now();
-            MergeSort<FieldName::INSTITUTION_NAME>(&head, false);
-            auto stop = high_resolution_clock::now();
-            auto duration = duration_cast<microseconds>(stop - start);
-            cout << "Time taken by MERGE SORT algorithm: " << duration.count() << " microseconds." << endl;
-        }
-        else if (sort == 2)
-        {
-            auto start = high_resolution_clock::now();
-            // QuickSort<FieldName::INSTITUTION_NAME>(&head, false);
-            auto stop = high_resolution_clock::now();
-            auto duration = duration_cast<microseconds>(stop - start);
-            cout << "Time taken by QUICK SORT algorithm: " << duration.count() << " microseconds." << endl;
-        }
+        auto start = high_resolution_clock::now();
+        // QuickSort<FieldName::INSTITUTION_NAME>(&head, isAscending);
+        auto stop = high_resolution_clock::now();
+        auto duration = duration_cast<microseconds>(stop - start);
+        cout << "Time taken by QUICK SORT algorithm: " << duration.count() << " microseconds." << endl;
     }
 }
 
