@@ -184,9 +184,10 @@ void CustomerList::displayUniversity()
 void CustomerList::sortUniversities()
 {
     uniList.sortUniversities(getSortField());
+    uniList.displayList(); // can change to display sorted list
 }
 
-void CustomerList::searchUniversity()
+void CustomerList::searchUniversities()
 {
 }
 

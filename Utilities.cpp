@@ -236,28 +236,31 @@ void customerMenu()
         if (option == 1)
         {
             cout << "All universities" << endl;
-            // uniList.displayList();
+            customerList.displayUniversity();
+            system("pause");
         }
         else if (option == 2)
         {
             cout << "Sort Universities" << endl;
-            // uniList.sortAscendingByName();
+            customerList.sortUniversities();
+            system("pause"); // can change to something like display n times then stop
         }
         else if (option == 3)
         {
             cout << "Search Universities" << endl;
-            // uniList.searchByName();
+            // customerList.searchUniversities();
+            system("pause");
         }
         else if (option == 4)
         {
             cout << "View Favourite Universities" << endl;
             // favourite也要可以send feedback
-            // customer.showFavouriteUniversities();
+            // customerList.showFavouriteUniversities();
         }
         else if (option == 5)
         {
             cout << "View Feedbacks and Replies" << endl;
-            // customer.viewFeedbackReply();
+            // customerList.viewFeedbackReply();
         }
         else if (option == 6)
         {

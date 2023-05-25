@@ -60,7 +60,7 @@ public:
     void logout();
     void displayUniversity();
     void sortUniversities();
-    void searchUniversity();
+    void searchUniversities();
     FavouriteNode* createFavouriteNode(int universityRank);
     void saveFavouriteUniversity(int universityRank);
     void deleteFavouriteUniversity(int universityRank);
