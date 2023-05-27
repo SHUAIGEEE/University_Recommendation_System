@@ -1,5 +1,8 @@
 #ifndef Customer_
 #define Customer_
+#include "University.hpp"
+#include "Feedback.hpp"
+#include "Customer.hpp"
 
 /* FAVOURITE */
 struct FavouriteNode
@@ -65,9 +68,10 @@ public:
     void saveFavouriteUniversity(int universityRank);
     void deleteFavouriteUniversity(int universityRank);
     void showFavouriteUniversities();
-    void sendFeedback();
-    void viewFeedbackReply();
-    void sendFeedbackReply();
+    void sendFeedback(Customer customer, UniversityNode* university, FeedbackList* feedbackList, UniversityList* universityList);
+    void viewAllFeedbacks(Customer customer);
+    void viewFeedbackReply(Customer customer, FeedbackNode* feedback);
+    void sendFeedbackReply(FeedbackNode* feedback);
 };
 
 #endif

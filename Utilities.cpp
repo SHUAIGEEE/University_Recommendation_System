@@ -10,7 +10,6 @@
 #include "Feedback.hpp"
 #include "FileIO.hpp"
 #include "Shared_Variables.hpp"
-// #include <iomanip>
 
 using namespace std;
 
@@ -170,7 +169,7 @@ void adminMenu()
         else if (option == 4)
         {
             cout << "View Customer Feedback" << endl;
-            // admin.viewCustomerFeedback();
+            admin.viewAllFeedbacks();
         }
         else if (option == 5)
         {
@@ -236,8 +235,18 @@ void customerMenu()
         if (option == 1)
         {
             cout << "All universities" << endl;
-            customerList.displayUniversity();
-            system("pause");
+            uniList.displayList();
+
+            //如果要换成一个一个uni view的话，可以直接pass currentUni 进去write feedback
+            int selectedUni = -1;
+            while (selectedUni < 1 || selectedUni > uniList.getSize()) {
+                cout << "Select University to Write a Feedback (1 - " << uniList.getSize() << "): ";
+                selectedUni = readInteger(1, uniList.getSize());
+            }
+            UniversityNode* selectedUniversity = uniList.getUniversity(selectedUni);
+            //
+
+            customerList.sendFeedback(loginCustomer, selectedUniversity, &feedbackList, &uniList); 
         }
         else if (option == 2)
         {
@@ -248,7 +257,11 @@ void customerMenu()
         else if (option == 3)
         {
             cout << "Search Universities" << endl;
-            // customerList.searchUniversities();
+            FieldName searchField = getSearchField();
+            string searchValue = "";
+            cout << endl << "Please enter search value: ";
+            getline(cin, searchValue);
+            linearSearch(searchValue, searchField);
             system("pause");
         }
         else if (option == 4)
@@ -260,7 +273,7 @@ void customerMenu()
         else if (option == 5)
         {
             cout << "View Feedbacks and Replies" << endl;
-            // customerList.viewFeedbackReply();
+            customerList.viewAllFeedbacks(loginCustomer);
         }
         else if (option == 6)
         {
@@ -687,6 +700,98 @@ template bool compareFieldDesc<FieldName::GER_RANK>(UniversityNode* a, Universit
 
 /* SEARCHING ALGORITHMS */
 /* LINEAR SEARCH */
+FieldName getSearchField() {
+    int fieldNum = -1;
+    while (fieldNum < 1 || fieldNum > 11) {
+        cout << endl;
+        cout << "1.  Institution Name" << endl;
+        cout << "2.  Location" << endl;
+        cout << "3.  Rank" << endl;
+        cout << "4.  AR Rank" << endl;
+        cout << "5.  ER Rank" << endl;
+        cout << "6.  FSR Rank" << endl;
+        cout << "7.  CPF Rank" << endl;
+        cout << "8.  IFR Rank" << endl;
+        cout << "9.  ISR Rank" << endl;
+        cout << "10. IRN Rank" << endl;
+        cout << "11. GER Rank" << endl;
+        cout << "Please select searching field: ";
+        cin >> fieldNum;
+        cin.ignore();
+    }
 
+    switch (fieldNum) {
+    case 1: return FieldName::INSTITUTION_NAME; break;
+    case 2: return FieldName::LOCATION; break;
+    case 3: return FieldName::RANK; break;
+    case 4: return FieldName::AR_RANK; break;
+    case 5: return FieldName::ER_RANK; break;
+    case 6: return FieldName::FSR_RANK; break;
+    case 7: return FieldName::CPF_RANK; break;
+    case 8: return FieldName::IFR_RANK; break;
+    case 9: return FieldName::ISR_RANK; break;
+    case 10: return FieldName::IRN_RANK; break;
+    case 11: return FieldName::GER_RANK; break;
+    }
+}
+
+void linearSearch(string searchValue, FieldName field)
+{
+    UniversityNode* current = uniList.getHead();
+    bool matchFound = false;
+    while (current != NULL) {
+        if (field == FieldName::INSTITUTION_NAME && current->institutionName.find(searchValue) != string::npos) {
+            //cout 过后可以换format，看要怎样，不过我觉得是跟着displayList()一样的好
+            cout << current->rank << ". " << current->institutionName << endl;
+            matchFound = true;
+        }
+        else if (field == FieldName::LOCATION && current->location.find(searchValue) != string::npos) {
+            cout << current->rank << ". " << current->institutionName << endl;
+            matchFound = true;
+        }
+        else if (field == FieldName::RANK && std::to_string(current->rank) >= searchValue) {
+            cout << current->rank << ". " << current->institutionName << endl;
+            matchFound = true;
+        }
+        else if (field == FieldName::AR_RANK && current->arRank >= searchValue) {
+            cout << current->rank << ". " << current->institutionName << endl;
+            matchFound = true;
+        }
+        else if (field == FieldName::ER_RANK && current->erRank >= searchValue) {
+            cout << current->rank << ". " << current->institutionName << endl;
+            matchFound = true;
+        }
+        else if (field == FieldName::FSR_RANK && current->fsrRank >= searchValue) {
+            cout << current->rank << ". " << current->institutionName << endl;
+            matchFound = true;
+        }
+        else if (field == FieldName::CPF_RANK && current->cpfRank >= searchValue) {
+            cout << current->rank << ". " << current->institutionName << endl;
+            matchFound = true;
+        }
+        else if (field == FieldName::IFR_RANK && current->ifrRank >= searchValue) {
+            cout << current->rank << ". " << current->institutionName << endl;
+            matchFound = true;
+        }
+        else if (field == FieldName::ISR_RANK && current->isrRank >= searchValue) {
+            cout << current->rank << ". " << current->institutionName << endl;
+            matchFound = true;
+        }
+        else if (field == FieldName::IRN_RANK && current->irnRank >= searchValue) {
+            cout << current->rank << ". " << current->institutionName << endl;
+            matchFound = true;
+        }
+        else if (field == FieldName::GER_RANK && current->gerRank >= searchValue) {
+            cout << current->rank << ". " << current->institutionName << endl;
+            matchFound = true;
+        }
+
+        current = current->nextUniversity;
+    }
+
+    if (!matchFound) {
+        cout << endl << "No match found!" << endl;
+    }
+}
 
 /* EXPONENTIAL SEARCH */

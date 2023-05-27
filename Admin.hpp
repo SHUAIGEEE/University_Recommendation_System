@@ -1,5 +1,6 @@
 #ifndef Admin_
 #define Admin_
+#include "Feedback.hpp"
 
 /* ADMIN */
 class Admin
@@ -16,10 +17,9 @@ public:
     void displayCustomerDetails();
     void modifyCustomerDetails(std::string customerID);
     void deleteCustomerAccount(std::string customerID);
-    void viewCustomerFeedback();
-    void viewNextFeedback();
-    void viewPreviousFeedback();
-    void replyToFeedback();
+    void viewAllFeedbacks();
+    void viewSelectedFeedback(FeedbackNode* feedback);
+    void replyToFeedback(FeedbackNode* feedback);
     void generateReport();
     //TODO: Add search and sort and display university
 };

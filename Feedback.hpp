@@ -1,12 +1,13 @@
 #ifndef Feedback
 #define Feedback
+#include "University.hpp"
 
 /* REPLY */
 struct ReplyNode
 {
     std::string content;
     bool isAdmin;
-    struct tm* timePosted;
+    struct tm timePosted;
     ReplyNode* nextReply;
 };
 
@@ -15,10 +16,10 @@ struct ReplyNode
 struct FeedbackNode
 {
     std::string customerID;
-    int universityRank;
+    UniversityNode* university;
     bool isNew;
     std::string feedbackContent;
-    struct tm* timePosted;
+    struct tm timePosted;
     ReplyNode* replies;
     FeedbackNode* nextFeedback;
     FeedbackNode* prevFeedback;
@@ -34,14 +35,18 @@ private:
 public:
     FeedbackList();
     ~FeedbackList();
-    FeedbackNode* createFeedbackNode(std::string customerID, int universityRank, std::string feedbackContent, tm* timePosted);
-    void insertIntoSortedList(std::string customerID, int universityRank, std::string feedbackContent, tm* timePosted);
+    FeedbackNode* createFeedbackNode(std::string customerID, UniversityNode* university, std::string feedbackContent, struct tm timePosted);
+    void insertIntoSortedList(std::string customerID, UniversityNode* university, std::string feedbackContent, struct tm timePosted);
     void sortFeedback();
     void displayList();
-    FeedbackNode* moveFoward();
-    FeedbackNode* moveBackward();
-    ReplyNode createReplyNode(std::string content, bool isAdmin, tm* timePosted);
-    void addReply(std::string content, bool isAdmin, tm* timePosted);
+    ReplyNode* createReplyNode(std::string content, bool isAdmin, struct tm timePosted);
+    void addReply(std::string content, bool isAdmin, struct tm timePosted, FeedbackNode* feedback, bool readFromFile);
+    FeedbackNode* getHead();
+    FeedbackNode* getTail();
+    void setHead(FeedbackNode* feedback);
+    void setTail(FeedbackNode* feedback);
+    FeedbackNode* getFeedbackNode(int index, FeedbackList* feedbackList);
+    int getSize();
 };
 
 #endif
