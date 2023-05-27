@@ -49,7 +49,7 @@ void readFile()
 			break;
 		}
 
-		cout << rank << endl;
+		// cout << rank << endl;
 
 		getline(iss, institutionName, ',');
 		while (institutionName.front() == '"' && institutionName.back() != '"') {
@@ -102,16 +102,16 @@ void readFile()
 		gerRank = checkNull(gerRank);
 		scoreScaled = checkNull(scoreScaled);
 
-		cout << institutionName << ":" << location << ":" << arScore << ":" << fsrRank << endl;
+		// cout << institutionName << ":" << location << ":" << arScore << ":" << fsrRank << endl;
 
 		uniList.insertEnd(rank, arScore, erScore, fsrScore, cpfScore, ifrScore,
 			isrScore, irnScore, gerScore, scoreScaled, institutionName, locationCode, location,
 			arRank, erRank, fsrRank, cpfRank, ifrRank, isrRank, irnRank, gerRank);
 	}
+    file.close();
 
 
     /* Customer */
-    file.close();
     file.open("Customer.txt");
     string customerID, username, email, password;
 
@@ -129,16 +129,16 @@ void readFile()
         
         customerList.insertEnd(customerID, username, email, password);
     }
-
     file.close();
 
+
     /* Feedback */
-    ifstream feedbackFile("Feedback.txt");
+    file.open("Feedback.txt");
     string feedbackLine;
     string feedbackCustomerID, feedbackUniRank, feedbackContent, timePosted, reply;
     string replyContent, isAdmin, replyTimePosted;
 
-    while (getline(feedbackFile, feedbackLine))
+    while (getline(file, feedbackLine))
     {
         istringstream feedbackiss(feedbackLine);
         getline(feedbackiss, feedbackCustomerID, ';');
@@ -163,7 +163,7 @@ void readFile()
         }
     }
 
-    feedbackFile.close();
+    file.close();
 }
 
 void writeFile()
@@ -182,25 +182,25 @@ void writeFile()
     file.close();
 
     /* Feedback */
-    ofstream feedbackFile("Feedback.txt");
+    file.open("Feedback.txt");
     FeedbackNode* feedbackTemp = feedbackList.getHead();
 
     while (feedbackTemp != nullptr)
     {
         char formattedTime[50];
         strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y %a %H:%M:%S", &feedbackTemp->timePosted);
-        feedbackFile << feedbackTemp->customerID << ";" << feedbackTemp->university->rank << ";" << feedbackTemp->feedbackContent << ";" << formattedTime;
+        file << feedbackTemp->customerID << ";" << feedbackTemp->university->rank << ";" << feedbackTemp->feedbackContent << ";" << formattedTime;
         ReplyNode* reply = feedbackTemp->replies;
         while (reply != nullptr) {
             strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y %a %H:%M:%S", &reply->timePosted);
-            feedbackFile << ";" << reply->content << "," << reply->isAdmin << "," << formattedTime;
+            file << ";" << reply->content << "," << reply->isAdmin << "," << formattedTime;
             reply = reply->nextReply;
         }
-        feedbackFile << endl;
+        file << endl;
         feedbackTemp = feedbackTemp->nextFeedback;
     }
 
-    feedbackFile.close();
+    file.close();
 }
 
 string checkNull(string value) {

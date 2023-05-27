@@ -182,6 +182,18 @@ void CustomerList::logout()
 void CustomerList::displayUniversity()
 {
     uniList.displayList();
+
+    //TODO save as favourite
+
+    //如果要换成一个一个uni view的话，可以直接pass currentUni 进去write feedback
+    int selectedUni = -1;
+    while (selectedUni < 1 || selectedUni > uniList.getSize()) {
+        cout << "Select University to Write a Feedback (1 - " << uniList.getSize() << "): ";
+        selectedUni = readInteger(1, uniList.getSize());
+    }
+    UniversityNode* selectedUniversity = uniList.getUniversity(selectedUni);
+
+    customerList.sendFeedback(loginCustomer, selectedUniversity, &feedbackList, &uniList); 
 }
 
 void CustomerList::sortUniversities()
@@ -192,6 +204,7 @@ void CustomerList::sortUniversities()
 
 void CustomerList::searchUniversities()
 {
+    uniList.searchUniversities(getSearchField());
 }
 
 FavouriteNode *CustomerList::createFavouriteNode(int universityRank)
@@ -206,21 +219,6 @@ void CustomerList::saveFavouriteUniversity(int universityRank)
 void CustomerList::deleteFavouriteUniversity(int universityRank)
 {
 }
-
-// void addUniversity(CustomerNode* customer, string universityName) {
-//     UniversityNode* newUniversity = new UniversityNode;
-//     newUniversity->name = universityName;
-//     newUniversity->next = nullptr;
-//     if (customer->universities == nullptr) {
-//         customer->universities = newUniversity;
-//     } else {
-//         UniversityNode* curr = customer->universities;
-//         while (curr->next != nullptr) {
-//             curr = curr->next;
-//         }
-//         curr->next = newUniversity;
-//     }
-// }
 
 void CustomerList::showFavouriteUniversities()
 {

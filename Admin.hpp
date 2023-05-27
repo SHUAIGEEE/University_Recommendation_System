@@ -14,6 +14,9 @@ public:
     ~Admin();
     bool login(std::string adminName, std::string password);
     void logout();
+    void displayUniversity();
+    void sortUniversities();
+    void searchUniversities();
     void displayCustomerDetails();
     void modifyCustomerDetails(std::string customerID);
     void deleteCustomerAccount(std::string customerID);

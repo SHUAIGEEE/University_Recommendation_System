@@ -141,42 +141,60 @@ void adminMenu()
         cout << "\\_| |_/\\__,_|_| |_| |_|_|_| |_| \\_|  |_/\\___|_| |_|\\__,_|" << endl;
         cout << string(ADMIN_MENU_TITLE_LENGTH, '-') << endl;
         
-        cout << "1. Display Customer Details" << endl;
-        cout << "2. Modify Customer Details" << endl;
-        cout << "3. Delete Customer Account" << endl;
-        cout << "4. View Customer Feedback" << endl;
-        cout << "5. Generate Report" << endl;
-        cout << "6. Logout" << endl;
+        cout << "1. Display All Universities" << endl;
+        cout << "2. Sort Universities" << endl;
+        cout << "3. Search Universities" << endl;
+        cout << "4. Display Customer Details" << endl;
+        cout << "5. Modify Customer Details" << endl;
+        cout << "6. Delete Customer Account" << endl;
+        cout << "7. View Customer Feedback" << endl;
+        cout << "8. Generate Report" << endl;
+        cout << "9. Logout" << endl;
         cout << "Please select an option: ";
 
-        int option = readInteger(1, 6);
+        int option = readInteger(1, 9);
 
         if (option == 1)
+        {
+            admin.displayUniversity();
+            system("pause");
+        }
+        else if (option == 2)
+        {
+            admin.sortUniversities();
+            system("pause");
+        }
+        else if (option == 3)
+        {
+            admin.searchUniversities();
+            system("pause");
+        }
+        else if (option == 4)
         {
             cout << "Display Customer Details" << endl;
             // admin.displayCustomerDetails();
         }
-        else if (option == 2)
+        else if (option == 5)
         {
             cout << "Modify Customer Details" << endl;
             // admin.modifyCustomerDetails();
         }
-        else if (option == 3)
+        else if (option == 6)
         {
             cout << "Delete Customer Account" << endl;
             // admin.deleteCustomerAccount();
         }
-        else if (option == 4)
+        else if (option == 7)
         {
             cout << "View Customer Feedback" << endl;
             admin.viewAllFeedbacks();
         }
-        else if (option == 5)
+        else if (option == 8)
         {
             cout << "Generate Report" << endl;
             // admin.generateReport();
         }
-        else if (option == 6)
+        else if (option == 9)
         {
             admin.logout();
             system("pause");
@@ -234,34 +252,16 @@ void customerMenu()
 
         if (option == 1)
         {
-            cout << "All universities" << endl;
-            uniList.displayList();
-
-            //如果要换成一个一个uni view的话，可以直接pass currentUni 进去write feedback
-            int selectedUni = -1;
-            while (selectedUni < 1 || selectedUni > uniList.getSize()) {
-                cout << "Select University to Write a Feedback (1 - " << uniList.getSize() << "): ";
-                selectedUni = readInteger(1, uniList.getSize());
-            }
-            UniversityNode* selectedUniversity = uniList.getUniversity(selectedUni);
-            //
-
-            customerList.sendFeedback(loginCustomer, selectedUniversity, &feedbackList, &uniList); 
+            customerList.displayUniversity();
         }
         else if (option == 2)
         {
-            cout << "Sort Universities" << endl;
             customerList.sortUniversities();
             system("pause"); // can change to something like display n times then stop
         }
         else if (option == 3)
         {
-            cout << "Search Universities" << endl;
-            FieldName searchField = getSearchField();
-            string searchValue = "";
-            cout << endl << "Please enter search value: ";
-            getline(cin, searchValue);
-            linearSearch(searchValue, searchField);
+            customerList.searchUniversities();
             system("pause");
         }
         else if (option == 4)
@@ -272,7 +272,6 @@ void customerMenu()
         }
         else if (option == 5)
         {
-            cout << "View Feedbacks and Replies" << endl;
             customerList.viewAllFeedbacks(loginCustomer);
         }
         else if (option == 6)
@@ -313,12 +312,14 @@ void guestMenu()
         if (option == 1)
         {
             cout << "All universities" << endl;
-            // guest.displayUniversity();
+            guest.displayUniversity();
+            system("pause");
         }
         else if (option == 2)
         {
             cout << "Sort Universities" << endl;
-            // guest.sortUniversityByName();
+            guest.sortUniversityByName();
+            system("pause");
         }
         else if (option == 3)
         {

@@ -29,6 +29,22 @@ void Admin::logout()
     cout << "Logout successful!" << endl;
 }
 
+void Admin::displayUniversity()
+{
+    uniList.displayList();
+}
+
+void Admin::sortUniversities()
+{
+    uniList.sortUniversities(getSortField());
+    uniList.displayList(); // can change to display sorted list
+}
+
+void Admin::searchUniversities()
+{
+    uniList.searchUniversities(getSearchField());
+}
+
 void Admin::displayCustomerDetails()
 {
 }

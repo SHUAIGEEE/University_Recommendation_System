@@ -32,16 +32,7 @@ public:
         std::string irnRank, std::string gerRank);
     void sortByName();
     void sortUniversities(FieldName field);
-    void searchByName(std::string institutionName);
-    void searchByLocation(std::string location);
-    void searchByArRank(std::string arRank);
-    void searchByErRank(std::string erRank);
-    void searchByFsrRank(std::string fsrRank);
-    void searchByCpfRank(std::string cpfRank);
-    void searchByIfrRank(std::string ifrRank);
-    void searchByIsrRank(std::string isrRank);
-    void searchByIrnRank(std::string irnRank);
-    void searchByGerRank(std::string gerRank);
+    void searchUniversities(FieldName field);
     void displayList();
     UniversityNode* getHead();
     UniversityNode* getTail();

@@ -1,12 +1,6 @@
 #ifndef Shared_Variables
 #define Shared_Variables
 
-// #include "Admin.hpp"
-// #include "Customer.hpp"
-// #include "Guest.hpp"
-// #include "University.hpp"
-// #include "Feedback.hpp"
-
 class Admin;
 class Guest;
 class Customer;

@@ -174,6 +174,14 @@ void UniversityList::sortUniversities(FieldName field)
     }
 }
 
+void UniversityList::searchUniversities(FieldName field)
+{
+    string searchValue = "";
+    cout << endl << "Please enter search value: ";
+    getline(cin, searchValue);
+    linearSearch(searchValue, field);
+}
+
 void UniversityList::displayList()
 {
     cout << "List of universities is having " << size << " of items!" << endl;
@@ -187,56 +195,6 @@ void UniversityList::displayList()
 	}
 
 	cout << endl << "List is ended here!" << endl << endl;
-}
-
-void UniversityList::searchByName(string institutionName)
-{
-
-}
-
-void UniversityList::searchByLocation(string location)
-{
-
-}
-
-void UniversityList::searchByArRank(string arRank)
-{
-
-}
-
-void UniversityList::searchByErRank(string erRank)
-{
-
-}
-
-void UniversityList::searchByFsrRank(string fsrRank)
-{
-
-}
-
-void UniversityList::searchByCpfRank(string cpfRank)
-{
-
-}
-
-void UniversityList::searchByIfrRank(string ifrRank)
-{
-
-}
-
-void UniversityList::searchByIsrRank(string isrRank)
-{
-
-}
-
-void UniversityList::searchByIrnRank(string irnRank)
-{
-
-}
-
-void UniversityList::searchByGerRank(string gerRank)
-{
-
 }
 
 UniversityNode* UniversityList::getHead() {
