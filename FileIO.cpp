@@ -20,63 +20,104 @@ FeedbackList feedbackList;
 
 void readFile()
 {
-    
-    /* Universities */
-    ifstream file("2023 QS World University Rankings.csv");
-    ifstream feedbackFile("Feedback.txt");
-    string rank; // int
-    string arScore, erScore, fsrScore, cpfScore, ifrScore, isrScore, irnScore, gerScore, scoreScaled; // double
-    string institutionName, locationCode, location, arRank, erRank, fsrRank, cpfRank, ifrRank, isrRank, irnRank, gerRank; // string
 
-    // while (file.good())
-    // {
-    //     getline(file, rank, ',');
-    //     getline(file, institutionName, ',');
-    //     getline(file, locationCode, ',');
-    //     getline(file, location, ',');
-    //     getline(file, arScore, ',');
-    //     getline(file, arRank, ',');
-    //     getline(file, erScore, ',');
-    //     getline(file, erRank, ',');
-    //     getline(file, fsrScore, ',');
-    //     getline(file, fsrRank, ',');
-    //     getline(file, cpfScore, ',');
-    //     getline(file, cpfRank, ',');
-    //     getline(file, ifrScore, ',');
-    //     getline(file, ifrRank, ',');
-    //     getline(file, isrScore, ',');
-    //     getline(file, isrRank, ',');
-    //     getline(file, irnScore, ',');
-    //     getline(file, irnRank, ',');
-    //     getline(file, gerScore, ',');
-    //     getline(file, gerRank, ',');
-    //     getline(file, scoreScaled, ',');
+	/* Universities */
+	ifstream file("2023 QS World University Rankings.csv");
+	if (!file)
+	{
+		cout << "Error opening file!" << endl;
+		return;
+	}
+	string universityLine, buffer;
+	string rank; // int
+	string arScore, erScore, fsrScore, cpfScore, ifrScore, isrScore, irnScore, gerScore, scoreScaled; // double
+	string institutionName, locationCode, location, arRank, erRank, fsrRank, cpfRank, ifrRank, isrRank, irnRank, gerRank; // string
 
-    //     if (rank == "Rank")
-    //     {
-    //         continue;
-    //     }
-    //     else if (rank == "")
-    //     {
-    //         break;
-    //     }
-        
-    //     uniList.insertEnd(rank, institutionName, locationCode, location, arScore, arRank, erScore, erRank,
-    //     fsrScore, fsrRank, cpfScore, cpfRank, ifrScore, ifrRank, isrScore, isrRank, irnScore, irnRank, gerScore, gerRank, scoreScaled);
+	getline(file, universityLine); // Skip headers
 
-    // }
-    // uniList.displayList();
-    
+	while (getline(file, universityLine)) {
+		stringstream iss(universityLine);
+		getline(iss, rank, ',');
 
-    /* Customer */
-    file.close();
-    file.open("Customer.txt");
+
+		/*if (rank == "Rank")
+		{
+			continue;
+		}*/
+		if (rank == "")
+		{
+			break;
+		}
+
+		cout << rank << endl;
+
+		getline(iss, institutionName, ',');
+		while (institutionName.front() == '"' && institutionName.back() != '"') {
+			getline(iss, buffer, ',');
+			institutionName = institutionName + buffer;
+		}
+		getline(iss, locationCode, ',');
+		/*while (institutionName.front() == '"' && institutionName.back() != '"') {
+			getline(iss, buffer, ',');
+			institutionName = institutionName + buffer;
+		}*/
+		getline(iss, location, ',');
+		while (location.front() == '"' && location.back() != '"') {
+			getline(iss, buffer, ',');
+			location = location + buffer;
+		}
+		getline(iss, arScore, ',');
+		getline(iss, arRank, ',');
+		getline(iss, erScore, ',');
+		getline(iss, erRank, ',');
+		getline(iss, fsrScore, ',');
+		getline(iss, fsrRank, ',');
+		getline(iss, cpfScore, ',');
+		getline(iss, cpfRank, ',');
+		getline(iss, ifrScore, ',');
+		getline(iss, ifrRank, ',');
+		getline(iss, isrScore, ',');
+		getline(iss, isrRank, ',');
+		getline(iss, irnScore, ',');
+		getline(iss, irnRank, ',');
+		getline(iss, gerScore, ',');
+		getline(iss, gerRank, ',');
+		getline(iss, scoreScaled, ',');
+
+		arScore = checkNull(arScore);
+		arRank = checkNull(arRank);
+		erScore = checkNull(erScore);
+		erRank = checkNull(erRank);
+		fsrScore = checkNull(fsrScore);
+		fsrRank = checkNull(fsrRank);
+		cpfScore = checkNull(cpfScore);
+		cpfRank = checkNull(cpfRank);
+		ifrScore = checkNull(ifrScore);
+		ifrRank = checkNull(ifrRank);
+		isrScore = checkNull(isrScore);
+		isrRank = checkNull(isrRank);
+		irnScore = checkNull(irnScore);
+		irnRank = checkNull(irnRank);
+		gerScore = checkNull(gerScore);
+		gerRank = checkNull(gerRank);
+		scoreScaled = checkNull(scoreScaled);
+
+		cout << institutionName << ":" << location << ":" << arScore << ":" << fsrRank << endl;
+
+		uniList.insertEnd(rank, arScore, erScore, fsrScore, cpfScore, ifrScore,
+			isrScore, irnScore, gerScore, scoreScaled, institutionName, locationCode, location,
+			arRank, erRank, fsrRank, cpfRank, ifrRank, isrRank, irnRank, gerRank);
+	}
+
+
+    /* Customer */;
+    ifstream customerFile("Customer.txt");
     string memberID, password;
 
-    while (file.good())
+    while (customerFile.good())
     {
-        getline(file, memberID, ';');
-        getline(file, password);
+        getline(customerFile, memberID, ';');
+        getline(customerFile, password);
 
         if (memberID == "")
         {
@@ -86,16 +127,17 @@ void readFile()
         customerList.insertEnd(memberID, password);
     }
 
-    file.close();
+    customerFile.close();
 
     /* Feedback */
-    string line;
+    ifstream feedbackFile("Feedback.txt");
+    string feedbackLine;
     string feedbackCustomerID, feedbackUniRank, feedbackContent, timePosted, reply;
     string replyContent, isAdmin, replyTimePosted;
 
-    while (getline(feedbackFile, line))
+    while (getline(feedbackFile, feedbackLine))
     {
-        istringstream feedbackiss(line);
+        istringstream feedbackiss(feedbackLine);
         getline(feedbackiss, feedbackCustomerID, ';');
         getline(feedbackiss, feedbackUniRank, ';');
         getline(feedbackiss, feedbackContent, ';');
@@ -155,4 +197,20 @@ void writeFile()
     }
 
     feedbackFile.close();
+}
+
+string checkNull(string value) {
+	if (value == "" || value == "-") {
+		return "-1";
+	}
+	return value;
+}
+
+string checkFullString(string value, stringstream ss) {
+	string buffer;
+	while (value.front() == '"' && value.back() != '"') {
+		getline(ss, buffer, ',');
+		value = value + buffer;
+	}
+	return value;
 }
