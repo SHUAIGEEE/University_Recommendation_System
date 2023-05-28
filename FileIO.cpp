@@ -39,28 +39,40 @@ void readFile()
 		stringstream iss(universityLine);
 		getline(iss, rank, ',');
 
-
-		/*if (rank == "Rank")
-		{
-			continue;
-		}*/
 		if (rank == "")
 		{
 			break;
 		}
-
-		// cout << rank << endl;
 
 		getline(iss, institutionName, ',');
 		while (institutionName.front() == '"' && institutionName.back() != '"') {
 			getline(iss, buffer, ',');
 			institutionName = institutionName + buffer;
 		}
+
+		if (institutionName[0] == ' ') {
+			institutionName = institutionName.erase(0, 1);
+		}
+
+		if (institutionName[institutionName.length() - 1] == ' ') {
+			institutionName = institutionName.erase(institutionName.length() - 1, 1);
+		}
+
+		if (institutionName[0] == '"' && institutionName[institutionName.length() - 1] == '"') {
+			institutionName = institutionName.erase(institutionName.length() - 1, 1);
+			institutionName = institutionName.erase(0, 1);
+		}
+
+		int i = 0;
+		while (i < institutionName.length() - 1) {
+			if (institutionName[i] == '"' && institutionName[i + 1] == '"') {
+				institutionName = institutionName.erase(i, 1);
+				i--;
+			}
+			i++;
+		}
+
 		getline(iss, locationCode, ',');
-		/*while (institutionName.front() == '"' && institutionName.back() != '"') {
-			getline(iss, buffer, ',');
-			institutionName = institutionName + buffer;
-		}*/
 		getline(iss, location, ',');
 		while (location.front() == '"' && location.back() != '"') {
 			getline(iss, buffer, ',');
@@ -101,8 +113,6 @@ void readFile()
 		gerScore = checkNull(gerScore);
 		gerRank = checkNull(gerRank);
 		scoreScaled = checkNull(scoreScaled);
-
-		// cout << institutionName << ":" << location << ":" << arScore << ":" << fsrRank << endl;
 
 		uniList.insertEnd(rank, arScore, erScore, fsrScore, cpfScore, ifrScore,
 			isrScore, irnScore, gerScore, scoreScaled, institutionName, locationCode, location,
