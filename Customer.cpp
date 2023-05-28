@@ -181,7 +181,7 @@ void CustomerList::logout()
 
 void CustomerList::displayUniversity()
 {
-    uniList.displayList();
+    uniList.displayList(uniList.getHead(), -1);
 
     //TODO save as favourite
 
@@ -199,7 +199,7 @@ void CustomerList::displayUniversity()
 void CustomerList::sortUniversities()
 {
     uniList.sortUniversities(getSortField());
-    uniList.displayList(); // can change to display sorted list
+    uniList.displayList(uniList.getHead(), -1); // can change to display sorted list
 }
 
 void CustomerList::searchUniversities()

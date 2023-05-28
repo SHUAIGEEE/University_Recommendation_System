@@ -1,4 +1,5 @@
 #include <iostream>
+#include <Windows.h>
 #include "Shared_Variables.hpp"
 #include "FileIO.hpp"
 #include "Guest.hpp"
@@ -12,6 +13,7 @@ using namespace std;
 
 int main()
 {
+    SetConsoleOutputCP(CP_UTF8);
     readFile();
 
     mainMenu();

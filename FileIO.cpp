@@ -120,7 +120,6 @@ void readFile()
 	}
     file.close();
 
-
     /* Customer */
     file.open("Customer.txt");
     string customerID, username, email, password;

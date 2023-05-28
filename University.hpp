@@ -33,7 +33,8 @@ public:
     void sortByName();
     void sortUniversities(FieldName field);
     void searchUniversities(FieldName field);
-    void displayList();
+    void displayUniversity(UniversityNode* university);
+    void displayList(UniversityNode* firstNode, int viewMode);
     UniversityNode* getHead();
     UniversityNode* getTail();
     UniversityNode* getUniversity(int index);

@@ -31,13 +31,13 @@ void Admin::logout()
 
 void Admin::displayUniversity()
 {
-    uniList.displayList();
+    uniList.displayList(uniList.getHead(), -1);
 }
 
 void Admin::sortUniversities()
 {
     uniList.sortUniversities(getSortField());
-    uniList.displayList(); // can change to display sorted list
+    uniList.displayList(uniList.getHead(), -1); // can change to display sorted list
 }
 
 void Admin::searchUniversities()

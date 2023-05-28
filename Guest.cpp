@@ -41,7 +41,7 @@ bool Guest::registerAccount(string username, string email, string password)
 
 void Guest::displayUniversity()
 {
-    uniList.displayList();
+    uniList.displayList(uniList.getHead(), -1);
 }
 
 void Guest::sortUniversityByName()

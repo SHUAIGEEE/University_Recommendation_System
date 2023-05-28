@@ -388,7 +388,7 @@ int readInteger(int min, int max)
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cout << "Invalid input!" << endl;
         system("pause");
-        cout << "Please select an option: " << endl;
+        cout << "Please select an option: ";
         cin >> input;
     }
 
