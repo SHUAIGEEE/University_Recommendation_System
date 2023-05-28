@@ -7,11 +7,13 @@
 #include "Feedback.hpp"
 #include "Utilities.hpp"
 #include "Shared_Variables.hpp"
+#include <Windows.h>
 
 using namespace std;
 
 int main()
 {
+    SetConsoleOutputCP(CP_UTF8);
     readFile();
 
     mainMenu();
