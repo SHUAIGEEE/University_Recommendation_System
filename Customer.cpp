@@ -8,18 +8,20 @@
 #include <sstream>
 #include <ctime>
 
+
 using namespace std;
 
 Customer::Customer()
 {
 }
 
-Customer::Customer(string customerID, string username, string email, string password)
+Customer::Customer(string customerID, string username, string email, string password, time_t lastLoginTime)
 {
     this->customerID = customerID;
     this->username = username;
     this->email = email;
     this->password = password;
+    this->lastLoginTime = lastLoginTime;
 }
 
 Customer::~Customer()
@@ -44,6 +46,11 @@ string Customer::getEmail()
 string Customer::getPassword()
 {
     return this->password;
+}
+
+time_t Customer::getLastLoginTime() const
+{
+    return lastLoginTime;
 }
 
 void Customer::setCustomerID(string customerID)
@@ -74,20 +81,20 @@ CustomerList::~CustomerList()
 {
 }
 
-CustomerNode* CustomerList::createCustomerNode(string customerID, string username, string email, string password)
+CustomerNode* CustomerList::createCustomerNode(string customerID, string username, string email, string password, time_t lastLoginTime)
 {
     CustomerNode * newNode = new CustomerNode;
 
-    newNode->customer = Customer(customerID, username, email, password);
+    newNode->customer = Customer(customerID, username, email, password, lastLoginTime);
     newNode->favourites = nullptr;
     newNode->nextCustomer = nullptr;
 
     return newNode;
 }
 
-void CustomerList::insertEnd(string customerID, string username, string email, string password)
+void CustomerList::insertEnd(string customerID, string username, string email, string password, time_t lastLoginTime)
 {
-    CustomerNode* newNode = createCustomerNode(customerID, username, email, password);
+    CustomerNode* newNode = createCustomerNode(customerID, username, email, password, lastLoginTime);
 
     if (head == nullptr)
     {
@@ -339,3 +346,9 @@ void CustomerList::sendFeedbackReply(FeedbackNode* feedback)
     cout << "Your reply has been sent!" << endl;
     system("pause");
 }
+
+void CustomerList::updateLastLoginTime()
+{
+    lastLoginTime = time(nullptr);
+}
+

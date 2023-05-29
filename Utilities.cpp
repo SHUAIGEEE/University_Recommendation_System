@@ -172,16 +172,20 @@ void adminMenu()
         else if (option == 4)
         {
             cout << "Display Customer Details" << endl;
-            // admin.displayCustomerDetails();
+            admin.displayCustomerDetails();
+            system("pause");
         }
         else if (option == 5)
         {
             cout << "Modify Customer Details" << endl;
-            // admin.modifyCustomerDetails();
+            admin.modifyCustomerDetails();
+            system("pause");
         }
         else if (option == 6)
         {
             cout << "Delete Customer Account" << endl;
+            admin.displayLastLogin();
+            system("pause");
             // admin.deleteCustomerAccount();
         }
         else if (option == 7)

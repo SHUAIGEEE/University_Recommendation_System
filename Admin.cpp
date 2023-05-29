@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "Admin.hpp"
+#include "Customer.hpp"
 #include "Feedback.hpp"
 #include "Shared_Variables.hpp"
 #include "Utilities.hpp"
@@ -47,14 +48,91 @@ void Admin::searchUniversities()
 
 void Admin::displayCustomerDetails()
 {
+    customerList.displayList();
 }
 
-void Admin::modifyCustomerDetails(string customerID)
+void Admin::modifyCustomerDetails()
 {
+    CustomerNode* temp = customerList.getHead();
+    string customerID;
+    string newUsername;
+    string newPassword;
+    string newEmail;
+    cout << endl << "Please enter customerID : ";
+    cin >> customerID;
+
+    cout << "1. Modify username" << endl;
+    cout << "2. Modify password" << endl;
+    cout << "3. Modify email" << endl;
+    cout << "4. Back" << endl;
+    int modifyCustomerOption = readInteger(1,4);
+    if (modifyCustomerOption == 1)
+    {
+        cout << "Please enter the new username: " << endl;
+        cin >> newUsername;
+        while (temp != NULL)
+        {
+            if (temp->customer.getCustomerID() == customerID)
+            {
+                temp->customer.setUsername(newUsername);
+                cout << "Username modified successfully!" << endl;
+                break;
+            }
+            temp = temp->nextCustomer;
+        }
+        if (temp == NULL)
+        {
+            cout << "Customer ID not found!" << endl;
+        }
+        
+    }
+    else if (modifyCustomerOption == 2)
+    {
+        cout << "Please enter the new password: " << endl;
+        cin >> newPassword;
+        while (temp != NULL)
+        {
+            if (temp->customer.getCustomerID() == customerID)
+            {
+                temp->customer.setPassword(newPassword);
+                cout << "Password modified successfully!" << endl;
+                break;
+            }
+            temp = temp->nextCustomer;
+        }
+        if (temp == NULL)
+        {
+            cout << "Customer ID not found!" << endl;
+        }
+    }
+    else if (modifyCustomerOption == 3)
+    {
+        cout << "Please enter the new email: " << endl;
+        cin >> newEmail;
+        while (temp != NULL)
+        {
+            if (temp->customer.getCustomerID() == customerID)
+            {
+                temp->customer.setEmail(newEmail);
+                cout << "Email modified successfully!" << endl;
+                break;
+            }
+            temp = temp->nextCustomer;
+        }
+        if (temp == NULL)
+        {
+            cout << "Customer ID not found!" << endl;
+        }
+    }
+    else if (modifyCustomerOption == 4)
+    {
+        return;
+    }
 }
 
-void Admin::deleteCustomerAccount(string customerID)
+void Admin::deleteCustomerAccount()
 {
+    
 }
 
 void Admin::viewAllFeedbacks()
@@ -151,4 +229,23 @@ void Admin::replyToFeedback(FeedbackNode* feedback)
 void Admin::generateReport()
 {
 
+}
+
+void Admin::displayLastLogin()
+{
+    time_t currentTime = time(nullptr);
+    CustomerNode* current = customerList.getHead();
+    CustomerNode* previous = nullptr;
+
+    while (current != nullptr)
+    {
+        int elapsedDays = static_cast<int>((currentTime - current->customer.getLastLoginTime()) / (24 * 60 * 60));
+        if (elapsedDays >= 180)
+        {
+            cout << current->customer.getCustomerID() << " - " << current->customer.getUsername()
+                << " - " << current->customer.getEmail() << " - " << current->customer.getPassword() << endl;
+            current = current->nextCustomer;
+        }
+    }
+    cout << endl << "List is ended here!" << endl << endl;
 }

@@ -3,6 +3,7 @@
 #include "University.hpp"
 #include "Feedback.hpp"
 #include "Customer.hpp"
+#include <ctime>
 
 /* FAVOURITE */
 struct FavouriteNode
@@ -20,6 +21,7 @@ private:
     std::string username;
     std::string email;
     std::string password;
+    time_t lastLoginTime;
 public:
     Customer();
     Customer(std::string customerID, std::string username, std::string email , std::string password);
@@ -28,6 +30,7 @@ public:
     std::string getUsername();
     std::string getEmail();
     std::string getPassword();
+    time_t getLastLoginTime();
     void setCustomerID(std::string customerID);
     void setUsername(std::string username);
     void setEmail(std::string email);
@@ -72,6 +75,7 @@ public:
     void viewAllFeedbacks(Customer customer);
     void viewFeedbackReply(Customer customer, FeedbackNode* feedback);
     void sendFeedbackReply(FeedbackNode* feedback);
+    void updateLastLoginTime();
 };
 
 #endif

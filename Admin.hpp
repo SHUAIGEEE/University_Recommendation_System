@@ -18,12 +18,13 @@ public:
     void sortUniversities();
     void searchUniversities();
     void displayCustomerDetails();
-    void modifyCustomerDetails(std::string customerID);
-    void deleteCustomerAccount(std::string customerID);
+    void modifyCustomerDetails();
+    void deleteCustomerAccount();
     void viewAllFeedbacks();
     void viewSelectedFeedback(FeedbackNode* feedback);
     void replyToFeedback(FeedbackNode* feedback);
     void generateReport();
+    void displayLastLogin();
     //TODO: Add search and sort and display university
 };
 
