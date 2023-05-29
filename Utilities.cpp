@@ -2,6 +2,7 @@
 #include <string>
 #include <limits>
 #include <regex>
+#include <chrono>
 #include "Utilities.hpp"
 #include "Admin.hpp"
 #include "Customer.hpp"
@@ -12,6 +13,7 @@
 #include "Shared_Variables.hpp"
 
 using namespace std;
+using namespace std::chrono;
 
 const int MAIN_MENU_LENGTH = 166;
 const int LOGIN_MENU_TITLE_LENGTH = 54;
@@ -28,7 +30,7 @@ void mainMenu()
 {
     while (true)
     {
-        // system("cls");
+        system("cls");
 
         cout << string(MAIN_MENU_LENGTH, '-') << endl;
         cout << " _   _       _                    _ _          ______                                                  _       _   _               _____           _                 " << endl;
@@ -171,27 +173,22 @@ void adminMenu()
         }
         else if (option == 4)
         {
-            cout << "Display Customer Details" << endl;
             // admin.displayCustomerDetails();
         }
         else if (option == 5)
         {
-            cout << "Modify Customer Details" << endl;
             // admin.modifyCustomerDetails();
         }
         else if (option == 6)
         {
-            cout << "Delete Customer Account" << endl;
             // admin.deleteCustomerAccount();
         }
         else if (option == 7)
         {
-            cout << "View Customer Feedback" << endl;
             admin.viewAllFeedbacks();
         }
         else if (option == 8)
         {
-            cout << "Generate Report" << endl;
             // admin.generateReport();
         }
         else if (option == 9)
@@ -240,7 +237,7 @@ void customerMenu()
         cout << " \\____/\\__,_|___/\\__\\___/|_| |_| |_|\\___|_|    \\_|  |_/\\___|_| |_|\\__,_|" << endl;
         cout << string(CUSTOMER_MENU_TITLE_LENGTH, '-') << endl;
 
-        cout << "1. Display All Universities" << endl;
+        cout << "1. View All Universities" << endl;
         cout << "2. Sort Universities" << endl;
         cout << "3. Search Universities" << endl;
         cout << "4. View Favourite Universities" << endl;
@@ -266,7 +263,6 @@ void customerMenu()
         }
         else if (option == 4)
         {
-            cout << "View Favourite Universities" << endl;
             // favourite也要可以send feedback
             // customerList.showFavouriteUniversities();
         }
@@ -299,7 +295,7 @@ void guestMenu()
         cout << " \\____/\\__,_|\\___||___/\\__| \\_|  |_/\\___|_| |_|\\__,_|" << endl;
         cout << string(GUEST_MENU_TITLE_LENGTH, '-') << endl;
 
-        cout << "1. Display All Universities" << endl;
+        cout << "1. View All Universities" << endl;
         cout << "2. Sort Universities by Name" << endl;
         cout << "3. Search Universities by Name" << endl;
         cout << "4. Search Universities by Location" << endl;
@@ -311,25 +307,21 @@ void guestMenu()
 
         if (option == 1)
         {
-            cout << "All universities" << endl;
             guest.displayUniversity();
             system("pause");
         }
         else if (option == 2)
         {
-            cout << "Sort Universities" << endl;
             guest.sortUniversityByName();
             system("pause");
         }
         else if (option == 3)
         {
-            cout << "Search Name" << endl;
-            // guest.searchUniversityByName();
+            guest.searchUniversityByName();
         }
         else if (option == 4)
         {
-            cout << "Search Location" << endl;
-            // guest.searchUniversityByLocation();
+            guest.searchUniversityByLocation();
         }
         else if (option == 5)
         {
@@ -388,7 +380,7 @@ int readInteger(int min, int max)
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cout << "Invalid input!" << endl;
         system("pause");
-        cout << "Please select an option: ";
+        cout << "Please select a valid option: ";
         cin >> input;
     }
 
@@ -397,7 +389,7 @@ int readInteger(int min, int max)
 
 void readUsernameAndPassword(string* username, string* password, string message)
 {
-    cout << message << " Usernanme: ";
+    cout << message << " Username: ";
     cin >> *username;
     cout << "Password: ";
     cin >> *password;
@@ -738,61 +730,97 @@ FieldName getSearchField() {
 
 void linearSearch(string searchValue, FieldName field)
 {
+    system("cls");
+
+    auto start = high_resolution_clock::now();
+
     UniversityNode* current = uniList.getHead();
-    bool matchFound = false;
     while (current != NULL) {
         if (field == FieldName::INSTITUTION_NAME && current->institutionName.find(searchValue) != string::npos) {
-            //cout 过后可以换format，看要怎样，不过我觉得是跟着displayList()一样的好
-            cout << current->rank << ". " << current->institutionName << endl;
-            matchFound = true;
+            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
+                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
+                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
         }
         else if (field == FieldName::LOCATION && current->location.find(searchValue) != string::npos) {
-            cout << current->rank << ". " << current->institutionName << endl;
-            matchFound = true;
+            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
+                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
+                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
         }
-        else if (field == FieldName::RANK && std::to_string(current->rank) >= searchValue) {
-            cout << current->rank << ". " << current->institutionName << endl;
-            matchFound = true;
+        else if (field == FieldName::RANK && current->rank >= stoi(searchValue)) {
+            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
+                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
+                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
         }
         else if (field == FieldName::AR_RANK && current->arRank >= searchValue) {
-            cout << current->rank << ". " << current->institutionName << endl;
-            matchFound = true;
+            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
+                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
+                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
         }
         else if (field == FieldName::ER_RANK && current->erRank >= searchValue) {
-            cout << current->rank << ". " << current->institutionName << endl;
-            matchFound = true;
+            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
+                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
+                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
         }
         else if (field == FieldName::FSR_RANK && current->fsrRank >= searchValue) {
-            cout << current->rank << ". " << current->institutionName << endl;
-            matchFound = true;
+            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
+                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
+                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
         }
         else if (field == FieldName::CPF_RANK && current->cpfRank >= searchValue) {
-            cout << current->rank << ". " << current->institutionName << endl;
-            matchFound = true;
+            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
+                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
+                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
         }
         else if (field == FieldName::IFR_RANK && current->ifrRank >= searchValue) {
-            cout << current->rank << ". " << current->institutionName << endl;
-            matchFound = true;
+            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
+                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
+                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
         }
         else if (field == FieldName::ISR_RANK && current->isrRank >= searchValue) {
-            cout << current->rank << ". " << current->institutionName << endl;
-            matchFound = true;
+            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
+                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
+                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
         }
         else if (field == FieldName::IRN_RANK && current->irnRank >= searchValue) {
-            cout << current->rank << ". " << current->institutionName << endl;
-            matchFound = true;
+            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
+                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
+                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
         }
         else if (field == FieldName::GER_RANK && current->gerRank >= searchValue) {
-            cout << current->rank << ". " << current->institutionName << endl;
-            matchFound = true;
+            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
+                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
+                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
         }
 
         current = current->nextUniversity;
     }
 
-    if (!matchFound) {
-        cout << endl << "No match found!" << endl;
+    auto stop = high_resolution_clock::now();
+
+    auto duration = duration_cast<microseconds>(stop - start);
+    cout << "Time taken by linear search algorithm: ";
+    cout << duration.count() << " microseconds." << endl;
+
+    if (searchResult.getSize() == 0) {
+        cout << endl << "No match found!" << endl << endl;
+        system("pause");
+        return;
     }
+
+    cout << endl;
+    cout << "Continue to View Search Result for \"" << searchValue << "\"..." << endl;
+    searchResult.displayList(searchResult.getHead(), -1, "Customer");
+
+    UniversityNode* currentDelete = searchResult.getHead();
+    UniversityNode* nextNode;
+
+    while (currentDelete != nullptr) {
+        nextNode = currentDelete->nextUniversity;
+        delete currentDelete;
+        currentDelete = nextNode;
+    }
+
+    searchResult.setHeadNull();
 }
 
 /* EXPONENTIAL SEARCH */

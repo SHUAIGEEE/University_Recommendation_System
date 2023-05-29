@@ -41,7 +41,7 @@ bool Guest::registerAccount(string username, string email, string password)
 
 void Guest::displayUniversity()
 {
-    uniList.displayList(uniList.getHead(), -1);
+    uniList.displayList(uniList.getHead(), -1, "Guest");
 }
 
 void Guest::sortUniversityByName()
@@ -51,11 +51,13 @@ void Guest::sortUniversityByName()
 
 void Guest::searchUniversityByName()
 {
-    //TODO: Read university name from user
+    cin.ignore();
+    uniList.searchUniversities(FieldName::INSTITUTION_NAME);
 }
 
 void Guest::searchUniversityByLocation()
 {
-    //TODO: Read location from user
+    cin.ignore();
+    uniList.searchUniversities(FieldName::LOCATION);
 }
 

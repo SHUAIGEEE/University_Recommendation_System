@@ -5,6 +5,7 @@
 #include "University.hpp"
 #include "Utilities.hpp"
 #include "Shared_Variables.hpp"
+#include "Customer.hpp"
 
 using namespace std;
 using namespace chrono;
@@ -177,13 +178,31 @@ void UniversityList::sortUniversities(FieldName field)
 
 void UniversityList::searchUniversities(FieldName field)
 {
+    int choice = 1;
+    if (field != FieldName::INSTITUTION_NAME && field != FieldName::LOCATION) {
+        cout << endl;
+        cout << "Search using..." << endl;
+        cout << "1. Linear Search" << endl;
+        cout << "2. Exponential Search" << endl;
+        cout << "Enter your choice: ";
+        choice = readInteger(1, 2);
+        cin.ignore();
+    }
+
     string searchValue = "";
     cout << endl << "Please enter search value: ";
     getline(cin, searchValue);
-    linearSearch(searchValue, field);
+
+    if (choice == 1) {
+        linearSearch(searchValue, field);
+    }
+    else {
+        //exponential search
+    }
+    
 }
 
-void UniversityList::displayUniversity(UniversityNode* university) {
+void UniversityList::displayUniversity(UniversityNode* university, string user) {
     system("cls");
     cout << setw(18) << "Rank: " << university->rank << endl;
     cout << setw(18) << "Institution Name: " << university->institutionName << endl;
@@ -204,33 +223,44 @@ void UniversityList::displayUniversity(UniversityNode* university) {
     cout << setw(18) << "gerRank: " << university->gerRank << endl;
     cout << setw(18) << "gerScore: " << university->gerScore << endl;
     cout << setw(18) << "scoreScaled: " << university->scoreScaled << endl;
+    cout << endl;
 
     int option;
-    cout << "1. Write Feedback" << endl;
-    cout << "2. Exit" << endl;
-    option = readInteger(1, 2);
-    switch (option)
-    {
-    case 1:
-        //customerList.sendFeedback(loginCustomer, university, &feedbackList, &uniList);
-        break;
-    case 2:
-        break;
-    default:
-        break;
+    if (user == "Customer") {
+        cout << "1. Save as Favourite" << endl;
+        cout << "2. Write Feedback" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Please select an option: ";
+        option = readInteger(1, 3);
+        switch (option)
+        {
+        case 1:
+            //save as favourite
+            break;
+        case 2:
+            customerList.sendFeedback(loginCustomer, university, &feedbackList, &uniList);
+            break;
+        case 3:
+            break;
+        default:
+            break;
+        }
     }
 }
 
-void UniversityList::displayList(UniversityNode* firstNode, int viewMode)
+void UniversityList::displayList(UniversityNode* firstNode, int viewMode, string user)
 {
     int selectedViewMode = viewMode;
     if (selectedViewMode == -1) {
+        cout << endl;
         cout << "Do you want to view in RANK mode or SCORE mode?" << endl;
         cout << "Press 1 for RANK mode, press 2 for SCORE mode: ";
         selectedViewMode = readInteger(1, 2);
     }
 
-    cout << "List of universities is having " << size << " of items!" << endl;
+    system("cls");
+
+    cout << "There are a total of " << size << " universities!" << endl << endl;
 
 	UniversityNode* temp = firstNode;
     int maxNameLength = 0;
@@ -238,6 +268,7 @@ void UniversityList::displayList(UniversityNode* firstNode, int viewMode)
 
     for (int i = 0; i < 25; i++ ) {
         if (temp != nullptr) {
+
             if (temp->institutionName.length() > maxNameLength) {
                 maxNameLength = temp->institutionName.length();
             }
@@ -256,6 +287,8 @@ void UniversityList::displayList(UniversityNode* firstNode, int viewMode)
     maxLocationLength += 2;
     temp = firstNode;
 
+    cout << string(maxNameLength + maxLocationLength + 98, '-') << endl;
+
     if (selectedViewMode == 1) {
         cout << std::left << setw(6) << "Rank" << setw(maxNameLength) << "Institution Name" << setw(maxLocationLength) << "Location" <<
             setw(10) << "ArRank" << setw(10) << "ErRank" << setw(10) << "FsrRank" << setw(10) << "CpfRank" << setw(10) << "IfrRank" << setw(10) << "IsrRank" << 
@@ -267,16 +300,21 @@ void UniversityList::displayList(UniversityNode* firstNode, int viewMode)
             setw(10) << "IrnScore" << setw(10) << "GerScore" << setw(13) << "ScoreScaled" << endl;
     }
 
-    cout << string(maxNameLength + maxLocationLength + 99, '-') << endl;
+    cout << string(maxNameLength + maxLocationLength + 98, '-') << endl;
 
     int index = 0;
+    int lastRank = 0;
+    int rankArr[25];
 
     if (selectedViewMode == 1) {
         while (index < 25 && temp != nullptr)
         {
-            cout << std::left << setw(6) << temp->rank << setw(maxNameLength) << temp->institutionName << setw(maxLocationLength) << temp->location << 
-                setw(10) << temp->arRank << setw(10) << temp->erRank << setw(10) << temp->fsrRank << setw(10) << temp->cpfRank << setw(10) << temp->ifrRank << 
-                setw(10) << temp->isrRank << setw(10) << temp->irnRank << setw(10) << temp->gerRank << setw(13) << temp->scoreScaled << endl;
+            cout << std::left << setw(6) << temp->rank << setw(maxNameLength + setWidth(temp->institutionName)) << temp->institutionName << setw(maxLocationLength) << temp->location <<
+                setw(10) << checkAndDisplay(temp->arRank) << setw(10) << checkAndDisplay(temp->erRank) << setw(10) << checkAndDisplay(temp->fsrRank) << 
+                setw(10) << checkAndDisplay(temp->cpfRank) << setw(10) << checkAndDisplay(temp->ifrRank) << setw(10) << checkAndDisplay(temp->isrRank) << 
+                setw(10) << checkAndDisplay(temp->irnRank) << setw(10) << checkAndDisplay(temp->gerRank) << setw(13) << checkAndDisplay(to_string(temp->scoreScaled)) << endl;
+            lastRank = temp->rank;
+            rankArr[index] = lastRank;
             temp = temp->nextUniversity;
             index++;
         }
@@ -284,37 +322,62 @@ void UniversityList::displayList(UniversityNode* firstNode, int viewMode)
     else {
         while (index < 25 && temp != nullptr)
         {
-            cout << std::left << setw(6) << temp->rank << setw(maxNameLength) << temp->institutionName << setw(maxLocationLength) << temp->location << 
-                setw(10) << temp->arScore << setw(10) << temp->erScore << setw(10) << temp->fsrScore << setw(10) << temp->cpfScore << setw(10) << temp->ifrScore << 
-                setw(10) << temp->isrScore << setw(10) << temp->irnScore << setw(10) << temp->gerScore << setw(13) << temp->scoreScaled << endl;
+            cout << std::left << setw(6) << temp->rank << setw(maxNameLength + setWidth(temp->institutionName)) << temp->institutionName << setw(maxLocationLength) << temp->location <<
+                setw(10) << checkAndDisplay(to_string(temp->arScore)) << setw(10) << checkAndDisplay(to_string(temp->erScore)) << setw(10) << checkAndDisplay(to_string(temp->fsrScore)) << 
+                setw(10) << checkAndDisplay(to_string(temp->cpfScore)) << setw(10) << checkAndDisplay(to_string(temp->ifrScore)) << setw(10) << checkAndDisplay(to_string(temp->isrScore)) << 
+                setw(10) << checkAndDisplay(to_string(temp->irnScore)) << setw(10) << checkAndDisplay(to_string(temp->gerScore)) << setw(13) << checkAndDisplay(to_string(temp->scoreScaled)) << endl;
+            lastRank = temp->rank;
+            rankArr[index] = lastRank;
             temp = temp->nextUniversity;
             index++;
         }
     }
 
+    cout << string(maxNameLength + maxLocationLength + 98, '-') << endl;
+
     int option;
+    int selectedUniversity = -1;
 
     if (temp == nullptr) {
-        cout << endl << "List is ended here!" << endl << endl;
+        cout << endl << "List ends here!" << endl << endl;
+        cout << "1. Select University" << endl;
+        cout << "2. Exit" << endl;
+        cout << "Please select an option: ";
+        option = readInteger(1, 2);
+        switch (option)
+        {
+        case 1:
+            cout << "Enter University Rank: ";
+            cin >> selectedUniversity;
+            while (std::find(begin(rankArr), end(rankArr), selectedUniversity) == end(rankArr)) {
+                cout << "Please select a valid option: ";
+                cin >> selectedUniversity;
+            }
+            displayUniversity(uniList.getUniversity(selectedUniversity), user);
+            break;
+        case 2:
+            return;
+        default:
+            break;
+        }
     }
     else {
         cout << endl;
-        cout << "1. Next Page" << endl;
-        cout << "2. Select University" << endl;
+        cout << "1. Select University" << endl;
+        cout << "2. Next Page" << endl;
         cout << "3. Exit" << endl;
         cout << "Please select an option: ";
         option = readInteger(1, 3);
         switch (option)
         {
         case 1:
-            system("cls");
-            displayList(temp, selectedViewMode);
+            cout << "Enter University Rank: ";
+            selectedUniversity = readInteger(firstNode->rank, lastRank);
+            displayUniversity(uniList.getUniversity(selectedUniversity), user);
             break;
         case 2:
-            int selectedUniversity;
-            cout << "Enter University Rank: ";
-            selectedUniversity = readInteger(firstNode->rank, temp->rank - 1);
-            displayUniversity(uniList.getUniversity(selectedUniversity));
+            system("cls");
+            displayList(temp, selectedViewMode, user);
             break;
         case 3:
             return;
@@ -332,6 +395,10 @@ UniversityNode* UniversityList::getTail() {
     return tail;
 }
 
+void UniversityList::setHeadNull() {
+    head = tail = nullptr;
+}
+
 UniversityNode* UniversityList::getUniversity(int index) {
     UniversityNode* current = head;
     for (int i = 1; i < index; i++) {
@@ -342,5 +409,43 @@ UniversityNode* UniversityList::getUniversity(int index) {
 
 int UniversityList::getSize() {
     return size;
+}
+
+string UniversityList::checkAndDisplay(string value) {
+    if (value == "-1" || value == "-1.000000") {
+        return "N/A";
+    }
+
+    // Remove additional 
+    int decimalPos = value.find('.');
+    int index = decimalPos;
+    if (index != std::string::npos) {
+        index++;
+        while (index < value.length()) {
+            if (value[index] == '0') {
+                value = value.erase(index, 1);
+                index--;
+            }
+            index++;
+        }
+
+        if (value.length() == decimalPos + 1) {
+            value = value.erase(value.length() - 1, 1);
+        }
+    }
+
+    return value;
+}
+
+int UniversityList::setWidth(string value) {
+    int additionalLength = 0;
+    for (int i = 0; i < value.length(); i++) {
+        if ((unsigned int) value[i] > 127) {
+            additionalLength++;
+            i++;
+        }
+    }
+    //cout << additionalLength << endl;
+    return additionalLength;
 }
 

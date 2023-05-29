@@ -181,30 +181,19 @@ void CustomerList::logout()
 
 void CustomerList::displayUniversity()
 {
-    uniList.displayList(uniList.getHead(), -1);
-
-    //TODO save as favourite
-
-    //如果要换成一个一个uni view的话，可以直接pass currentUni 进去write feedback
-    int selectedUni = -1;
-    while (selectedUni < 1 || selectedUni > uniList.getSize()) {
-        cout << "Select University to Write a Feedback (1 - " << uniList.getSize() << "): ";
-        selectedUni = readInteger(1, uniList.getSize());
-    }
-    UniversityNode* selectedUniversity = uniList.getUniversity(selectedUni);
-
-    customerList.sendFeedback(loginCustomer, selectedUniversity, &feedbackList, &uniList); 
+    uniList.displayList(uniList.getHead(), -1, "Customer");
 }
 
 void CustomerList::sortUniversities()
 {
     uniList.sortUniversities(getSortField());
-    uniList.displayList(uniList.getHead(), -1); // can change to display sorted list
+    uniList.displayList(uniList.getHead(), -1, "Customer"); // can change to display sorted list
 }
 
 void CustomerList::searchUniversities()
 {
     uniList.searchUniversities(getSearchField());
+
 }
 
 FavouriteNode *CustomerList::createFavouriteNode(int universityRank)
@@ -228,6 +217,7 @@ void CustomerList::sendFeedback(Customer customer, UniversityNode* university, F
 {
     string feedbackContent = "";
     cin.ignore();
+    cout << endl;
     cout << "Please enter your feedback: ";
     getline(cin, feedbackContent);
 
@@ -239,6 +229,8 @@ void CustomerList::sendFeedback(Customer customer, UniversityNode* university, F
 }
 
 void CustomerList::viewAllFeedbacks(Customer customer) {
+    system("cls");
+    cout << "View Feedbacks and Replies" << endl << endl;
     FeedbackNode* current = feedbackList.getHead();
     int* feedbackIndeces = new int(feedbackList.getSize());
     int index = 0;
@@ -255,6 +247,7 @@ void CustomerList::viewAllFeedbacks(Customer customer) {
         current = current->nextFeedback;
         loopIndex++;
     }
+    cout << endl;
     cout << "Please select a feedback to view (Press 0 to go back): ";
     int viewFeedbackOption = readInteger(0, index);
     if (viewFeedbackOption == 0) {
@@ -265,6 +258,7 @@ void CustomerList::viewAllFeedbacks(Customer customer) {
 
 void CustomerList::viewFeedbackReply(Customer customer, FeedbackNode* feedback)
 {
+    system("cls");
     cout << "University Name: " << feedback->university->institutionName << endl;
     char formattedTime[50];
     strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y %a %H:%M:%S", &feedback->timePosted);

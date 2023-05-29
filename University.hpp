@@ -33,12 +33,15 @@ public:
     void sortByName();
     void sortUniversities(FieldName field);
     void searchUniversities(FieldName field);
-    void displayUniversity(UniversityNode* university);
-    void displayList(UniversityNode* firstNode, int viewMode);
+    void displayUniversity(UniversityNode* university, std::string user);
+    void displayList(UniversityNode* firstNode, int viewMode, std::string user);
     UniversityNode* getHead();
     UniversityNode* getTail();
+    void setHeadNull();
     UniversityNode* getUniversity(int index);
     int getSize();
+    std::string checkAndDisplay(std::string value);
+    int setWidth(std::string value);
 };
 
 

@@ -17,6 +17,7 @@ using namespace std;
 UniversityList uniList;
 CustomerList customerList;
 FeedbackList feedbackList;
+UniversityList searchResult;
 
 void readFile()
 {
@@ -78,6 +79,20 @@ void readFile()
 			getline(iss, buffer, ',');
 			location = location + buffer;
 		}
+
+		if (location[0] == ' ') {
+			location = location.erase(0, 1);
+		}
+
+		if (location[location.length() - 1] == ' ') {
+			location = location.erase(location.length() - 1, 1);
+		}
+
+		if (location[0] == '"' && location[location.length() - 1] == '"') {
+			location = location.erase(location.length() - 1, 1);
+			location = location.erase(0, 1);
+		}
+
 		getline(iss, arScore, ',');
 		getline(iss, arRank, ',');
 		getline(iss, erScore, ',');
