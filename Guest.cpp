@@ -52,12 +52,12 @@ void Guest::sortUniversityByName()
 void Guest::searchUniversityByName()
 {
     cin.ignore();
-    uniList.searchUniversities(FieldName::INSTITUTION_NAME);
+    uniList.searchUniversities(FieldName::INSTITUTION_NAME, "Guest");
 }
 
 void Guest::searchUniversityByLocation()
 {
     cin.ignore();
-    uniList.searchUniversities(FieldName::LOCATION);
+    uniList.searchUniversities(FieldName::LOCATION, "Guest");
 }
 

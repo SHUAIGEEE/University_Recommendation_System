@@ -3,6 +3,7 @@
 #include <limits>
 #include <regex>
 #include <chrono>
+#include <cmath>
 #include "Utilities.hpp"
 #include "Admin.hpp"
 #include "Customer.hpp"
@@ -318,10 +319,12 @@ void guestMenu()
         else if (option == 3)
         {
             guest.searchUniversityByName();
+            system("pause");
         }
         else if (option == 4)
         {
             guest.searchUniversityByLocation();
+            system("pause");
         }
         else if (option == 5)
         {
@@ -694,6 +697,7 @@ template bool compareFieldDesc<FieldName::GER_RANK>(UniversityNode* a, Universit
 /* SEARCHING ALGORITHMS */
 /* LINEAR SEARCH */
 FieldName getSearchField() {
+
     int fieldNum = -1;
     while (fieldNum < 1 || fieldNum > 11) {
         cout << endl;
@@ -728,68 +732,62 @@ FieldName getSearchField() {
     }
 }
 
-void linearSearch(string searchValue, FieldName field)
+string getFieldValue(UniversityNode* node, FieldName field) {
+    switch (field) {
+    case FieldName::INSTITUTION_NAME:
+        return node->institutionName;
+    case FieldName::LOCATION:
+        return node->location;
+    case FieldName::RANK:
+        return to_string(node->rank);
+    case FieldName::AR_RANK:
+        return node->arRank;
+    case FieldName::ER_RANK:
+        return node->erRank;
+    case FieldName::FSR_RANK:
+        return node->fsrRank;
+    case FieldName::CPF_RANK:
+        return node->cpfRank;
+    case FieldName::IFR_RANK:
+        return node->ifrRank;
+    case FieldName::ISR_RANK:
+        return node->isrRank;
+    case FieldName::IRN_RANK:
+        return node->irnRank;
+    case FieldName::GER_RANK:
+        return node->gerRank;
+    default:
+        break;
+    }
+}
+
+void linearSearch(string searchValue, FieldName field, string user)
 {
     system("cls");
+
+    if (field == FieldName::INSTITUTION_NAME || field == FieldName::LOCATION) {
+        //SORT RANK ASCENDING
+    }
+    else {
+        //SORT BASED ON FIELD IN ASCENDING
+    }
 
     auto start = high_resolution_clock::now();
 
     UniversityNode* current = uniList.getHead();
     while (current != NULL) {
-        if (field == FieldName::INSTITUTION_NAME && current->institutionName.find(searchValue) != string::npos) {
-            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
-                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
-                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
+
+        if (field == FieldName::INSTITUTION_NAME || field == FieldName::LOCATION) {
+            if (getFieldValue(current, field).find(searchValue) != string::npos) {
+                searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
+                    to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
+                    current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
+            }
         }
-        else if (field == FieldName::LOCATION && current->location.find(searchValue) != string::npos) {
-            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
-                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
-                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
-        }
-        else if (field == FieldName::RANK && current->rank >= stoi(searchValue)) {
-            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
-                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
-                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
-        }
-        else if (field == FieldName::AR_RANK && current->arRank >= searchValue) {
-            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
-                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
-                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
-        }
-        else if (field == FieldName::ER_RANK && current->erRank >= searchValue) {
-            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
-                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
-                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
-        }
-        else if (field == FieldName::FSR_RANK && current->fsrRank >= searchValue) {
-            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
-                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
-                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
-        }
-        else if (field == FieldName::CPF_RANK && current->cpfRank >= searchValue) {
-            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
-                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
-                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
-        }
-        else if (field == FieldName::IFR_RANK && current->ifrRank >= searchValue) {
-            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
-                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
-                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
-        }
-        else if (field == FieldName::ISR_RANK && current->isrRank >= searchValue) {
-            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
-                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
-                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
-        }
-        else if (field == FieldName::IRN_RANK && current->irnRank >= searchValue) {
-            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
-                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
-                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
-        }
-        else if (field == FieldName::GER_RANK && current->gerRank >= searchValue) {
-            searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
-                to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
-                current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
+        else{
+            if(stoi(getFieldValue(current, field)) == stoi(searchValue)){
+                break;
+            }
         }
 
         current = current->nextUniversity;
@@ -803,13 +801,23 @@ void linearSearch(string searchValue, FieldName field)
 
     if (searchResult.getSize() == 0) {
         cout << endl << "No match found!" << endl << endl;
-        system("pause");
+        if (user == "Guest") {
+            system("pause");
+        }
         return;
     }
 
     cout << endl;
+    cout << searchResult.getSize() << " Result(s) Found!" << endl;
     cout << "Continue to View Search Result for \"" << searchValue << "\"..." << endl;
-    searchResult.displayList(searchResult.getHead(), -1, "Customer");
+
+    if (field == FieldName::INSTITUTION_NAME || field == FieldName::LOCATION) {
+        searchResult.displayList(searchResult.getHead(), -1, user);
+    }
+    else {
+        //SORT BASED ON FIELD IN DESCENDING
+        uniList.displayList(current, -1, user);
+    }
 
     UniversityNode* currentDelete = searchResult.getHead();
     UniversityNode* nextNode;
@@ -824,3 +832,81 @@ void linearSearch(string searchValue, FieldName field)
 }
 
 /* EXPONENTIAL SEARCH */
+void exponentialSearch(string searchValue, FieldName field, string user) {
+
+    system("cls");
+
+    if (field == FieldName::INSTITUTION_NAME || field == FieldName::LOCATION) {
+        //SORT RANK ASCENDING
+    }
+    else {
+        //SORT BASED ON FIELD IN ASCENDING
+    }
+
+    auto start = high_resolution_clock::now();
+
+    UniversityNode* result;
+
+    if (getFieldValue(uniList.getHead(), field) == searchValue)
+        result = uniList.getHead();
+
+    UniversityNode* upper = uniList.getHead()->nextUniversity;
+    UniversityNode* lower = uniList.getHead()->nextUniversity;
+    int bound = 1;
+    while (bound < uniList.getSize() && stoi(getFieldValue(upper, field)) <= stoi(searchValue)) {
+        cout << getFieldValue(upper, field) << ":" << bound << endl;
+        lower = upper;
+        for (int k = bound; k < bound * 2; k++) {
+            if (upper->nextUniversity != nullptr) {
+                upper = upper->nextUniversity;
+            }
+            else {
+                break;
+            }
+        }
+        bound = bound * 2;
+    }
+
+    result = binarySearch(lower, upper, field, searchValue);
+
+    auto stop = high_resolution_clock::now();
+
+    auto duration = duration_cast<microseconds>(stop - start);
+    cout << "Time taken by linear search algorithm: ";
+    cout << duration.count() << " microseconds." << endl;
+
+    if (result == nullptr) {
+        cout << endl << "No match found!" << endl << endl;
+        system("pause");
+        return;
+    }
+
+    cout << endl;
+    cout << "Continue to View Search Result for \"" << searchValue << "\"..." << endl;
+    //SORT BASED ON FIELD IN DESCENDING
+    uniList.displayList(result, -1, user);
+}
+
+UniversityNode* binarySearch(UniversityNode* lowerNode, UniversityNode* upperNode, FieldName field, string searchValue)
+{
+
+    UniversityNode* middleNode;
+
+    if (lowerNode != nullptr && upperNode != nullptr) {
+        middleNode = uniList.getUniversity((upperNode->rank + lowerNode->rank) / 2);
+
+        cout << lowerNode->rank << ":" << middleNode->rank << ":" << upperNode->rank << endl;
+        
+        if (stoi(getFieldValue(middleNode, field)) == stoi(searchValue)) {
+            return middleNode;
+        }
+
+        if (stoi(getFieldValue(middleNode, field)) > stoi(searchValue)) {
+            return binarySearch(lowerNode, uniList.getUniversity(middleNode->rank - 1), field, searchValue);
+        }
+
+        return binarySearch(middleNode->nextUniversity, upperNode, field, searchValue);
+    }
+
+    return nullptr;
+}

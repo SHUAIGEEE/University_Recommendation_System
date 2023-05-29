@@ -192,7 +192,7 @@ void CustomerList::sortUniversities()
 
 void CustomerList::searchUniversities()
 {
-    uniList.searchUniversities(getSearchField());
+    uniList.searchUniversities(getSearchField(), "Customer");
 
 }
 

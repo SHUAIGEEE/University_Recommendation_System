@@ -32,9 +32,11 @@ void MergeSort(UniversityNode** headRef, bool isAscending);
 
 /* LINEAR SEARCH */
 FieldName getSearchField();
-void linearSearch(std::string searchValue, FieldName field);
+std::string getFieldValue(UniversityNode* node, FieldName field);
+void linearSearch(std::string searchValue, FieldName field, std::string user);
 
 /* EXPONENTIAL SEARCH */
-
+void exponentialSearch(std::string searchValue, FieldName field, std::string user);
+UniversityNode* binarySearch(UniversityNode* lowerNode, UniversityNode* upperNode, FieldName field, std::string searchValue);
 
 #endif

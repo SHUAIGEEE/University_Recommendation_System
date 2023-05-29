@@ -176,7 +176,7 @@ void UniversityList::sortUniversities(FieldName field)
     }
 }
 
-void UniversityList::searchUniversities(FieldName field)
+void UniversityList::searchUniversities(FieldName field, string user)
 {
     int choice = 1;
     if (field != FieldName::INSTITUTION_NAME && field != FieldName::LOCATION) {
@@ -194,10 +194,10 @@ void UniversityList::searchUniversities(FieldName field)
     getline(cin, searchValue);
 
     if (choice == 1) {
-        linearSearch(searchValue, field);
+        linearSearch(searchValue, field, user);
     }
     else {
-        //exponential search
+        exponentialSearch(searchValue, field, user);
     }
     
 }
@@ -260,11 +260,9 @@ void UniversityList::displayList(UniversityNode* firstNode, int viewMode, string
 
     system("cls");
 
-    cout << "There are a total of " << size << " universities!" << endl << endl;
-
 	UniversityNode* temp = firstNode;
-    int maxNameLength = 0;
-    int maxLocationLength = 0;
+    int maxNameLength = 18;
+    int maxLocationLength = 10;
 
     for (int i = 0; i < 25; i++ ) {
         if (temp != nullptr) {

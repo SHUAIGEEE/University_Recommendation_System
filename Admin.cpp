@@ -42,7 +42,7 @@ void Admin::sortUniversities()
 
 void Admin::searchUniversities()
 {
-    uniList.searchUniversities(getSearchField());
+    uniList.searchUniversities(getSearchField(), "Admin");
 }
 
 void Admin::displayCustomerDetails()

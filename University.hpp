@@ -32,7 +32,7 @@ public:
         std::string irnRank, std::string gerRank);
     void sortByName();
     void sortUniversities(FieldName field);
-    void searchUniversities(FieldName field);
+    void searchUniversities(FieldName field, std::string user);
     void displayUniversity(UniversityNode* university, std::string user);
     void displayList(UniversityNode* firstNode, int viewMode, std::string user);
     UniversityNode* getHead();
