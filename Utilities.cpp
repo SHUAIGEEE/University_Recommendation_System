@@ -1053,11 +1053,6 @@ void LinearSearch(string searchValue, FieldName field, string user)
         tempUniversityList.displayList(tempUniversityList.getHead(), -1, user);
     }
     else {
-        if (field == FieldName::AR_SCORE || field == FieldName::ER_SCORE || field == FieldName::FSR_SCORE || field == FieldName::CPF_SCORE ||
-            field == FieldName::IFR_SCORE || field == FieldName::ISR_SCORE || field == FieldName::IRN_SCORE || field == FieldName::GER_SCORE || field == FieldName::SCORE_SCALED) {
-            
-            callMergeSort(field, false);
-        }
         uniList.displayList(current, -1, user);
     }
 
@@ -1139,12 +1134,6 @@ void ExponentialSearch(string searchValue, FieldName field, string user) {
     cout << endl;
     cout << "Result(s) Found!" << endl;
     cout << "Continue to View Search Result for \"" << searchValue << "\"..." << endl;
-
-    if (field == FieldName::AR_SCORE || field == FieldName::ER_SCORE || field == FieldName::FSR_SCORE || field == FieldName::CPF_SCORE ||
-        field == FieldName::IFR_SCORE || field == FieldName::ISR_SCORE || field == FieldName::IRN_SCORE || field == FieldName::GER_SCORE || field == FieldName::SCORE_SCALED) {
-
-        callMergeSort(field, false);
-    }
 
     uniList.displayList(result, -1, user);
 }
