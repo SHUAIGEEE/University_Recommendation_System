@@ -18,7 +18,7 @@ extern Customer loginCustomer;
 extern UniversityList uniList;
 extern CustomerList customerList;
 extern FeedbackList feedbackList;
-extern UniversityList searchResult;
+extern UniversityList tempUniversityList;
 
 enum class FieldName
 {

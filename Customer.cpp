@@ -74,6 +74,11 @@ void Customer::setPassword(string password)
     this->password = password;
 }
 
+void Customer::setLoginTime(struct tm* timeInfo) 
+{
+    this->lastLoginTime = *timeInfo;
+}
+
 CustomerList::CustomerList()
 {
 }
@@ -177,6 +182,12 @@ bool CustomerList::login(string username, string password)
             loginCustomer.setPassword(password);
             loginCustomer.setCustomerID(temp->customer.getCustomerID());
             loginCustomer.setEmail(temp->customer.getEmail());
+
+            time_t rawTime = time(nullptr);
+            struct tm* timeInfo = localtime(&rawTime);
+            loginCustomer.setLoginTime(timeInfo);
+            temp->customer.setLoginTime(timeInfo);
+
             return true;
         }
         else
@@ -215,19 +226,101 @@ void CustomerList::searchUniversities()
 
 FavouriteNode *CustomerList::createFavouriteNode(int universityRank)
 {
-    return nullptr;
+    FavouriteNode* newNode = new FavouriteNode;
+
+    newNode->universityRank = universityRank;
+    newNode->nextFavourite = nullptr;
+
+    return newNode;
 }
 
-void CustomerList::saveFavouriteUniversity(int universityRank)
+void CustomerList::insertFavouriteEnd(int universityRank, CustomerNode* customer) {
+    FavouriteNode* newNode = createFavouriteNode(universityRank);
+
+    if (customer->favourites == nullptr)
+    {
+        customer->favourites = newNode;
+    }
+    else {
+        FavouriteNode* current = customer->favourites->nextFavourite;
+        FavouriteNode* prev = customer->favourites;
+
+        while (current != nullptr)
+        {
+            prev = current;
+            current = current->nextFavourite;
+        }
+        prev->nextFavourite = newNode;
+    }
+}
+
+void CustomerList::saveFavouriteUniversity(int universityRank, CustomerNode* customer)
 {
+    customerList.insertFavouriteEnd(universityRank, customer);
+
+    cout << endl  << uniList.getUniversity(universityRank)->institutionName << " saved as favourite!" << endl << endl;
+    system("pause");
 }
 
 void CustomerList::deleteFavouriteUniversity(int universityRank)
 {
+    CustomerNode* customer = customerList.getCustomer(loginCustomer.getCustomerID());
+    FavouriteNode* current = customer->favourites;
+    FavouriteNode* prev = nullptr;
+    if (current == nullptr) {
+        cout << "No university to delete!" << endl;
+        system("pause");
+        return;
+    }
+
+    if (current->universityRank == universityRank) {
+        customer->favourites = current->nextFavourite;
+        cout << endl << "Removed " << uniList.getUniversity(current->universityRank)->institutionName << " from favourite list!" << endl << endl;
+        delete current;
+        system("pause");
+        return;
+    }
+    else {
+        while (current->nextFavourite != nullptr) {
+            prev = current;
+            current = current->nextFavourite;
+            if (current->universityRank == universityRank) {
+                prev->nextFavourite = current->nextFavourite;
+                cout << endl << "Removed " << uniList.getUniversity(current->universityRank)->institutionName << " from favourite list!" << endl << endl;
+                delete current;
+                system("pause");
+                return;
+            }
+        }
+    }
+    cout << "Cannot find university to delete!" << endl;
+    system("pause");
 }
 
 void CustomerList::showFavouriteUniversities()
 {
+    CustomerNode* customer = customerList.getCustomer(loginCustomer.getCustomerID());
+    FavouriteNode* current = customer->favourites;
+    UniversityNode* university;
+
+    if (current == nullptr) {
+        cout << endl << "No favourite universities!" << endl << endl;
+        system("pause");
+        return;
+    }
+
+    while (current != nullptr) {
+        university = uniList.getUniversity(current->universityRank);
+        tempUniversityList.insertEnd(to_string(university->rank), to_string(university->arScore), to_string(university->erScore),
+            to_string(university->fsrScore), to_string(university->cpfScore), to_string(university->ifrScore), to_string(university->isrScore),
+            to_string(university->irnScore), to_string(university->gerScore), to_string(university->scoreScaled), university->institutionName,
+            university->locationCode, university->location, university->arRank, university->erRank, university->fsrRank, university->cpfRank, 
+            university->ifrRank, university->isrRank, university->irnRank, university->gerRank);
+        current = current->nextFavourite;
+    }
+
+    tempUniversityList.displayList(tempUniversityList.getHead(), -1, "Favourite");
+    uniList.clearTempUniversityList();
 }
 
 void CustomerList::sendFeedback(Customer customer, UniversityNode* university, FeedbackList* feedbackList, UniversityList* universityList)
@@ -363,5 +456,16 @@ void CustomerList::setHead(CustomerNode* customer)
     }
 
     head = customer;
+}
+
+CustomerNode* CustomerList::getCustomer(string customerID) {
+    CustomerNode* current = customerList.getHead();
+    while (current != nullptr) {
+        if (current->customer.getCustomerID() == customerID) {
+            return current;
+        }
+        current = current->nextCustomer;
+    }
+    return nullptr;
 }
 

@@ -272,8 +272,7 @@ void customerMenu()
         }
         else if (option == 4)
         {
-            // favourite也要可以send feedback
-            // customerList.showFavouriteUniversities();
+            customerList.showFavouriteUniversities();
         }
         else if (option == 5)
         {
@@ -961,32 +960,6 @@ FieldName getSearchField() {
     cout << "Please select searching field: ";
 
     return static_cast<FieldName>(readInteger(1, 20));
-
-    // fieldNum = readInteger(1, 20);
-    // cin.ignore();
-
-    // switch (fieldNum) {
-    // case 1: return FieldName::INSTITUTION_NAME; break;
-    // case 2: return FieldName::LOCATION; break;
-    // case 3: return FieldName::RANK; break;
-    // case 4: return FieldName::AR_RANK; break;
-    // case 5: return FieldName::AR_SCORE; break;
-    // case 6: return FieldName::ER_RANK; break;
-    // case 7: return FieldName::ER_SCORE; break;
-    // case 8: return FieldName::FSR_RANK; break;
-    // case 9: return FieldName::FSR_SCORE; break;
-    // case 10: return FieldName::CPF_RANK; break;
-    // case 11: return FieldName::CPF_SCORE; break;
-    // case 12: return FieldName::IFR_RANK; break;
-    // case 13: return FieldName::IFR_SCORE; break;
-    // case 14: return FieldName::ISR_RANK; break;
-    // case 15: return FieldName::ISR_SCORE; break;
-    // case 16: return FieldName::IRN_RANK; break;
-    // case 17: return FieldName::IRN_SCORE; break;
-    // case 18: return FieldName::GER_RANK; break;
-    // case 19: return FieldName::GER_SCORE; break;
-    // case 20: return FieldName::SCORE_SCALED; break;
-    // }
 }
 
 string getFieldValue(UniversityNode* node, FieldName field) {
@@ -1029,15 +1002,17 @@ void LinearSearch(string searchValue, FieldName field, string user)
     auto start = high_resolution_clock::now();
 
     UniversityNode* current = uniList.getHead();
-    UniversityNode* result;
+    UniversityNode* result = nullptr;
 
     while (current != NULL) {
 
         if (field == FieldName::INSTITUTION_NAME || field == FieldName::LOCATION) {
             if (getFieldValue(current, field).find(searchValue) != string::npos) {
-                searchResult.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore),
-                    to_string(current->isrScore), to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, current->locationCode, current->location,
-                    current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
+                tempUniversityList.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), 
+                    to_string(current->fsrScore), to_string(current->cpfScore), to_string(current->ifrScore), to_string(current->isrScore), 
+                    to_string(current->irnScore), to_string(current->gerScore), to_string(current->scoreScaled), current->institutionName, 
+                    current->locationCode, current->location, current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, 
+                    current->isrRank, current->irnRank, current->gerRank);
             }
         }
         else if (field == FieldName::RANK || field == FieldName::AR_RANK || field == FieldName::ER_RANK || field == FieldName::FSR_RANK || field == FieldName::CPF_RANK || 
@@ -1063,7 +1038,7 @@ void LinearSearch(string searchValue, FieldName field, string user)
     cout << "Time taken by linear search algorithm: ";
     cout << duration.count() << " microseconds." << endl;
 
-    if (searchResult.getSize() == 0 && result == nullptr) {
+    if (tempUniversityList.getSize() == 0 && result == nullptr) {
         cout << endl << "No match found!" << endl << endl;
         if (user == "Guest") {
             system("pause");
@@ -1076,7 +1051,7 @@ void LinearSearch(string searchValue, FieldName field, string user)
     cout << "Continue to View Search Result for \"" << searchValue << "\"..." << endl;
 
     if (field == FieldName::INSTITUTION_NAME || field == FieldName::LOCATION) {
-        searchResult.displayList(searchResult.getHead(), -1, user);
+        tempUniversityList.displayList(tempUniversityList.getHead(), -1, user);
     }
     else {
         if (field == FieldName::AR_SCORE || field == FieldName::ER_SCORE || field == FieldName::FSR_SCORE || field == FieldName::CPF_SCORE ||
@@ -1087,16 +1062,7 @@ void LinearSearch(string searchValue, FieldName field, string user)
         uniList.displayList(current, -1, user);
     }
 
-    UniversityNode* currentDelete = searchResult.getHead();
-    UniversityNode* nextNode;
-
-    while (currentDelete != nullptr) {
-        nextNode = currentDelete->nextUniversity;
-        delete currentDelete;
-        currentDelete = nextNode;
-    }
-
-    searchResult.setHeadNull();
+    uniList.clearTempUniversityList();
 }
 
 /* EXPONENTIAL SEARCH */

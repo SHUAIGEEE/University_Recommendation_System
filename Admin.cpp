@@ -54,13 +54,21 @@ void Admin::displayCustomerDetails()
 
 void Admin::modifyCustomerDetails()
 {
-    CustomerNode* temp = customerList.getHead();
+    
     string customerID;
     string newUsername;
     string newPassword;
     string newEmail;
-    cout << endl << "Please enter customerID : ";
-    cin >> customerID;
+    cout << endl << "Please enter Customer ID : ";
+    getline(cin, customerID);
+
+    CustomerNode* temp = customerList.getCustomer(customerID);
+    while (temp == nullptr) {
+        cout << "Invalid Customer ID." << endl;
+        cout << "Please enter a valid Customer ID : ";
+        getline(cin, customerID);
+        temp = customerList.getCustomer(customerID);
+    }
 
     cout << "1. Modify username" << endl;
     cout << "2. Modify password" << endl;
@@ -71,59 +79,22 @@ void Admin::modifyCustomerDetails()
     {
         cout << "Please enter the new username: " << endl;
         cin >> newUsername;
-        while (temp != NULL)
-        {
-            if (temp->customer.getCustomerID() == customerID)
-            {
-                temp->customer.setUsername(newUsername);
-                cout << "Username modified successfully!" << endl;
-                break;
-            }
-            temp = temp->nextCustomer;
-        }
-        if (temp == NULL)
-        {
-            cout << "Customer ID not found!" << endl;
-        }
-        
+        temp->customer.setUsername(newUsername);
+        cout << "Username modified successfully!" << endl;
     }
     else if (modifyCustomerOption == 2)
     {
         cout << "Please enter the new password: " << endl;
         cin >> newPassword;
-        while (temp != NULL)
-        {
-            if (temp->customer.getCustomerID() == customerID)
-            {
-                temp->customer.setPassword(newPassword);
-                cout << "Password modified successfully!" << endl;
-                break;
-            }
-            temp = temp->nextCustomer;
-        }
-        if (temp == NULL)
-        {
-            cout << "Customer ID not found!" << endl;
-        }
+        temp->customer.setPassword(newPassword);
+        cout << "Password modified successfully!" << endl;
     }
     else if (modifyCustomerOption == 3)
     {
         cout << "Please enter the new email: " << endl;
         cin >> newEmail;
-        while (temp != NULL)
-        {
-            if (temp->customer.getCustomerID() == customerID)
-            {
-                temp->customer.setEmail(newEmail);
-                cout << "Email modified successfully!" << endl;
-                break;
-            }
-            temp = temp->nextCustomer;
-        }
-        if (temp == NULL)
-        {
-            cout << "Customer ID not found!" << endl;
-        }
+        temp->customer.setEmail(newEmail);
+        cout << "Email modified successfully!" << endl;
     }
     else if (modifyCustomerOption == 4)
     {

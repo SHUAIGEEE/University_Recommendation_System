@@ -35,6 +35,7 @@ public:
     void setUsername(std::string username);
     void setEmail(std::string email);
     void setPassword(std::string password);
+    void setLoginTime(struct tm* timeInfo);
 };
 
 struct CustomerNode
@@ -68,7 +69,8 @@ public:
     void sortUniversities();
     void searchUniversities();
     FavouriteNode* createFavouriteNode(int universityRank);
-    void saveFavouriteUniversity(int universityRank);
+    void insertFavouriteEnd(int universityRank, CustomerNode* customer);
+    void saveFavouriteUniversity(int universityRank, CustomerNode* customerNode);
     void deleteFavouriteUniversity(int universityRank);
     void showFavouriteUniversities();
     void sendFeedback(Customer customer, UniversityNode* university, FeedbackList* feedbackList, UniversityList* universityList);
@@ -77,6 +79,7 @@ public:
     void sendFeedbackReply(FeedbackNode* feedback);
     void updateLastLoginTime();
     void setHead(CustomerNode* customer);
+    CustomerNode* getCustomer(std::string customerID);
 };
 
 #endif
