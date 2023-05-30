@@ -139,8 +139,9 @@ void CustomerList::displayList()
 
 	while (temp != nullptr)
 	{
+        struct tm loginTime = temp->customer.getLastLoginTime();
         char formattedTime[50];
-        strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y", &temp->customer.getLastLoginTime());
+        strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y", &loginTime);
         cout << std::left << setw(18) << temp->customer.getCustomerID() << setw(20) << temp->customer.getUsername()
             << setw(30) << temp->customer.getEmail() << setw(20) << temp->customer.getPassword() << setw(15) << formattedTime << endl;
 		temp = temp->nextCustomer;

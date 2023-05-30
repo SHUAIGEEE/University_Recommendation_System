@@ -152,7 +152,7 @@ void Admin::deleteCustomerAccount()
         time_t loginTimeT = mktime(&loginTime);
 
         char formattedTime[50];
-        strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y", &current->customer.getLastLoginTime());
+        strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y", &loginTime);
 
         int elapsedDays = static_cast<int>((currentTime - loginTimeT) / (24 * 60 * 60));
         if (elapsedDays >= 180)
