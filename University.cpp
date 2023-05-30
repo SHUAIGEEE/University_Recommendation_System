@@ -226,8 +226,6 @@ void UniversityList::displayUniversity(UniversityNode* university, string user) 
 
 void UniversityList::displayList(UniversityNode* firstNode, int viewMode, string user)
 {
-    callMergeSort(FieldName::RANK, true);
-
     int selectedViewMode = viewMode;
     if (selectedViewMode == -1) {
         cout << endl;
