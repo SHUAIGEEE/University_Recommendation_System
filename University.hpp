@@ -33,6 +33,7 @@ public:
     void sortByName();
     void sortUniversities(FieldName field);
     void searchUniversities(FieldName field, std::string user);
+    bool searchElement(int rankArr[], int size, int value);
     void displayUniversity(UniversityNode* university, std::string user);
     void displayList(UniversityNode* firstNode, int viewMode, std::string user);
     UniversityNode* getHead();

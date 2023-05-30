@@ -22,10 +22,10 @@ extern UniversityList searchResult;
 
 enum class FieldName
 {
+    AR_FSR_ER_SCORE,
     RANK,
     INSTITUTION_NAME,
     LOCATION,
-    AR_FSR_ER_SCORE,
     AR_RANK,
     ER_RANK,
     FSR_RANK,

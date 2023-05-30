@@ -27,16 +27,17 @@ template <FieldName Field>
 UniversityNode* SortedMerge(UniversityNode* a, UniversityNode* b, bool isAscending);
 template <FieldName Field>
 void MergeSort(UniversityNode** headRef, bool isAscending);
+void callMergeSort(FieldName field, bool isAscending);
 
 /* QUICK SORT */
 
 /* LINEAR SEARCH */
 FieldName getSearchField();
 std::string getFieldValue(UniversityNode* node, FieldName field);
-void linearSearch(std::string searchValue, FieldName field, std::string user);
+void LinearSearch(std::string searchValue, FieldName field, std::string user);
 
 /* EXPONENTIAL SEARCH */
-void exponentialSearch(std::string searchValue, FieldName field, std::string user);
-UniversityNode* binarySearch(UniversityNode* lowerNode, UniversityNode* upperNode, FieldName field, std::string searchValue);
+void ExponentialSearch(std::string searchValue, FieldName field, std::string user);
+UniversityNode* BinarySearch(UniversityNode* lowerNode, UniversityNode* upperNode, FieldName field, std::string searchValue);
 
 #endif
