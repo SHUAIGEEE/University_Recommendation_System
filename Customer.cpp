@@ -209,19 +209,139 @@ void CustomerList::searchUniversities()
 
 FavouriteNode *CustomerList::createFavouriteNode(int universityRank)
 {
-    return nullptr;
+    FavouriteNode* newNode = new FavouriteNode;
+    newNode->universityRank = universityRank;
+    newNode->nextFavourite = nullptr;
+    return newNode;
 }
 
 void CustomerList::saveFavouriteUniversity(int universityRank)
 {
+    FavouriteNode* newNode = createFavouriteNode(universityRank);
+    if (loginCustomer.getCustomerID().empty()) {
+        cout << "Please log in to save a favourite university." << endl;
+        return;
+    } 
+    if (head == nullptr) {
+        head = createCustomerNode("", "", "", "");
+        head->favourites = newNode;
+        tail = head;
+    }
+    else {
+        tail->nextCustomer = createCustomerNode("", "", "", "");
+        tail->nextCustomer->favourites = newNode;
+        tail = tail->nextCustomer;
+    }
+    cout << "University has successfully saved as favourite!" << endl;
 }
-
+ 
 void CustomerList::deleteFavouriteUniversity(int universityRank)
 {
+    if (head == nullptr) {
+        cout << "List of favourite universities is empty." << endl;
+        return;
+    }
+    CustomerNode* current = head;
+    CustomerNode* previous = nullptr;
+
+    while (current != nullptr) {
+        FavouriteNode* favCurrent = current->favourites;
+        FavouriteNode* favPrevious = nullptr;
+
+        while (favCurrent != nullptr) {
+            if (favCurrent->universityRank == universityRank) {
+                if (favPrevious == nullptr) {
+                    //Removing head node
+                    current->favourites = favCurrent->nextFavourite;
+                }
+                else {
+                    favPrevious->nextFavourite = favCurrent->nextFavourite;
+                }
+                delete favCurrent;
+                cout << "University has been removed from favourites." << endl;
+                return;
+            }
+            favPrevious = favCurrent;
+            favCurrent = favCurrent->nextFavourite;
+        }
+        previous = current;
+        current = current->nextCustomer;
+    }
+    cout << "University not found in favourites!" << endl;
 }
 
 void CustomerList::showFavouriteUniversities()
 {
+    if (head == nullptr) {
+        cout << "List of favourite universities is empty." << endl;
+        return;
+    }
+    CustomerNode* current = head;
+    while (current != nullptr) {
+        FavouriteNode* favCurrent = current->favourites;
+        while (favCurrent != nullptr) {
+            cout << "University Rank: " << favCurrent->universityRank << endl;
+            //Display the details of the university based on the rank
+            UniversityNode* university = uniList.getUniversity(favCurrent->universityRank);
+            if (university != nullptr) {
+                cout << "University Name: " << university->institutionName << endl;
+                cout << "Location: " << university->location << endl;
+                cout << "Ar Score: " << university->arScore << endl;
+                cout << "Ar Rank: " << university->arRank << endl;
+                cout << "Er Score: " << university->erScore << endl;
+                cout << "Er Rank: " << university->erRank << endl;
+                cout << "Fsr Score: " << university->fsrScore << endl;
+                cout << "Fsr Rank: " << university->fsrRank << endl;
+                cout << "Cpf Score: " << university->cpfScore << endl;
+                cout << "Cpf Rank " << university->cpfRank << endl;
+                cout << "Ifr Score: " << university->ifrScore << endl;
+                cout << "Ifr Rank: " << university->ifrRank << endl;
+                cout << "Isr Score: " << university->isrScore << endl;
+                cout << "Isr Rank: " << university->isrRank << endl;
+                cout << "Irn Score: " << university->irnScore << endl;
+                cout << "Irn Rank: " << university->irnRank << endl;
+                cout << "Ger Score: " << university->gerScore << endl;
+                cout << "Ger Rank: " << university->gerRank << endl;
+                cout << "Score Scaled: " << university->scoreScaled << endl;
+            }
+            else {
+                cout << "University details not found: " << favCurrent->universityRank << endl;
+            }
+            favCurrent = favCurrent->nextFavourite;
+        }
+        current = current->nextCustomer;
+    }
+    cout << endl;
+    cout << "1. Save a new university as favourite" << endl;
+    cout << "2. Removed a university from favourites" << endl;
+    cout << "3. Show all saved university" << endl;
+    cout << "4. Back" << endl;
+    cout << "Please select an option: ";
+    int viewSaveOption = readInteger(1, 4);
+    switch (viewSaveOption)
+    {
+    case 1: {
+        int universityRank;
+        cout << "Enter the university rank to save as favourites: ";
+        cin >> universityRank;
+        saveFavouriteUniversity(universityRank);
+        break;
+    }
+    case 2: {
+        int universityRank;
+        cout << "Enter the university rank to remove from favourites: ";
+        cin >> universityRank;
+        deleteFavouriteUniversity(universityRank);
+        break;
+    }
+    case 3:
+        showFavouriteUniversities();
+        break;
+    case 4:
+        return;
+    default:
+        break;
+    }
 }
 
 void CustomerList::sendFeedback(Customer customer, UniversityNode* university, FeedbackList* feedbackList, UniversityList* universityList)
