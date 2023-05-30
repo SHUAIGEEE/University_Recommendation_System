@@ -42,6 +42,9 @@ public:
     int getSize();
     std::string checkAndDisplay(std::string value);
     int setWidth(std::string value);
+    bool inputValidation(std::string value, FieldName field);
+    void clearTempUniversityList();
+    bool checkFavouriteExist(int universityRank);
 };
 
 

@@ -152,6 +152,10 @@ void UniversityList::searchUniversities(FieldName field, string user)
     string searchValue = "";
     cout << endl << "Please enter search value: ";
     getline(cin, searchValue);
+    while (!inputValidation(searchValue, field)) {
+        cout << endl << "Please enter a valid search value: ";
+        getline(cin, searchValue);
+    }
 
     if (choice == 1) {
         LinearSearch(searchValue, field, user);
@@ -208,8 +212,13 @@ void UniversityList::displayUniversity(UniversityNode* university, string user) 
     cout << line << endl;
 
     int option;
-    if (user == "Customer") {
-        cout << "1. Save as Favourite" << endl;
+    if (user == "Customer" || user == "Favourite") {
+        if (user == "Customer" && !checkFavouriteExist(university->rank)) {
+            cout << "1. Save as Favourite" << endl;
+        }
+        else {
+            cout << "1. Delete from Favourite" << endl;
+        }
         cout << "2. Write Feedback" << endl;
         cout << "3. Exit" << endl;
         cout << "Please select an option: ";
@@ -217,7 +226,12 @@ void UniversityList::displayUniversity(UniversityNode* university, string user) 
         switch (option)
         {
         case 1:
-            //save as favourite
+            if (user == "Customer" && !checkFavouriteExist(university->rank)) {
+                customerList.saveFavouriteUniversity(university->rank, customerList.getCustomer(loginCustomer.getCustomerID()));
+            }
+            else {
+                customerList.deleteFavouriteUniversity(university->rank);
+            } 
             break;
         case 2:
             customerList.sendFeedback(loginCustomer, university, &feedbackList, &uniList);
@@ -232,6 +246,8 @@ void UniversityList::displayUniversity(UniversityNode* university, string user) 
 
 void UniversityList::displayList(UniversityNode* firstNode, int viewMode, string user)
 {
+    callMergeSort(FieldName::RANK, true);
+
     int selectedViewMode = viewMode;
     if (selectedViewMode == -1) {
         cout << endl;
@@ -429,3 +445,46 @@ int UniversityList::setWidth(string value) {
     return additionalLength;
 }
 
+bool UniversityList::inputValidation(string value, FieldName field) {
+    try {
+        if (field == FieldName::RANK || field == FieldName::AR_RANK || field == FieldName::ER_RANK || field == FieldName::FSR_RANK || field == FieldName::CPF_RANK ||
+            field == FieldName::IFR_RANK || field == FieldName::ISR_RANK || field == FieldName::IRN_RANK || field == FieldName::GER_RANK) {
+            int buffer;
+            buffer = stoi(value);
+            return true;
+        }
+        else {
+            double buffer;
+            buffer = stod(value);
+            return true;
+        }
+    }
+    catch(...){
+        return false;
+    }
+}
+
+void UniversityList::clearTempUniversityList() {
+    UniversityNode* currentDelete = tempUniversityList.getHead();
+    UniversityNode* nextNode;
+
+    while (currentDelete != nullptr) {
+        nextNode = currentDelete->nextUniversity;
+        delete currentDelete;
+        currentDelete = nextNode;
+    }
+
+    tempUniversityList.setHeadNull();
+}
+
+bool UniversityList::checkFavouriteExist(int universityRank) {
+    CustomerNode* customer = customerList.getCustomer(loginCustomer.getCustomerID());
+    FavouriteNode* current = customer->favourites;
+    while (current != nullptr) {
+        if (current->universityRank == universityRank) {
+            return true;
+        }
+        current = current->nextFavourite;
+    }
+    return false;
+}

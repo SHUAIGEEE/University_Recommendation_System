@@ -81,7 +81,6 @@ void FeedbackList::displayList()
 
     while (temp != NULL)
     {
-        //cout 可以换format
         cout << index << ". " << temp->university->institutionName << " - " << temp->customerID << " - " << temp->feedbackContent << endl;
         char formattedTime[50];
         strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y %a %H:%M:%S", &temp->timePosted);

@@ -1,3 +1,4 @@
 C001;shuaigee;aaaaaa@gmail.com;123;17-12-2021
 C002;heiheihei;bbbbbbb@gmail.com;222;31-05-2023
-C003;cxk;1111111@gmail.com;a;08-03-2023
+C003;cxk;1111111@gmail.com;a;30-05-2023;60
+C004;cm;1111111@gmail.com;cm;30-05-2023;1;25

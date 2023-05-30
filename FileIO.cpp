@@ -17,7 +17,7 @@ using namespace std;
 UniversityList uniList;
 CustomerList customerList;
 FeedbackList feedbackList;
-UniversityList searchResult;
+UniversityList tempUniversityList;
 
 void readFile()
 {
@@ -137,25 +137,26 @@ void readFile()
 
     /* Customer */
     file.open("Customer.txt");
-    string customerID, username, email, password, lastLoginTime;
-    while (file.good())
+	string customerLine;
+    string customerID, username, email, password, lastLoginTime, favouriteUni;
+    while (getline(file, customerLine))
     {
-        getline(file, customerID, ';');
-        getline(file, username, ';');
-        getline(file, email, ';');
-        getline(file, password,';');
-		getline(file, lastLoginTime);
+		istringstream customeriss(customerLine);
+        getline(customeriss, customerID, ';');
+        getline(customeriss, username, ';');
+        getline(customeriss, email, ';');
+        getline(customeriss, password, ';');
+		getline(customeriss, lastLoginTime, ';');
 
-
-        if (customerID == "")
-        {
-            break;
-        }
 		std::string format = "%d-%m-%Y";
 		std::tm timeStruct = {};
 		std::istringstream timeiss(lastLoginTime);
 		timeiss >> std::get_time(&timeStruct, format.c_str());
         customerList.insertEnd(customerID, username, email, password, timeStruct);
+
+		while (getline(customeriss, favouriteUni, ';')) {
+			customerList.insertFavouriteEnd(stoi(favouriteUni), customerList.getCustomer(customerID));
+		}
     }
     file.close();
 
@@ -198,16 +199,27 @@ void writeFile()
 {
     /* Customer */
     ofstream file("Customer.txt");
-    CustomerNode* temp = customerList.getHead();
+    CustomerNode* customerTemp = customerList.getHead();
 
-    while (temp != nullptr)
+    while (customerTemp != nullptr)
     {
-        file << temp->customer.getCustomerID() << ";" << temp->customer.getUsername() << ";"
-        << temp->customer.getEmail() << ";" << temp->customer.getPassword() << endl;
-        temp = temp->nextCustomer;
+		char formattedTime[50];
+		strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y", &customerTemp->customer.getLastLoginTime());
+        file << customerTemp->customer.getCustomerID() << ";" << customerTemp->customer.getUsername() << ";"
+			<< customerTemp->customer.getEmail() << ";" << customerTemp->customer.getPassword() << ";" 
+			<< formattedTime;
+		FavouriteNode* favouriteTemp = customerTemp->favourites;
+		while (favouriteTemp != nullptr) {
+			file << ";" << favouriteTemp->universityRank;
+			favouriteTemp = favouriteTemp->nextFavourite;
+		}
+		file << endl;
+		customerTemp = customerTemp->nextCustomer;
     }
 
     file.close();
+
+	system("pause");
 
     /* Feedback */
     file.open("Feedback.txt");
