@@ -1016,7 +1016,7 @@ void LinearSearch(string searchValue, FieldName field, string user)
         }
         else if (field == FieldName::RANK || field == FieldName::AR_RANK || field == FieldName::ER_RANK || field == FieldName::FSR_RANK || field == FieldName::CPF_RANK || 
             field == FieldName::IFR_RANK || field == FieldName::ISR_RANK || field == FieldName::IRN_RANK || field == FieldName::GER_RANK){
-            if(stoi(getFieldValue(current, field)) == stoi(searchValue)){
+            if(stoi(getFieldValue(current, field)) >= stoi(searchValue)){
                 result = current;
                 break;
             }
