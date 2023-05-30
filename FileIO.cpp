@@ -123,21 +123,25 @@ void readFile()
 
     /* Customer */
     file.open("Customer.txt");
-    string customerID, username, email, password;
-
+    string customerID, username, email, password, lastLoginTime;
     while (file.good())
     {
         getline(file, customerID, ';');
         getline(file, username, ';');
         getline(file, email, ';');
-        getline(file, password);
+        getline(file, password,';');
+		getline(file, lastLoginTime);
+
 
         if (customerID == "")
         {
             break;
         }
-        
-        customerList.insertEnd(customerID, username, email, password);
+		std::string format = "%d-%m-%Y";
+		std::tm timeStruct = {};
+		std::istringstream timeiss(lastLoginTime);
+		timeiss >> std::get_time(&timeStruct, format.c_str());
+        customerList.insertEnd(customerID, username, email, password, timeStruct);
     }
     file.close();
 

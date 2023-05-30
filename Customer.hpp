@@ -21,16 +21,16 @@ private:
     std::string username;
     std::string email;
     std::string password;
-    time_t lastLoginTime;
+    struct tm lastLoginTime;
 public:
     Customer();
-    Customer(std::string customerID, std::string username, std::string email , std::string password);
+    Customer(std::string customerID, std::string username, std::string email , std::string password, struct tm lastLoginTime);
     ~Customer();
     std::string getCustomerID();
     std::string getUsername();
     std::string getEmail();
     std::string getPassword();
-    time_t getLastLoginTime();
+    struct tm getLastLoginTime();
     void setCustomerID(std::string customerID);
     void setUsername(std::string username);
     void setEmail(std::string email);
@@ -54,8 +54,8 @@ private:
 public:
     CustomerList();
     ~CustomerList();
-    CustomerNode* createCustomerNode(std::string customerID, std::string username, std::string email, std::string password);
-    void insertEnd(std::string customerID, std::string username, std::string email, std::string password);
+    CustomerNode* createCustomerNode(std::string customerID, std::string username, std::string email, std::string password, struct tm lastLoginTime);
+    void insertEnd(std::string customerID, std::string username, std::string email, std::string password, struct tm lastLoginTime);
     std::string generateCustomerID();
     void deleteCustomer();
     void displayList();
@@ -76,6 +76,7 @@ public:
     void viewFeedbackReply(Customer customer, FeedbackNode* feedback);
     void sendFeedbackReply(FeedbackNode* feedback);
     void updateLastLoginTime();
+    void setHead(CustomerNode* customer);
 };
 
 #endif

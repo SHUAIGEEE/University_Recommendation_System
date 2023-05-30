@@ -16,7 +16,7 @@ Guest::~Guest()
 
 }
 
-bool Guest::registerAccount(string username, string email, string password)
+bool Guest::registerAccount(string username, string email, string password, time_t lastLoginTime)
 {
     //Check if username already exists
 	CustomerNode* temp = customerList.getHead();
@@ -34,8 +34,9 @@ bool Guest::registerAccount(string username, string email, string password)
         }
 	}
     string customerID = customerList.generateCustomerID();
-
-    customerList.insertEnd(customerID, username, email, password);
+    time_t rawTime = time(nullptr);
+    struct tm* loginTime = localtime(&rawTime);
+    customerList.insertEnd(customerID, username, email, password, *loginTime);
     return true;
 }
 

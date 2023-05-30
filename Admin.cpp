@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <iomanip>
 #include "Admin.hpp"
 #include "Customer.hpp"
 #include "Feedback.hpp"
@@ -132,7 +133,65 @@ void Admin::modifyCustomerDetails()
 
 void Admin::deleteCustomerAccount()
 {
+    string customerID;
+    cout << endl << "Customer that login 180 days ago: " << endl;
+    time_t currentTime = time(nullptr);
+    CustomerNode* current = customerList.getHead();
+    CustomerNode* previous = nullptr;
+
+	cout << string(105, '-') << endl;
+
+	cout << std::left << setw(18) << "Customer ID" << setw(20) << "Username"
+		<< setw(30) << "Email" << setw(20) << "Password" << setw(15) << "Last Logged in" << endl;
+
+    cout << string(105, '-') << endl;
     
+    while (current != nullptr)
+    {
+        struct tm loginTime = current->customer.getLastLoginTime();
+        time_t loginTimeT = mktime(&loginTime);
+
+        char formattedTime[50];
+        strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y", &current->customer.getLastLoginTime());
+
+        int elapsedDays = static_cast<int>((currentTime - loginTimeT) / (24 * 60 * 60));
+        if (elapsedDays >= 180)
+        {
+            cout << std::left << setw(18) << current->customer.getCustomerID() << setw(20) << current->customer.getUsername()
+                << setw(30) << current->customer.getEmail() << setw(20) << current->customer.getPassword() << setw(15) << formattedTime << endl;
+        }
+        current = current->nextCustomer;
+    }
+
+    cout << string(105, '-') << endl;
+
+    cout << endl << "List ends here!" << endl << endl;
+
+    current = customerList.getHead();
+    previous = nullptr;
+
+    cout << "Please enter customer ID to delete: ";
+    cin >> customerID;
+    while (current != nullptr)
+    {
+        if (current->customer.getCustomerID() == customerID)
+        {
+            if (previous == nullptr)
+            {
+                customerList.setHead(current->nextCustomer);
+            }
+            else
+            {
+                previous->nextCustomer = current->nextCustomer;
+            }
+            delete current;
+            cout << "User with customerID " << customerID << " has been deleted." << endl;
+            return;
+        }
+        previous = current;
+        current = current->nextCustomer;
+    }
+    cout << "User with customerID " << customerID << " not found." << endl;
 }
 
 void Admin::viewAllFeedbacks()
@@ -229,23 +288,4 @@ void Admin::replyToFeedback(FeedbackNode* feedback)
 void Admin::generateReport()
 {
 
-}
-
-void Admin::displayLastLogin()
-{
-    time_t currentTime = time(nullptr);
-    CustomerNode* current = customerList.getHead();
-    CustomerNode* previous = nullptr;
-
-    while (current != nullptr)
-    {
-        int elapsedDays = static_cast<int>((currentTime - current->customer.getLastLoginTime()) / (24 * 60 * 60));
-        if (elapsedDays >= 180)
-        {
-            cout << current->customer.getCustomerID() << " - " << current->customer.getUsername()
-                << " - " << current->customer.getEmail() << " - " << current->customer.getPassword() << endl;
-            current = current->nextCustomer;
-        }
-    }
-    cout << endl << "List is ended here!" << endl << endl;
 }

@@ -184,9 +184,8 @@ void adminMenu()
         else if (option == 6)
         {
             cout << "Delete Customer Account" << endl;
-            admin.displayLastLogin();
+            admin.deleteCustomerAccount();
             system("pause");
-            // admin.deleteCustomerAccount();
         }
         else if (option == 7)
         {
@@ -351,11 +350,15 @@ void guestRegister()
     string username;
     string email;
     string password;
+    time_t rawTime = time(nullptr);
+    struct tm* lastLoginTime = localtime(&rawTime);
+    time_t lastLoginTimeValue = mktime(lastLoginTime);
+
 
     readUsernameAndPassword(&username, &password, "Unique Customer");
     readEmail(&email);
 
-    if (guest.registerAccount(username, email, password))
+    if (guest.registerAccount(username, email, password, lastLoginTimeValue))
     {
         cout << "Registration successful!" << endl;
         cout << "You can login your account from main menu now!" << endl;
@@ -401,7 +404,7 @@ int readInteger(int min, int max)
 
 void readUsernameAndPassword(string* username, string* password, string message)
 {
-    cout << message << " Usernanme: ";
+    cout << message << " Username: ";
     cin >> *username;
     cout << "Password: ";
     cin >> *password;

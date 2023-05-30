@@ -7,6 +7,7 @@
 #include "Utilities.hpp"
 #include <sstream>
 #include <ctime>
+#include <iomanip>
 
 
 using namespace std;
@@ -15,7 +16,7 @@ Customer::Customer()
 {
 }
 
-Customer::Customer(string customerID, string username, string email, string password, time_t lastLoginTime)
+Customer::Customer(string customerID, string username, string email, string password, struct tm lastLoginTime)
 {
     this->customerID = customerID;
     this->username = username;
@@ -48,9 +49,9 @@ string Customer::getPassword()
     return this->password;
 }
 
-time_t Customer::getLastLoginTime() const
+struct tm Customer::getLastLoginTime()
 {
-    return lastLoginTime;
+    return this->lastLoginTime;
 }
 
 void Customer::setCustomerID(string customerID)
@@ -81,7 +82,7 @@ CustomerList::~CustomerList()
 {
 }
 
-CustomerNode* CustomerList::createCustomerNode(string customerID, string username, string email, string password, time_t lastLoginTime)
+CustomerNode* CustomerList::createCustomerNode(string customerID, string username, string email, string password, struct tm lastLoginTime)
 {
     CustomerNode * newNode = new CustomerNode;
 
@@ -92,7 +93,7 @@ CustomerNode* CustomerList::createCustomerNode(string customerID, string usernam
     return newNode;
 }
 
-void CustomerList::insertEnd(string customerID, string username, string email, string password, time_t lastLoginTime)
+void CustomerList::insertEnd(string customerID, string username, string email, string password, struct tm lastLoginTime)
 {
     CustomerNode* newNode = createCustomerNode(customerID, username, email, password, lastLoginTime);
 
@@ -129,15 +130,23 @@ void CustomerList::deleteCustomer()
 void CustomerList::displayList()
 {
 	CustomerNode* temp = head;
+    cout << string(105, '-') << endl;
+
+    cout << std::left << setw(18) << "Customer ID" << setw(20) << "Username"
+        << setw(30) << "Email" << setw(20) << "Password" << setw(15) << "Last Logged in" << endl;
+
+    cout << string(105, '-') << endl;
 
 	while (temp != nullptr)
 	{
-		cout << temp->customer.getCustomerID() << " - " << temp->customer.getUsername()
-        << " - " << temp->customer.getEmail() << " - " << temp->customer.getPassword() << endl;
+        char formattedTime[50];
+        strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y", &temp->customer.getLastLoginTime());
+        cout << std::left << setw(18) << temp->customer.getCustomerID() << setw(20) << temp->customer.getUsername()
+            << setw(30) << temp->customer.getEmail() << setw(20) << temp->customer.getPassword() << setw(15) << formattedTime << endl;
 		temp = temp->nextCustomer;
 	}
 
-	cout << endl << "List is ended here!" << endl << endl;
+	cout << endl << "List ends here!" << endl << endl;
 }
 
 CustomerNode* CustomerList::getHead()
@@ -349,6 +358,15 @@ void CustomerList::sendFeedbackReply(FeedbackNode* feedback)
 
 void CustomerList::updateLastLoginTime()
 {
-    lastLoginTime = time(nullptr);
+    time_t lastLoginTime = time(nullptr);
+}
+
+void CustomerList::setHead(CustomerNode* customer)
+{
+    if (customer == nullptr) {
+        return;
+    }
+
+    head = customer;
 }
 

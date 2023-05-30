@@ -24,7 +24,6 @@ public:
     void viewSelectedFeedback(FeedbackNode* feedback);
     void replyToFeedback(FeedbackNode* feedback);
     void generateReport();
-    void displayLastLogin();
     //TODO: Add search and sort and display university
 };
 
