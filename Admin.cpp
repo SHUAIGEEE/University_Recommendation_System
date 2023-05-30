@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
+#include <iomanip>
 #include "Admin.hpp"
+#include "Customer.hpp"
 #include "Feedback.hpp"
 #include "Shared_Variables.hpp"
 #include "Utilities.hpp"
@@ -47,14 +49,149 @@ void Admin::searchUniversities()
 
 void Admin::displayCustomerDetails()
 {
+    customerList.displayList();
 }
 
-void Admin::modifyCustomerDetails(string customerID)
+void Admin::modifyCustomerDetails()
 {
+    CustomerNode* temp = customerList.getHead();
+    string customerID;
+    string newUsername;
+    string newPassword;
+    string newEmail;
+    cout << endl << "Please enter customerID : ";
+    cin >> customerID;
+
+    cout << "1. Modify username" << endl;
+    cout << "2. Modify password" << endl;
+    cout << "3. Modify email" << endl;
+    cout << "4. Back" << endl;
+    int modifyCustomerOption = readInteger(1,4);
+    if (modifyCustomerOption == 1)
+    {
+        cout << "Please enter the new username: " << endl;
+        cin >> newUsername;
+        while (temp != NULL)
+        {
+            if (temp->customer.getCustomerID() == customerID)
+            {
+                temp->customer.setUsername(newUsername);
+                cout << "Username modified successfully!" << endl;
+                break;
+            }
+            temp = temp->nextCustomer;
+        }
+        if (temp == NULL)
+        {
+            cout << "Customer ID not found!" << endl;
+        }
+        
+    }
+    else if (modifyCustomerOption == 2)
+    {
+        cout << "Please enter the new password: " << endl;
+        cin >> newPassword;
+        while (temp != NULL)
+        {
+            if (temp->customer.getCustomerID() == customerID)
+            {
+                temp->customer.setPassword(newPassword);
+                cout << "Password modified successfully!" << endl;
+                break;
+            }
+            temp = temp->nextCustomer;
+        }
+        if (temp == NULL)
+        {
+            cout << "Customer ID not found!" << endl;
+        }
+    }
+    else if (modifyCustomerOption == 3)
+    {
+        cout << "Please enter the new email: " << endl;
+        cin >> newEmail;
+        while (temp != NULL)
+        {
+            if (temp->customer.getCustomerID() == customerID)
+            {
+                temp->customer.setEmail(newEmail);
+                cout << "Email modified successfully!" << endl;
+                break;
+            }
+            temp = temp->nextCustomer;
+        }
+        if (temp == NULL)
+        {
+            cout << "Customer ID not found!" << endl;
+        }
+    }
+    else if (modifyCustomerOption == 4)
+    {
+        return;
+    }
 }
 
-void Admin::deleteCustomerAccount(string customerID)
+void Admin::deleteCustomerAccount()
 {
+    string customerID;
+    cout << endl << "Customer that login 180 days ago: " << endl;
+    time_t currentTime = time(nullptr);
+    CustomerNode* current = customerList.getHead();
+    CustomerNode* previous = nullptr;
+
+	cout << string(105, '-') << endl;
+
+	cout << std::left << setw(18) << "Customer ID" << setw(20) << "Username"
+		<< setw(30) << "Email" << setw(20) << "Password" << setw(15) << "Last Logged in" << endl;
+
+    cout << string(105, '-') << endl;
+    
+    while (current != nullptr)
+    {
+        struct tm loginTime = current->customer.getLastLoginTime();
+        time_t loginTimeT = mktime(&loginTime);
+
+        char formattedTime[50];
+        strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y", &current->customer.getLastLoginTime());
+
+        int elapsedDays = static_cast<int>((currentTime - loginTimeT) / (24 * 60 * 60));
+        if (elapsedDays >= 180)
+        {
+            cout << std::left << setw(18) << current->customer.getCustomerID() << setw(20) << current->customer.getUsername()
+                << setw(30) << current->customer.getEmail() << setw(20) << current->customer.getPassword() << setw(15) << formattedTime << endl;
+        }
+        current = current->nextCustomer;
+    }
+
+    cout << string(105, '-') << endl;
+
+    cout << endl << "List ends here!" << endl << endl;
+
+    current = customerList.getHead();
+    previous = nullptr;
+
+    cout << "Please enter customer ID to delete: ";
+    cin >> customerID;
+    while (current != nullptr)
+    {
+        if (current->customer.getCustomerID() == customerID)
+        {
+            if (previous == nullptr)
+            {
+                customerList.setHead(current->nextCustomer);
+            }
+            else
+            {
+                previous->nextCustomer = current->nextCustomer;
+            }
+            delete current;
+            cout << "User with customerID " << customerID << " has been deleted." << endl;
+            return;
+        }
+        previous = current;
+        current = current->nextCustomer;
+    }
+    cout << "User with customerID " << customerID << " not found." << endl;
 }
 
 void Admin::viewAllFeedbacks()
