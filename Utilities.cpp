@@ -159,6 +159,7 @@ void adminMenu()
 
         if (option == 1)
         {
+            // SORT RANK ASCENDING
             admin.displayUniversity();
             system("pause");
         }
@@ -250,6 +251,7 @@ void customerMenu()
 
         if (option == 1)
         {
+            //SORT RANK ASCENDING
             customerList.displayUniversity();
         }
         else if (option == 2)
@@ -308,6 +310,7 @@ void guestMenu()
 
         if (option == 1)
         {
+            //SORT RANK ASCENDING
             guest.displayUniversity();
             system("pause");
         }
@@ -698,37 +701,53 @@ template bool compareFieldDesc<FieldName::GER_RANK>(UniversityNode* a, Universit
 /* LINEAR SEARCH */
 FieldName getSearchField() {
 
-    int fieldNum = -1;
-    while (fieldNum < 1 || fieldNum > 11) {
-        cout << endl;
-        cout << "1.  Institution Name" << endl;
-        cout << "2.  Location" << endl;
-        cout << "3.  Rank" << endl;
-        cout << "4.  AR Rank" << endl;
-        cout << "5.  ER Rank" << endl;
-        cout << "6.  FSR Rank" << endl;
-        cout << "7.  CPF Rank" << endl;
-        cout << "8.  IFR Rank" << endl;
-        cout << "9.  ISR Rank" << endl;
-        cout << "10. IRN Rank" << endl;
-        cout << "11. GER Rank" << endl;
-        cout << "Please select searching field: ";
-        cin >> fieldNum;
-        cin.ignore();
-    }
+    int fieldNum;
+    cout << endl;
+    cout << "1.  Institution Name" << endl;
+    cout << "2.  Location" << endl;
+    cout << "3.  Rank" << endl;
+    cout << "4.  AR Rank" << endl;
+    cout << "5.  AR Score" << endl;
+    cout << "6.  ER Rank" << endl;
+    cout << "7.  ER Score" << endl;
+    cout << "8.  FSR Rank" << endl;
+    cout << "9.  FSR Score" << endl;
+    cout << "10. CPF Rank" << endl;
+    cout << "11. CPF Score" << endl;
+    cout << "12. IFR Rank" << endl;
+    cout << "13. IFR Score" << endl;
+    cout << "14. ISR Rank" << endl;
+    cout << "15. ISR Score" << endl;
+    cout << "16. IRN Rank" << endl;
+    cout << "17. IRN Score" << endl;
+    cout << "18. GER Rank" << endl;
+    cout << "19. GER Score" << endl;
+    cout << "20. Score Scaled" << endl;
+    cout << "Please select searching field: ";
+    fieldNum = readInteger(1, 20);
+    cin.ignore();
 
     switch (fieldNum) {
     case 1: return FieldName::INSTITUTION_NAME; break;
     case 2: return FieldName::LOCATION; break;
     case 3: return FieldName::RANK; break;
     case 4: return FieldName::AR_RANK; break;
-    case 5: return FieldName::ER_RANK; break;
-    case 6: return FieldName::FSR_RANK; break;
-    case 7: return FieldName::CPF_RANK; break;
-    case 8: return FieldName::IFR_RANK; break;
-    case 9: return FieldName::ISR_RANK; break;
-    case 10: return FieldName::IRN_RANK; break;
-    case 11: return FieldName::GER_RANK; break;
+    case 5: return FieldName::AR_SCORE; break;
+    case 6: return FieldName::ER_RANK; break;
+    case 7: return FieldName::ER_SCORE; break;
+    case 8: return FieldName::FSR_RANK; break;
+    case 9: return FieldName::FSR_SCORE; break;
+    case 10: return FieldName::CPF_RANK; break;
+    case 11: return FieldName::CPF_SCORE; break;
+    case 12: return FieldName::IFR_RANK; break;
+    case 13: return FieldName::IFR_SCORE; break;
+    case 14: return FieldName::ISR_RANK; break;
+    case 15: return FieldName::ISR_SCORE; break;
+    case 16: return FieldName::IRN_RANK; break;
+    case 17: return FieldName::IRN_SCORE; break;
+    case 18: return FieldName::GER_RANK; break;
+    case 19: return FieldName::GER_SCORE; break;
+    case 20: return FieldName::SCORE_SCALED; break;
     }
 }
 
@@ -742,20 +761,38 @@ string getFieldValue(UniversityNode* node, FieldName field) {
         return to_string(node->rank);
     case FieldName::AR_RANK:
         return node->arRank;
+    case FieldName::AR_SCORE:
+        return to_string(node->arScore);
     case FieldName::ER_RANK:
         return node->erRank;
+    case FieldName::ER_SCORE:
+        return to_string(node->erScore);
     case FieldName::FSR_RANK:
         return node->fsrRank;
+    case FieldName::FSR_SCORE:
+        return to_string(node->fsrScore);
     case FieldName::CPF_RANK:
         return node->cpfRank;
+    case FieldName::CPF_SCORE:
+        return to_string(node->cpfScore);
     case FieldName::IFR_RANK:
         return node->ifrRank;
+    case FieldName::IFR_SCORE:
+        return to_string(node->ifrScore);
     case FieldName::ISR_RANK:
         return node->isrRank;
+    case FieldName::ISR_SCORE:
+        return to_string(node->isrScore);
     case FieldName::IRN_RANK:
         return node->irnRank;
+    case FieldName::IRN_SCORE:
+        return to_string(node->irnScore);
     case FieldName::GER_RANK:
         return node->gerRank;
+    case FieldName::GER_SCORE:
+        return to_string(node->gerScore);
+    case FieldName::SCORE_SCALED:
+        return to_string(node->scoreScaled);
     default:
         break;
     }
@@ -775,6 +812,8 @@ void linearSearch(string searchValue, FieldName field, string user)
     auto start = high_resolution_clock::now();
 
     UniversityNode* current = uniList.getHead();
+    UniversityNode* result;
+
     while (current != NULL) {
 
         if (field == FieldName::INSTITUTION_NAME || field == FieldName::LOCATION) {
@@ -784,8 +823,16 @@ void linearSearch(string searchValue, FieldName field, string user)
                     current->arRank, current->erRank, current->fsrRank, current->cpfRank, current->ifrRank, current->isrRank, current->irnRank, current->gerRank);
             }
         }
-        else{
+        else if (field == FieldName::RANK || field == FieldName::AR_RANK || field == FieldName::ER_RANK || field == FieldName::FSR_RANK || field == FieldName::CPF_RANK || 
+            field == FieldName::IFR_RANK || field == FieldName::ISR_RANK || field == FieldName::IRN_RANK || field == FieldName::GER_RANK){
             if(stoi(getFieldValue(current, field)) == stoi(searchValue)){
+                result = current;
+                break;
+            }
+        }
+        else {
+            if (stod(getFieldValue(current, field)) >= stod(searchValue)) {
+                result = current;
                 break;
             }
         }
@@ -799,7 +846,7 @@ void linearSearch(string searchValue, FieldName field, string user)
     cout << "Time taken by linear search algorithm: ";
     cout << duration.count() << " microseconds." << endl;
 
-    if (searchResult.getSize() == 0) {
+    if (searchResult.getSize() == 0 && result == nullptr) {
         cout << endl << "No match found!" << endl << endl;
         if (user == "Guest") {
             system("pause");
@@ -808,14 +855,18 @@ void linearSearch(string searchValue, FieldName field, string user)
     }
 
     cout << endl;
-    cout << searchResult.getSize() << " Result(s) Found!" << endl;
+    cout << "Result(s) Found!" << endl;
     cout << "Continue to View Search Result for \"" << searchValue << "\"..." << endl;
 
     if (field == FieldName::INSTITUTION_NAME || field == FieldName::LOCATION) {
         searchResult.displayList(searchResult.getHead(), -1, user);
     }
     else {
-        //SORT BASED ON FIELD IN DESCENDING
+        if (field == FieldName::AR_SCORE || field == FieldName::ER_SCORE || field == FieldName::FSR_SCORE || field == FieldName::CPF_SCORE ||
+            field == FieldName::IFR_SCORE || field == FieldName::ISR_SCORE || field == FieldName::IRN_SCORE || field == FieldName::GER_SCORE || field == FieldName::SCORE_SCALED) {
+            
+            //SORT BASED ON FIELD IN DESCENDING
+        }
         uniList.displayList(current, -1, user);
     }
 
@@ -836,35 +887,57 @@ void exponentialSearch(string searchValue, FieldName field, string user) {
 
     system("cls");
 
-    if (field == FieldName::INSTITUTION_NAME || field == FieldName::LOCATION) {
-        //SORT RANK ASCENDING
-    }
-    else {
-        //SORT BASED ON FIELD IN ASCENDING
-    }
+    //SORT BASED ON FIELD IN ASCENDING
 
     auto start = high_resolution_clock::now();
 
     UniversityNode* result;
 
-    if (getFieldValue(uniList.getHead(), field) == searchValue)
-        result = uniList.getHead();
+    if (field == FieldName::RANK || field == FieldName::AR_RANK || field == FieldName::ER_RANK || field == FieldName::FSR_RANK || field == FieldName::CPF_RANK ||
+        field == FieldName::IFR_RANK || field == FieldName::ISR_RANK || field == FieldName::IRN_RANK || field == FieldName::GER_RANK) {
+        if (stoi(getFieldValue(uniList.getHead(), field)) == stoi(searchValue)) {
+            result = uniList.getHead();
+        }
+    }
+    else {
+        if (stod(getFieldValue(uniList.getHead(), field)) == stod(searchValue)) {
+            result = uniList.getHead();
+        }
+    }
+    
 
     UniversityNode* upper = uniList.getHead()->nextUniversity;
     UniversityNode* lower = uniList.getHead()->nextUniversity;
     int bound = 1;
-    while (bound < uniList.getSize() && stoi(getFieldValue(upper, field)) <= stoi(searchValue)) {
-        cout << getFieldValue(upper, field) << ":" << bound << endl;
-        lower = upper;
-        for (int k = bound; k < bound * 2; k++) {
-            if (upper->nextUniversity != nullptr) {
-                upper = upper->nextUniversity;
+
+    if (field == FieldName::RANK || field == FieldName::AR_RANK || field == FieldName::ER_RANK || field == FieldName::FSR_RANK || field == FieldName::CPF_RANK ||
+        field == FieldName::IFR_RANK || field == FieldName::ISR_RANK || field == FieldName::IRN_RANK || field == FieldName::GER_RANK) {
+        while (bound < uniList.getSize() && stoi(getFieldValue(upper, field)) <= stoi(searchValue)) {
+            lower = upper;
+            for (int k = bound; k < bound * 2; k++) {
+                if (upper->nextUniversity != nullptr) {
+                    upper = upper->nextUniversity;
+                }
+                else {
+                    break;
+                }
             }
-            else {
-                break;
-            }
+            bound = bound * 2;
         }
-        bound = bound * 2;
+    }
+    else {
+        while (bound < uniList.getSize() && stod(getFieldValue(upper, field)) <= stod(searchValue)) {
+            lower = upper;
+            for (int k = bound; k < bound * 2; k++) {
+                if (upper->nextUniversity != nullptr) {
+                    upper = upper->nextUniversity;
+                }
+                else {
+                    break;
+                }
+            }
+            bound = bound * 2;
+        }
     }
 
     result = binarySearch(lower, upper, field, searchValue);
@@ -872,7 +945,7 @@ void exponentialSearch(string searchValue, FieldName field, string user) {
     auto stop = high_resolution_clock::now();
 
     auto duration = duration_cast<microseconds>(stop - start);
-    cout << "Time taken by linear search algorithm: ";
+    cout << "Time taken by exponential search algorithm: ";
     cout << duration.count() << " microseconds." << endl;
 
     if (result == nullptr) {
@@ -882,8 +955,15 @@ void exponentialSearch(string searchValue, FieldName field, string user) {
     }
 
     cout << endl;
+    cout << "Result(s) Found!" << endl;
     cout << "Continue to View Search Result for \"" << searchValue << "\"..." << endl;
-    //SORT BASED ON FIELD IN DESCENDING
+
+    if (field == FieldName::AR_SCORE || field == FieldName::ER_SCORE || field == FieldName::FSR_SCORE || field == FieldName::CPF_SCORE ||
+        field == FieldName::IFR_SCORE || field == FieldName::ISR_SCORE || field == FieldName::IRN_SCORE || field == FieldName::GER_SCORE || field == FieldName::SCORE_SCALED) {
+
+        //SORT BASED ON FIELD IN DESCENDING
+    }
+
     uniList.displayList(result, -1, user);
 }
 
@@ -891,18 +971,73 @@ UniversityNode* binarySearch(UniversityNode* lowerNode, UniversityNode* upperNod
 {
 
     UniversityNode* middleNode;
+    UniversityNode* temp = uniList.getHead();
 
     if (lowerNode != nullptr && upperNode != nullptr) {
-        middleNode = uniList.getUniversity((upperNode->rank + lowerNode->rank) / 2);
 
-        cout << lowerNode->rank << ":" << middleNode->rank << ":" << upperNode->rank << endl;
-        
-        if (stoi(getFieldValue(middleNode, field)) == stoi(searchValue)) {
-            return middleNode;
+        int upperIndex = 1;
+
+        while (temp != upperNode) {
+            temp = temp->nextUniversity;
+            upperIndex++;
         }
 
-        if (stoi(getFieldValue(middleNode, field)) > stoi(searchValue)) {
-            return binarySearch(lowerNode, uniList.getUniversity(middleNode->rank - 1), field, searchValue);
+        temp = uniList.getHead();
+
+        int lowerIndex = 1;
+
+        while (temp != lowerNode) {
+            temp = temp->nextUniversity;
+            lowerIndex++;
+        }
+
+        middleNode = uniList.getUniversity((lowerIndex + upperIndex) / 2);
+
+        temp = uniList.getHead();
+
+        int middleIndex = 1;
+        
+        while (temp != middleNode) {
+            temp = temp->nextUniversity;
+            middleIndex++;
+        }
+        
+
+        if (field == FieldName::RANK || field == FieldName::AR_RANK || field == FieldName::ER_RANK || field == FieldName::FSR_RANK || field == FieldName::CPF_RANK ||
+            field == FieldName::IFR_RANK || field == FieldName::ISR_RANK || field == FieldName::IRN_RANK || field == FieldName::GER_RANK) {
+
+            if (stoi(getFieldValue(middleNode, field)) == stoi(searchValue)) {
+                return middleNode;
+            }
+
+            if (stoi(getFieldValue(middleNode, field)) > stoi(searchValue)) {
+                return binarySearch(lowerNode, uniList.getUniversity(middleIndex - 1), field, searchValue);
+            }
+
+            if (stoi(getFieldValue(upperNode, field)) < stoi(searchValue)) {
+                return uniList.getUniversity(upperIndex + 1);
+            }
+
+            if (stoi(getFieldValue(lowerNode, field)) > stoi(searchValue)) {
+                return uniList.getUniversity(lowerIndex - 2);
+            }
+        }
+        else {          
+            if (stod(getFieldValue(middleNode, field)) == stod(searchValue)) {
+                return middleNode;
+            }
+
+            if (stod(getFieldValue(middleNode, field)) > stod(searchValue)) {
+                return binarySearch(lowerNode, uniList.getUniversity(middleIndex - 1), field, searchValue);
+            }
+
+            if (stod(getFieldValue(upperNode, field)) < stod(searchValue)) {
+                return uniList.getUniversity(upperIndex + 1);
+            }
+
+            if (stod(getFieldValue(lowerNode, field)) > stod(searchValue)) {
+                return uniList.getUniversity(lowerIndex - 2);
+            }
         }
 
         return binarySearch(middleNode->nextUniversity, upperNode, field, searchValue);

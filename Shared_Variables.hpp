@@ -33,7 +33,16 @@ enum class FieldName
     IFR_RANK,
     ISR_RANK,
     IRN_RANK,
-    GER_RANK
+    GER_RANK,
+    AR_SCORE,
+    ER_SCORE,
+    FSR_SCORE,
+    CPF_SCORE,
+    IFR_SCORE,
+    ISR_SCORE,
+    IRN_SCORE,
+    GER_SCORE,
+    SCORE_SCALED
 };
 
 #endif
