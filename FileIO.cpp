@@ -203,8 +203,9 @@ void writeFile()
 
     while (customerTemp != nullptr)
     {
+        struct tm loginTime = customerTemp->customer.getLastLoginTime();
 		char formattedTime[50];
-		strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y", &customerTemp->customer.getLastLoginTime());
+		strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y", &loginTime);
         file << customerTemp->customer.getCustomerID() << ";" << customerTemp->customer.getUsername() << ";"
 			<< customerTemp->customer.getEmail() << ";" << customerTemp->customer.getPassword() << ";" 
 			<< formattedTime;

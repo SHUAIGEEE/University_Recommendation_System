@@ -168,26 +168,6 @@ void UniversityList::searchUniversities(FieldName field, string user)
 
 void UniversityList::displayUniversity(UniversityNode* university, string user) {
     system("cls");
-    // cout << setw(18) << "Rank: " << university->rank << endl;
-    // cout << setw(18) << "Institution Name: " << university->institutionName << endl;
-    // cout << setw(18) << "Location Code: " << university->locationCode << endl;
-    // cout << setw(18) << "Location: " << university->location << endl;
-    // cout << setw(18) << "erRank: " << university->erRank << endl;
-    // cout << setw(18) << "erScore: " << university->erScore << endl;
-    // cout << setw(18) << "fsrRank: " << university->fsrRank << endl;
-    // cout << setw(18) << "fsrScore: " << university->fsrScore << endl;
-    // cout << setw(18) << "cpfRank: " << university->cpfRank << endl;
-    // cout << setw(18) << "cpfScore: " << university->cpfScore << endl;
-    // cout << setw(18) << "ifrRank: " << university->ifrRank << endl;
-    // cout << setw(18) << "ifrScore: " << university->ifrScore << endl;
-    // cout << setw(18) << "isrRank: " << university->isrRank << endl;
-    // cout << setw(18) << "isrScore: " << university->isrScore << endl;
-    // cout << setw(18) << "irnRank: " << university->irnRank << endl;
-    // cout << setw(18) << "irnScore: " << university->irnScore << endl;
-    // cout << setw(18) << "gerRank: " << university->gerRank << endl;
-    // cout << setw(18) << "gerScore: " << university->gerScore << endl;
-    // cout << setw(18) << "scoreScaled: " << university->scoreScaled << endl;
-    // cout << endl;
 
     int maxLength = university->institutionName.length() + 50;
 
