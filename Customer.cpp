@@ -234,7 +234,7 @@ void CustomerList::viewAllFeedbacks(Customer customer) {
     FeedbackNode* current = feedbackList.getHead();
     int* feedbackIndeces = new int(feedbackList.getSize());
     int index = 0;
-    int loopIndex = 0;
+    int loopIndex = 1;
     while (current != nullptr) {
         if (current->customerID == customer.getCustomerID()) {
             feedbackIndeces[index] = loopIndex;

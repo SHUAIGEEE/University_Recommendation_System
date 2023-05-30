@@ -59,6 +59,7 @@ void Admin::deleteCustomerAccount(string customerID)
 
 void Admin::viewAllFeedbacks()
 {
+    system("cls");
     feedbackList.displayList();
     FeedbackNode* current = feedbackList.getHead();
     cout << "Please select a feedback to view (Press 0 to go back): ";
