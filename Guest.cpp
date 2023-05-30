@@ -48,6 +48,7 @@ void Guest::displayUniversity()
 void Guest::sortUniversityByName()
 {
     uniList.sortByName();
+    uniList.displayList(uniList.getHead(), -1, "Guest");
 }
 
 void Guest::searchUniversityByName()

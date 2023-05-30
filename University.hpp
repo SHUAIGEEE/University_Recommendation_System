@@ -14,12 +14,11 @@ struct UniversityNode
 
 class UniversityList
 {
-private:
+public:
     UniversityNode* head = nullptr;
     UniversityNode* tail = nullptr;
     int size = 0;
 
-public:
     UniversityList();
     ~UniversityList();
     UniversityNode * createUniversityNode(std::string rank, std::string arScore, std::string erScore, std::string fsrScore, std::string cpfScore, std::string ifrScore,

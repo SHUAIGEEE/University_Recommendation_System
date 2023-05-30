@@ -164,26 +164,48 @@ void UniversityList::searchUniversities(FieldName field, string user)
 
 void UniversityList::displayUniversity(UniversityNode* university, string user) {
     system("cls");
-    cout << setw(18) << "Rank: " << university->rank << endl;
-    cout << setw(18) << "Institution Name: " << university->institutionName << endl;
-    cout << setw(18) << "Location Code: " << university->locationCode << endl;
-    cout << setw(18) << "Location: " << university->location << endl;
-    cout << setw(18) << "erRank: " << university->erRank << endl;
-    cout << setw(18) << "erScore: " << university->erScore << endl;
-    cout << setw(18) << "fsrRank: " << university->fsrRank << endl;
-    cout << setw(18) << "fsrScore: " << university->fsrScore << endl;
-    cout << setw(18) << "cpfRank: " << university->cpfRank << endl;
-    cout << setw(18) << "cpfScore: " << university->cpfScore << endl;
-    cout << setw(18) << "ifrRank: " << university->ifrRank << endl;
-    cout << setw(18) << "ifrScore: " << university->ifrScore << endl;
-    cout << setw(18) << "isrRank: " << university->isrRank << endl;
-    cout << setw(18) << "isrScore: " << university->isrScore << endl;
-    cout << setw(18) << "irnRank: " << university->irnRank << endl;
-    cout << setw(18) << "irnScore: " << university->irnScore << endl;
-    cout << setw(18) << "gerRank: " << university->gerRank << endl;
-    cout << setw(18) << "gerScore: " << university->gerScore << endl;
-    cout << setw(18) << "scoreScaled: " << university->scoreScaled << endl;
-    cout << endl;
+    // cout << setw(18) << "Rank: " << university->rank << endl;
+    // cout << setw(18) << "Institution Name: " << university->institutionName << endl;
+    // cout << setw(18) << "Location Code: " << university->locationCode << endl;
+    // cout << setw(18) << "Location: " << university->location << endl;
+    // cout << setw(18) << "erRank: " << university->erRank << endl;
+    // cout << setw(18) << "erScore: " << university->erScore << endl;
+    // cout << setw(18) << "fsrRank: " << university->fsrRank << endl;
+    // cout << setw(18) << "fsrScore: " << university->fsrScore << endl;
+    // cout << setw(18) << "cpfRank: " << university->cpfRank << endl;
+    // cout << setw(18) << "cpfScore: " << university->cpfScore << endl;
+    // cout << setw(18) << "ifrRank: " << university->ifrRank << endl;
+    // cout << setw(18) << "ifrScore: " << university->ifrScore << endl;
+    // cout << setw(18) << "isrRank: " << university->isrRank << endl;
+    // cout << setw(18) << "isrScore: " << university->isrScore << endl;
+    // cout << setw(18) << "irnRank: " << university->irnRank << endl;
+    // cout << setw(18) << "irnScore: " << university->irnScore << endl;
+    // cout << setw(18) << "gerRank: " << university->gerRank << endl;
+    // cout << setw(18) << "gerScore: " << university->gerScore << endl;
+    // cout << setw(18) << "scoreScaled: " << university->scoreScaled << endl;
+    // cout << endl;
+
+    int maxLength = university->institutionName.length() + 50;
+
+    string line(maxLength, '=');
+
+    cout << line << endl;
+    cout << string((maxLength / 2) + 1 - (11 / 2), ' ') << "University" << string((maxLength / 2) - (11 / 2), ' ') << endl;
+    cout << line << endl;
+    cout << " Rank:               |   " << university->rank << endl;
+    cout << " Institution Name:   |   " << university->institutionName << endl;
+    cout << " Location:           |   " << university->location << endl;
+    cout << line << endl;
+    cout << "   - AR Rank:        |   " << setw(6) << university->arRank << setw(6) << "   - AR Score:       |   " << university->arScore << endl;
+    cout << "   - ER Rank:        |   " << setw(6) << university->erRank << setw(6) << "   - ER Score:       |   " << university->erScore << endl;
+    cout << "   - FSR Rank:       |   " << setw(6) << university->fsrRank << setw(6) << "   - FSR Score:      |   " << university->fsrScore << endl;
+    cout << "   - CPF Rank:       |   " << setw(6) << university->cpfRank << setw(6) << "   - CPF Score:      |   " << university->cpfScore << endl;
+    cout << "   - IFR Rank:       |   " << setw(6) << university->ifrRank << setw(6) << "   - IFR Score:      |   " << university->ifrScore << endl;
+    cout << "   - ISR Rank:       |   " << setw(6) << university->isrRank << setw(6) << "   - ISR Score:      |   " << university->isrScore << endl;
+    cout << "   - IRN Rank:       |   " << setw(6) << university->irnRank << setw(6) << "   - IRN Score:      |   " << university->irnScore << endl;
+    cout << "   - GER Rank:       |   " << setw(6) << university->gerRank << setw(6) << "   - GER Score:      |   " << university->gerScore << endl;
+    cout << "   - FSR Score:      |   " << university->fsrScore << endl;
+    cout << line << endl;
 
     int option;
     if (user == "Customer") {
@@ -248,12 +270,12 @@ void UniversityList::displayList(UniversityNode* firstNode, int viewMode, string
     cout << string(maxNameLength + maxLocationLength + 98, '-') << endl;
 
     if (selectedViewMode == 1) {
-        cout << std::left << setw(6) << "Rank" << setw(maxNameLength) << "Institution Name" << setw(maxLocationLength) << "Location" <<
+        cout << left << setw(6) << "Rank" << setw(maxNameLength) << "Institution Name" << setw(maxLocationLength) << "Location" <<
             setw(10) << "ArRank" << setw(10) << "ErRank" << setw(10) << "FsrRank" << setw(10) << "CpfRank" << setw(10) << "IfrRank" << setw(10) << "IsrRank" << 
             setw(10) << "IrnRank" << setw(10) << "GerRank" << setw(13) << "ScoreScaled" << endl;
     }
     else {
-        cout << std::left << setw(6) << "Rank" << setw(maxNameLength) << "Institution Name" << setw(maxLocationLength) << "Location" <<
+        cout << left << setw(6) << "Rank" << setw(maxNameLength) << "Institution Name" << setw(maxLocationLength) << "Location" <<
             setw(10) << "ArScore" << setw(10) << "ErScore" << setw(10) << "FsrScore" << setw(10) << "CpfScore" << setw(10) << "IfrScore" << setw(10) << "IsrScore" <<
             setw(10) << "IrnScore" << setw(10) << "GerScore" << setw(13) << "ScoreScaled" << endl;
     }
@@ -267,7 +289,7 @@ void UniversityList::displayList(UniversityNode* firstNode, int viewMode, string
     if (selectedViewMode == 1) {
         while (index < 25 && temp != nullptr)
         {
-            cout << std::left << setw(6) << temp->rank << setw(maxNameLength + setWidth(temp->institutionName)) << temp->institutionName << setw(maxLocationLength) << temp->location <<
+            cout << left << setw(6) << temp->rank << setw(maxNameLength + setWidth(temp->institutionName)) << temp->institutionName << setw(maxLocationLength) << temp->location <<
                 setw(10) << checkAndDisplay(temp->arRank) << setw(10) << checkAndDisplay(temp->erRank) << setw(10) << checkAndDisplay(temp->fsrRank) << 
                 setw(10) << checkAndDisplay(temp->cpfRank) << setw(10) << checkAndDisplay(temp->ifrRank) << setw(10) << checkAndDisplay(temp->isrRank) << 
                 setw(10) << checkAndDisplay(temp->irnRank) << setw(10) << checkAndDisplay(temp->gerRank) << setw(13) << checkAndDisplay(to_string(temp->scoreScaled)) << endl;
@@ -280,7 +302,7 @@ void UniversityList::displayList(UniversityNode* firstNode, int viewMode, string
     else {
         while (index < 25 && temp != nullptr)
         {
-            cout << std::left << setw(6) << temp->rank << setw(maxNameLength + setWidth(temp->institutionName)) << temp->institutionName << setw(maxLocationLength) << temp->location <<
+            cout << left << setw(6) << temp->rank << setw(maxNameLength + setWidth(temp->institutionName)) << temp->institutionName << setw(maxLocationLength) << temp->location <<
                 setw(10) << checkAndDisplay(to_string(temp->arScore)) << setw(10) << checkAndDisplay(to_string(temp->erScore)) << setw(10) << checkAndDisplay(to_string(temp->fsrScore)) << 
                 setw(10) << checkAndDisplay(to_string(temp->cpfScore)) << setw(10) << checkAndDisplay(to_string(temp->ifrScore)) << setw(10) << checkAndDisplay(to_string(temp->isrScore)) << 
                 setw(10) << checkAndDisplay(to_string(temp->irnScore)) << setw(10) << checkAndDisplay(to_string(temp->gerScore)) << setw(13) << checkAndDisplay(to_string(temp->scoreScaled)) << endl;
@@ -377,7 +399,7 @@ string UniversityList::checkAndDisplay(string value) {
     // Remove additional 
     int decimalPos = value.find('.');
     int index = decimalPos;
-    if (index != std::string::npos) {
+    if (index != string::npos) {
         index++;
         while (index < value.length()) {
             if (value[index] == '0') {

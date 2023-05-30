@@ -204,13 +204,12 @@ void CustomerList::displayUniversity()
 void CustomerList::sortUniversities()
 {
     uniList.sortUniversities(getSortField());
-    uniList.displayList(uniList.getHead(), -1, "Customer"); // can change to display sorted list
+    uniList.displayList(uniList.getHead(), -1, "Customer");
 }
 
 void CustomerList::searchUniversities()
 {
     uniList.searchUniversities(getSearchField(), "Customer");
-
 }
 
 FavouriteNode *CustomerList::createFavouriteNode(int universityRank)

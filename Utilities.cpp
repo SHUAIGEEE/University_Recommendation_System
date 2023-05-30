@@ -768,71 +768,70 @@ void MergeSort(UniversityNode** headRef, bool isAscending)
 
 void callMergeSort(FieldName field, bool isAscending)
 {
-    UniversityNode* head = uniList.getHead();
     switch (field)
     {
         case FieldName::RANK:
-            MergeSort<FieldName::RANK>(&head, isAscending);
+            MergeSort<FieldName::RANK>(&uniList.head, isAscending);
             break;
         case FieldName::INSTITUTION_NAME:
-            MergeSort<FieldName::INSTITUTION_NAME>(&head, isAscending);
+            MergeSort<FieldName::INSTITUTION_NAME>(&uniList.head, isAscending);
             break;
         case FieldName::LOCATION:
-            MergeSort<FieldName::LOCATION>(&head, isAscending);
+            MergeSort<FieldName::LOCATION>(&uniList.head, isAscending);
             break;
         case FieldName::AR_FSR_ER_SCORE:
-            MergeSort<FieldName::AR_FSR_ER_SCORE>(&head, isAscending);
+            MergeSort<FieldName::AR_FSR_ER_SCORE>(&uniList.head, isAscending);
             break;
         case FieldName::AR_RANK:
-            MergeSort<FieldName::AR_RANK>(&head, isAscending);
+            MergeSort<FieldName::AR_RANK>(&uniList.head, isAscending);
             break;
         case FieldName::ER_RANK:
-            MergeSort<FieldName::ER_RANK>(&head, isAscending);
+            MergeSort<FieldName::ER_RANK>(&uniList.head, isAscending);
             break;
         case FieldName::FSR_RANK:
-            MergeSort<FieldName::FSR_RANK>(&head, isAscending);
+            MergeSort<FieldName::FSR_RANK>(&uniList.head, isAscending);
             break;
         case FieldName::CPF_RANK:
-            MergeSort<FieldName::CPF_RANK>(&head, isAscending);
+            MergeSort<FieldName::CPF_RANK>(&uniList.head, isAscending);
             break;  
         case FieldName::IFR_RANK:
-            MergeSort<FieldName::IFR_RANK>(&head, isAscending);
+            MergeSort<FieldName::IFR_RANK>(&uniList.head, isAscending);
             break;
         case FieldName::ISR_RANK:
-            MergeSort<FieldName::ISR_RANK>(&head, isAscending);
+            MergeSort<FieldName::ISR_RANK>(&uniList.head, isAscending);
             break;
         case FieldName::IRN_RANK:
-            MergeSort<FieldName::IRN_RANK>(&head, isAscending);
+            MergeSort<FieldName::IRN_RANK>(&uniList.head, isAscending);
             break;
         case FieldName::GER_RANK:
-            MergeSort<FieldName::GER_RANK>(&head, isAscending);
+            MergeSort<FieldName::GER_RANK>(&uniList.head, isAscending);
             break;
         case FieldName::AR_SCORE:
-            MergeSort<FieldName::AR_SCORE>(&head, isAscending);
+            MergeSort<FieldName::AR_SCORE>(&uniList.head, isAscending);
             break;
         case FieldName::ER_SCORE:
-            MergeSort<FieldName::ER_SCORE>(&head, isAscending);
+            MergeSort<FieldName::ER_SCORE>(&uniList.head, isAscending);
             break;
         case FieldName::FSR_SCORE:
-            MergeSort<FieldName::FSR_SCORE>(&head, isAscending);
+            MergeSort<FieldName::FSR_SCORE>(&uniList.head, isAscending);
             break;
         case FieldName::CPF_SCORE:
-            MergeSort<FieldName::CPF_SCORE>(&head, isAscending);
+            MergeSort<FieldName::CPF_SCORE>(&uniList.head, isAscending);
             break;
         case FieldName::IFR_SCORE:
-            MergeSort<FieldName::IFR_SCORE>(&head, isAscending);
+            MergeSort<FieldName::IFR_SCORE>(&uniList.head, isAscending);
             break;
         case FieldName::ISR_SCORE:
-            MergeSort<FieldName::ISR_SCORE>(&head, isAscending);
+            MergeSort<FieldName::ISR_SCORE>(&uniList.head, isAscending);
             break;
         case FieldName::IRN_SCORE:
-            MergeSort<FieldName::IRN_SCORE>(&head, isAscending);
+            MergeSort<FieldName::IRN_SCORE>(&uniList.head, isAscending);
             break;
         case FieldName::GER_SCORE:
-            MergeSort<FieldName::GER_SCORE>(&head, isAscending);
+            MergeSort<FieldName::GER_SCORE>(&uniList.head, isAscending);
             break;
         case FieldName::SCORE_SCALED:
-            MergeSort<FieldName::SCORE_SCALED>(&head, isAscending);
+            MergeSort<FieldName::SCORE_SCALED>(&uniList.head, isAscending);
             break;
         default:
             break;
