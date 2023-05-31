@@ -106,7 +106,7 @@ void UniversityList::sortByName()
     else if (sort == 2)
     {
         auto start = high_resolution_clock::now();
-        // QuickSort<FieldName::INSTITUTION_NAME>(&head, isAscending);
+        QuickSort<FieldName::INSTITUTION_NAME>(&head, isAscending);
         auto stop = high_resolution_clock::now();
         auto duration = duration_cast<microseconds>(stop - start);
         cout << "Time taken by QUICK SORT algorithm: " << duration.count() << " microseconds." << endl;
@@ -123,8 +123,21 @@ void UniversityList::sortUniversities(FieldName field)
     int order = readInteger(1, 2);
     bool isAscending = order == 1 ? true : false;
 
-    callMergeSort(field, isAscending);
+    cout << "Sorting with..." << endl;
+    cout << "1. Merge sort" << endl;
+    cout << "2. Quick sort" << endl;
+    cout << "Enter your choice: ";
 
+    int sort = readInteger(1, 2);
+
+    if (sort == 1)
+    {
+        callMergeSort(field, isAscending);
+    }
+    else if (sort == 2)
+    {
+        callQuickSort(field, isAscending);
+    }
 }
 
 bool UniversityList::searchElement(int rankArr[], int size, int value) {
@@ -365,8 +378,9 @@ UniversityNode* UniversityList::getHead() {
     return head;
 }
 
-UniversityNode* UniversityList::getTail() {
-    return tail;
+UniversityNode* UniversityList::getTail(UniversityNode* cur) {
+    while (cur->nextUniversity != nullptr) cur = cur->nextUniversity;
+    return cur;
 }
 
 void UniversityList::setHeadNull() {

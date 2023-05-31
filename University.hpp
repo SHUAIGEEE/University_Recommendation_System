@@ -36,7 +36,7 @@ public:
     void displayUniversity(UniversityNode* university, std::string user);
     void displayList(UniversityNode* firstNode, int viewMode, std::string user);
     UniversityNode* getHead();
-    UniversityNode* getTail();
+    UniversityNode* getTail(UniversityNode* cur);
     void setHeadNull();
     UniversityNode* getUniversity(int index);
     int getSize();
