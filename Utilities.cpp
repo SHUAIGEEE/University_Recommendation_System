@@ -175,29 +175,26 @@ void adminMenu()
         }
         else if (option == 4)
         {
-            cout << "Display Customer Details" << endl;
             admin.displayCustomerDetails();
             system("pause");
         }
         else if (option == 5)
         {
-            cout << "Modify Customer Details" << endl;
             admin.modifyCustomerDetails();
             system("pause");
         }
         else if (option == 6)
         {
-            cout << "Delete Customer Account" << endl;
             admin.deleteCustomerAccount();
             system("pause");
         }
         else if (option == 7)
         {
-            admin.viewAllFeedbacks();
+            admin.displayAllFeedbacks();
         }
         else if (option == 8)
         {
-            // admin.generateReport();
+            admin.generateReport();
         }
         else if (option == 9)
         {
@@ -245,11 +242,11 @@ void customerMenu()
         cout << " \\____/\\__,_|___/\\__\\___/|_| |_| |_|\\___|_|    \\_|  |_/\\___|_| |_|\\__,_|" << endl;
         cout << string(CUSTOMER_MENU_TITLE_LENGTH, '-') << endl;
 
-        cout << "1. View All Universities" << endl;
+        cout << "1. Display All Universities" << endl;
         cout << "2. Sort Universities" << endl;
         cout << "3. Search Universities" << endl;
-        cout << "4. View Favourite Universities" << endl;
-        cout << "5. View Feedbacks and Replies" << endl;
+        cout << "4. Display Favourite Universities" << endl;
+        cout << "5. Display Feedbacks and Replies" << endl;
         cout << "6. Logout" << endl;
         cout << "Please select an option: ";
 
@@ -263,7 +260,7 @@ void customerMenu()
         else if (option == 2)
         {
             customerList.sortUniversities();
-            system("pause"); // can change to something like display n times then stop
+            system("pause");
         }
         else if (option == 3)
         {
@@ -272,11 +269,11 @@ void customerMenu()
         }
         else if (option == 4)
         {
-            customerList.showFavouriteUniversities();
+            customerList.displayFavouriteUniversities();
         }
         else if (option == 5)
         {
-            customerList.viewAllFeedbacks(loginCustomer);
+            customerList.displayAllFeedbacks(loginCustomer);
         }
         else if (option == 6)
         {
@@ -303,7 +300,7 @@ void guestMenu()
         cout << " \\____/\\__,_|\\___||___/\\__| \\_|  |_/\\___|_| |_|\\__,_|" << endl;
         cout << string(GUEST_MENU_TITLE_LENGTH, '-') << endl;
 
-        cout << "1. View All Universities" << endl;
+        cout << "1. Display All Universities" << endl;
         cout << "2. Sort Universities by Name" << endl;
         cout << "3. Search Universities by Name" << endl;
         cout << "4. Search Universities by Location" << endl;

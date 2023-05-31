@@ -54,7 +54,7 @@ void Admin::displayCustomerDetails()
 
 void Admin::modifyCustomerDetails()
 {
-    
+    cin.ignore();
     string customerID;
     string newUsername;
     string newPassword;
@@ -165,7 +165,7 @@ void Admin::deleteCustomerAccount()
     cout << "User with customerID " << customerID << " not found." << endl;
 }
 
-void Admin::viewAllFeedbacks()
+void Admin::displayAllFeedbacks()
 {
     system("cls");
     feedbackList.displayList();
@@ -175,10 +175,10 @@ void Admin::viewAllFeedbacks()
     if (viewFeedbackOption == 0) {
         return;
     }
-    viewSelectedFeedback(feedbackList.getFeedbackNode(viewFeedbackOption, &feedbackList));
+    displaySelectedFeedback(feedbackList.getFeedbackNode(viewFeedbackOption, &feedbackList));
 }
 
-void Admin::viewSelectedFeedback(FeedbackNode* feedback)
+void Admin::displaySelectedFeedback(FeedbackNode* feedback)
 {
     cout << "University Name: " << feedback->university->institutionName << endl;
     cout << "Customer ID: " << feedback->customerID << endl;
@@ -212,32 +212,32 @@ void Admin::viewSelectedFeedback(FeedbackNode* feedback)
     {
     case 1:
         replyToFeedback(feedback);
-        viewSelectedFeedback(feedback);
+        displaySelectedFeedback(feedback);
         break;
     case 2:
         if (feedback->prevFeedback != NULL) {
-            viewSelectedFeedback(feedback->prevFeedback);
+            displaySelectedFeedback(feedback->prevFeedback);
             break;
         }
         else {
             cout << endl << "This is already the first feedback!" << endl;
             system("pause");
-            viewSelectedFeedback(feedback);
+            displaySelectedFeedback(feedback);
             break;
         }
     case 3:
         if (feedback->nextFeedback != NULL) {
-            viewSelectedFeedback(feedback->nextFeedback);
+            displaySelectedFeedback(feedback->nextFeedback);
             break;
         }
         else {
             cout << endl << "This is already the last feedback!" << endl;
             system("pause");
-            viewSelectedFeedback(feedback);
+            displaySelectedFeedback(feedback);
             break;
         }
     case 4:
-        viewAllFeedbacks();
+        displayAllFeedbacks();
     default:
         break;
     }
@@ -259,5 +259,137 @@ void Admin::replyToFeedback(FeedbackNode* feedback)
 
 void Admin::generateReport()
 {
+    uniList.clearTempUniversityList();
+    UniversityNode* currentUniversity = tempUniversityList.getHead();
+    UniversityNode* insertUni;
+    FavouriteNode* currentFavourite;
+    bool alreadyExist = false;
+    int* favouriteUniIndex = new int[customerList.getSize() * 20];
+    int loopIndex = 0;
+    CustomerNode* currentCustomer = customerList.getHead();
+    if (currentCustomer == nullptr) {
+        cout << "No favourite university is saved by customers." << endl;
+        system("pause");
+        return;
+    }
 
+    while (currentCustomer != nullptr) {
+
+        currentFavourite = currentCustomer->favourites;
+
+        while (currentFavourite != nullptr) {
+
+            loopIndex = 0;
+            alreadyExist = false;
+            currentUniversity = tempUniversityList.getHead();
+
+            while (currentUniversity != nullptr) {
+
+                if (currentFavourite->universityRank == currentUniversity->rank) {
+                    favouriteUniIndex[loopIndex]++;
+                    alreadyExist = true;
+                    break;
+                }
+
+                currentUniversity = currentUniversity->nextUniversity;
+                loopIndex++;
+            }
+
+            if (!alreadyExist) {
+                insertUni = uniList.getUniversity(currentFavourite->universityRank);
+                tempUniversityList.insertEnd(to_string(insertUni->rank), to_string(insertUni->arScore), to_string(insertUni->erScore),
+                    to_string(insertUni->fsrScore), to_string(insertUni->cpfScore), to_string(insertUni->ifrScore), to_string(insertUni->isrScore),
+                    to_string(insertUni->irnScore), to_string(insertUni->gerScore), to_string(insertUni->scoreScaled), insertUni->institutionName,
+                    insertUni->locationCode, insertUni->location, insertUni->arRank, insertUni->erRank, insertUni->fsrRank, insertUni->cpfRank, insertUni->ifrRank,
+                    insertUni->isrRank, insertUni->irnRank, insertUni->gerRank);
+                favouriteUniIndex[loopIndex] = 1;
+            }
+
+            currentFavourite = currentFavourite->nextFavourite;
+        }
+
+        currentCustomer = currentCustomer->nextCustomer;
+    };
+
+    int temp;
+    bool swapResult = false;
+    UniversityNode* prev;
+    UniversityNode* current = tempUniversityList.getHead();
+    UniversityNode* next = current->nextUniversity;
+
+
+    for (int i = 0; i < tempUniversityList.getSize() - 1; i++) {
+        for (int j = 0; j < tempUniversityList.getSize() - 1; j++) {
+            if (favouriteUniIndex[j] < favouriteUniIndex[j + 1]) {
+                temp = favouriteUniIndex[j];
+                favouriteUniIndex[j] = favouriteUniIndex[j + 1];
+                favouriteUniIndex[j + 1] = temp;
+
+                current = tempUniversityList.getHead();
+                next = current->nextUniversity;
+
+                for (int k = 0; k < j; k++) {
+                    prev = current;
+                    current = next;
+                    next = next->nextUniversity;
+                }
+
+                current->nextUniversity = next->nextUniversity;
+                next->nextUniversity = current;
+
+                if (j == 0) {
+                    tempUniversityList.setHead(next);
+                }
+                else {
+                    prev->nextUniversity = next;
+                }
+
+                swapResult = true;
+            }
+        }
+        if (!swapResult) {
+            break;
+        }
+        swapResult = false;
+    }
+
+    currentUniversity = tempUniversityList.getHead();
+    loopIndex = 0;
+    int maxNameLength = 18;
+
+    while (currentUniversity != nullptr) {
+        if (currentUniversity->institutionName.length() > maxNameLength) {
+            maxNameLength = currentUniversity->institutionName.length();
+        }
+
+        currentUniversity = currentUniversity->nextUniversity;
+    }
+
+    maxNameLength += 6;
+    currentUniversity = tempUniversityList.getHead();
+
+    system("cls");
+
+    cout << "Top 10 Favourite University Report" << endl << endl;
+
+    cout << string(maxNameLength + 50, '-') << endl;
+
+    cout << left << setw(6) << "Rank" << setw(maxNameLength) << "Institution Name" << setw(26) 
+        << "University Ranking" << setw(28) << "Number of Favourites" << endl;
+
+    cout << string(maxNameLength + 50, '-') << endl;
+
+    while (currentUniversity != nullptr) {
+        cout << left << setw(6) << loopIndex + 1 << setw(maxNameLength) << currentUniversity->institutionName 
+            << setw(26) << currentUniversity->rank << setw(28) << favouriteUniIndex[loopIndex] << endl;
+        loopIndex++;
+        currentUniversity = currentUniversity->nextUniversity;
+    }
+
+    cout << string(maxNameLength + 50, '-') << endl << endl;
+
+    system("pause");
+
+    uniList.clearTempUniversityList();
+    delete[] favouriteUniIndex;
 }

@@ -33,18 +33,19 @@ public:
     void sortUniversities(FieldName field);
     void searchUniversities(FieldName field, std::string user);
     bool searchElement(int rankArr[], int size, int value);
-    void displayUniversity(UniversityNode* university, std::string user);
     void displayList(UniversityNode* firstNode, int viewMode, std::string user);
+    void displayUniversity(UniversityNode* university, std::string user);
+    bool inputValidation(std::string value, FieldName field);
+    std::string checkAndDisplay(std::string value);
+    bool checkFavouriteExist(int universityRank);
+    void clearTempUniversityList();
+    int getSize();
     UniversityNode* getHead();
     UniversityNode* getTail();
-    void setHeadNull();
     UniversityNode* getUniversity(int index);
-    int getSize();
-    std::string checkAndDisplay(std::string value);
+    void setHeadNull();
+    void setHead(UniversityNode* university);
     int setWidth(std::string value);
-    bool inputValidation(std::string value, FieldName field);
-    void clearTempUniversityList();
-    bool checkFavouriteExist(int universityRank);
 };
 
 

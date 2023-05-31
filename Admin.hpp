@@ -20,11 +20,10 @@ public:
     void displayCustomerDetails();
     void modifyCustomerDetails();
     void deleteCustomerAccount();
-    void viewAllFeedbacks();
-    void viewSelectedFeedback(FeedbackNode* feedback);
+    void displayAllFeedbacks();
+    void displaySelectedFeedback(FeedbackNode* feedback);
     void replyToFeedback(FeedbackNode* feedback);
     void generateReport();
-    //TODO: Add search and sort and display university
 };
 
 

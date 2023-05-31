@@ -16,6 +16,10 @@ Customer::Customer()
 {
 }
 
+Customer::~Customer()
+{
+}
+
 Customer::Customer(string customerID, string username, string email, string password, struct tm lastLoginTime)
 {
     this->customerID = customerID;
@@ -23,10 +27,6 @@ Customer::Customer(string customerID, string username, string email, string pass
     this->email = email;
     this->password = password;
     this->lastLoginTime = lastLoginTime;
-}
-
-Customer::~Customer()
-{
 }
 
 string Customer::getCustomerID()
@@ -87,6 +87,14 @@ CustomerList::~CustomerList()
 {
 }
 
+string CustomerList::generateCustomerID()
+{
+    int size = customerList.getSize();
+    if (size < 1000) return "C00" + to_string(size + 1);
+    else if (size < 100) return "C0" + to_string(size + 1);
+    else return "C" + to_string(size + 1);
+}
+
 CustomerNode* CustomerList::createCustomerNode(string customerID, string username, string email, string password, struct tm lastLoginTime)
 {
     CustomerNode * newNode = new CustomerNode;
@@ -118,56 +126,6 @@ void CustomerList::insertEnd(string customerID, string username, string email, s
         current->nextCustomer = newNode;
     }
     size++;
-}
-
-string CustomerList::generateCustomerID()
-{
-    int size = customerList.getSize();
-    if (size < 1000) return "C00" + to_string(size + 1);
-    else if (size < 100) return "C0" + to_string(size + 1);
-    else return "C" + to_string(size + 1);
-}
-
-void CustomerList::deleteCustomer()
-{
-}
-
-void CustomerList::displayList()
-{
-	CustomerNode* temp = head;
-    cout << string(105, '-') << endl;
-
-    cout << std::left << setw(18) << "Customer ID" << setw(20) << "Username"
-        << setw(30) << "Email" << setw(20) << "Password" << setw(15) << "Last Logged in" << endl;
-
-    cout << string(105, '-') << endl;
-
-	while (temp != nullptr)
-	{
-        struct tm loginTime = temp->customer.getLastLoginTime();
-        char formattedTime[50];
-        strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y", &loginTime);
-        cout << std::left << setw(18) << temp->customer.getCustomerID() << setw(20) << temp->customer.getUsername()
-            << setw(30) << temp->customer.getEmail() << setw(20) << temp->customer.getPassword() << setw(15) << formattedTime << endl;
-		temp = temp->nextCustomer;
-	}
-
-	cout << endl << "List ends here!" << endl << endl;
-}
-
-CustomerNode* CustomerList::getHead()
-{
-    return head;
-}
-
-CustomerNode* CustomerList::getTail()
-{
-    return tail;
-}
-
-int CustomerList::getSize()
-{
-    return size;
 }
 
 bool CustomerList::login(string username, string password)
@@ -205,6 +163,29 @@ void CustomerList::logout()
     loginCustomer.setEmail("");
     loginCustomer.setPassword("");
     cout << "Logout successful!" << endl;
+}
+
+void CustomerList::displayList()
+{
+    CustomerNode* temp = head;
+    cout << string(105, '-') << endl;
+
+    cout << std::left << setw(18) << "Customer ID" << setw(20) << "Username"
+        << setw(30) << "Email" << setw(20) << "Password" << setw(15) << "Last Logged in" << endl;
+
+    cout << string(105, '-') << endl;
+
+    while (temp != nullptr)
+    {
+        struct tm loginTime = temp->customer.getLastLoginTime();
+        char formattedTime[50];
+        strftime(formattedTime, sizeof(formattedTime), "%d-%m-%Y", &loginTime);
+        cout << std::left << setw(18) << temp->customer.getCustomerID() << setw(20) << temp->customer.getUsername()
+            << setw(30) << temp->customer.getEmail() << setw(20) << temp->customer.getPassword() << setw(15) << formattedTime << endl;
+        temp = temp->nextCustomer;
+    }
+
+    cout << endl << "List ends here!" << endl << endl;
 }
 
 void CustomerList::displayUniversity()
@@ -296,7 +277,7 @@ void CustomerList::deleteFavouriteUniversity(int universityRank)
     system("pause");
 }
 
-void CustomerList::showFavouriteUniversities()
+void CustomerList::displayFavouriteUniversities()
 {
     CustomerNode* customer = customerList.getCustomer(loginCustomer.getCustomerID());
     FavouriteNode* current = customer->favourites;
@@ -337,7 +318,7 @@ void CustomerList::sendFeedback(Customer customer, UniversityNode* university, F
     system("pause");
 }
 
-void CustomerList::viewAllFeedbacks(Customer customer) {
+void CustomerList::displayAllFeedbacks(Customer customer) {
     system("cls");
     cout << "View Feedbacks and Replies" << endl << endl;
     FeedbackNode* current = feedbackList.getHead();
@@ -362,10 +343,10 @@ void CustomerList::viewAllFeedbacks(Customer customer) {
     if (viewFeedbackOption == 0) {
         return;
     }
-    viewFeedbackReply(customer, feedbackList.getFeedbackNode(feedbackIndeces[viewFeedbackOption - 1], &feedbackList));
+    displayFeedbackReply(customer, feedbackList.getFeedbackNode(feedbackIndeces[viewFeedbackOption - 1], &feedbackList));
 }
 
-void CustomerList::viewFeedbackReply(Customer customer, FeedbackNode* feedback)
+void CustomerList::displayFeedbackReply(Customer customer, FeedbackNode* feedback)
 {
     system("cls");
     cout << "University Name: " << feedback->university->institutionName << endl;
@@ -398,32 +379,32 @@ void CustomerList::viewFeedbackReply(Customer customer, FeedbackNode* feedback)
     {
     case 1:
         sendFeedbackReply(feedback);
-        viewFeedbackReply(customer, feedback);
+        displayFeedbackReply(customer, feedback);
         break;
     case 2:
         if (feedback->prevFeedback != NULL) {
-            viewFeedbackReply(customer, feedback->prevFeedback);
+            displayFeedbackReply(customer, feedback->prevFeedback);
             break;
         }
         else {
             cout << endl << "This is already the first feedback!" << endl;
             system("pause");
-            viewFeedbackReply(customer, feedback);
+            displayFeedbackReply(customer, feedback);
             break;
         }
     case 3:
         if (feedback->nextFeedback != NULL) {
-            viewFeedbackReply(customer, feedback->nextFeedback);
+            displayFeedbackReply(customer, feedback->nextFeedback);
             break;
         }
         else {
             cout << endl << "This is already the last feedback!" << endl;
             system("pause");
-            viewFeedbackReply(customer, feedback);
+            displayFeedbackReply(customer, feedback);
             break;
         }
     case 4:
-        viewAllFeedbacks(customer);
+        displayAllFeedbacks(customer);
     default:
         break;
     }
@@ -448,13 +429,19 @@ void CustomerList::updateLastLoginTime()
     time_t lastLoginTime = time(nullptr);
 }
 
-void CustomerList::setHead(CustomerNode* customer)
+int CustomerList::getSize()
 {
-    if (customer == nullptr) {
-        return;
-    }
+    return size;
+}
 
-    head = customer;
+CustomerNode* CustomerList::getHead()
+{
+    return head;
+}
+
+CustomerNode* CustomerList::getTail()
+{
+    return tail;
 }
 
 CustomerNode* CustomerList::getCustomer(string customerID) {
@@ -466,5 +453,14 @@ CustomerNode* CustomerList::getCustomer(string customerID) {
         current = current->nextCustomer;
     }
     return nullptr;
+}
+
+void CustomerList::setHead(CustomerNode* customer)
+{
+    if (customer == nullptr) {
+        return;
+    }
+
+    head = customer;
 }
 

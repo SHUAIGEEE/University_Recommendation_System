@@ -70,10 +70,6 @@ void FeedbackList::insertIntoSortedList(std::string customerID, UniversityNode* 
     size++;
 }
 
-void FeedbackList::sortFeedback()
-{
-}
-
 void FeedbackList::displayList()
 {
     FeedbackNode* temp = head;
@@ -137,20 +133,16 @@ void FeedbackList::addReply(std::string content, bool isAdmin, struct tm timePos
     }
 }
 
+int FeedbackList::getSize() {
+    return size;
+}
+
 FeedbackNode* FeedbackList::getHead() {
     return head;
 }
 
 FeedbackNode* FeedbackList::getTail() {
     return tail;
-}
-
-void FeedbackList::setHead(FeedbackNode* feedback) {
-    head = feedback;
-}
-
-void FeedbackList::setTail(FeedbackNode* feedback) {
-    tail = feedback;
 }
 
 FeedbackNode* FeedbackList::getFeedbackNode(int index, FeedbackList* feedbackList) {
@@ -163,6 +155,10 @@ FeedbackNode* FeedbackList::getFeedbackNode(int index, FeedbackList* feedbackLis
     return current;
 }
 
-int FeedbackList::getSize() {
-    return size;
+void FeedbackList::setHead(FeedbackNode* feedback) {
+    head = feedback;
+}
+
+void FeedbackList::setTail(FeedbackNode* feedback) {
+    tail = feedback;
 }

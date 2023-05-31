@@ -127,15 +127,6 @@ void UniversityList::sortUniversities(FieldName field)
 
 }
 
-bool UniversityList::searchElement(int rankArr[], int size, int value) {
-    for (int i = 0; i < size; i++) {
-        if (rankArr[i] == value) {
-            return true;
-        }
-    }
-    return false;
-}
-
 void UniversityList::searchUniversities(FieldName field, string user)
 {
     int choice = 1;
@@ -162,66 +153,16 @@ void UniversityList::searchUniversities(FieldName field, string user)
     }
     else {
         ExponentialSearch(searchValue, field, user);
-    }
-    
+    } 
 }
 
-void UniversityList::displayUniversity(UniversityNode* university, string user) {
-    system("cls");
-
-    int maxLength = university->institutionName.length() + 50;
-
-    string line(maxLength, '=');
-
-    cout << line << endl;
-    cout << string((maxLength / 2) + 1 - (11 / 2), ' ') << "University" << string((maxLength / 2) - (11 / 2), ' ') << endl;
-    cout << line << endl;
-    cout << " Rank:               |   " << university->rank << endl;
-    cout << " Institution Name:   |   " << university->institutionName << endl;
-    cout << " Location:           |   " << university->location << endl;
-    cout << line << endl;
-    cout << "   - AR Rank:        |   " << setw(6) << university->arRank << setw(6) << "   - AR Score:       |   " << university->arScore << endl;
-    cout << "   - ER Rank:        |   " << setw(6) << university->erRank << setw(6) << "   - ER Score:       |   " << university->erScore << endl;
-    cout << "   - FSR Rank:       |   " << setw(6) << university->fsrRank << setw(6) << "   - FSR Score:      |   " << university->fsrScore << endl;
-    cout << "   - CPF Rank:       |   " << setw(6) << university->cpfRank << setw(6) << "   - CPF Score:      |   " << university->cpfScore << endl;
-    cout << "   - IFR Rank:       |   " << setw(6) << university->ifrRank << setw(6) << "   - IFR Score:      |   " << university->ifrScore << endl;
-    cout << "   - ISR Rank:       |   " << setw(6) << university->isrRank << setw(6) << "   - ISR Score:      |   " << university->isrScore << endl;
-    cout << "   - IRN Rank:       |   " << setw(6) << university->irnRank << setw(6) << "   - IRN Score:      |   " << university->irnScore << endl;
-    cout << "   - GER Rank:       |   " << setw(6) << university->gerRank << setw(6) << "   - GER Score:      |   " << university->gerScore << endl;
-    cout << "   - FSR Score:      |   " << university->fsrScore << endl;
-    cout << line << endl;
-
-    int option;
-    if (user == "Customer" || user == "Favourite") {
-        if (user == "Customer" && !checkFavouriteExist(university->rank)) {
-            cout << "1. Save as Favourite" << endl;
-        }
-        else {
-            cout << "1. Delete from Favourite" << endl;
-        }
-        cout << "2. Write Feedback" << endl;
-        cout << "3. Exit" << endl;
-        cout << "Please select an option: ";
-        option = readInteger(1, 3);
-        switch (option)
-        {
-        case 1:
-            if (user == "Customer" && !checkFavouriteExist(university->rank)) {
-                customerList.saveFavouriteUniversity(university->rank, customerList.getCustomer(loginCustomer.getCustomerID()));
-            }
-            else {
-                customerList.deleteFavouriteUniversity(university->rank);
-            } 
-            break;
-        case 2:
-            customerList.sendFeedback(loginCustomer, university, &feedbackList, &uniList);
-            break;
-        case 3:
-            break;
-        default:
-            break;
+bool UniversityList::searchElement(int rankArr[], int size, int value) {
+    for (int i = 0; i < size; i++) {
+        if (rankArr[i] == value) {
+            return true;
         }
     }
+    return false;
 }
 
 void UniversityList::displayList(UniversityNode* firstNode, int viewMode, string user)
@@ -236,11 +177,11 @@ void UniversityList::displayList(UniversityNode* firstNode, int viewMode, string
 
     system("cls");
 
-	UniversityNode* temp = firstNode;
+    UniversityNode* temp = firstNode;
     int maxNameLength = 18;
     int maxLocationLength = 10;
 
-    for (int i = 0; i < 25; i++ ) {
+    for (int i = 0; i < 25; i++) {
         if (temp != nullptr) {
 
             if (temp->institutionName.length() > maxNameLength) {
@@ -265,7 +206,7 @@ void UniversityList::displayList(UniversityNode* firstNode, int viewMode, string
 
     if (selectedViewMode == 1) {
         cout << left << setw(6) << "Rank" << setw(maxNameLength) << "Institution Name" << setw(maxLocationLength) << "Location" <<
-            setw(10) << "ArRank" << setw(10) << "ErRank" << setw(10) << "FsrRank" << setw(10) << "CpfRank" << setw(10) << "IfrRank" << setw(10) << "IsrRank" << 
+            setw(10) << "ArRank" << setw(10) << "ErRank" << setw(10) << "FsrRank" << setw(10) << "CpfRank" << setw(10) << "IfrRank" << setw(10) << "IsrRank" <<
             setw(10) << "IrnRank" << setw(10) << "GerRank" << setw(13) << "ScoreScaled" << endl;
     }
     else {
@@ -284,8 +225,8 @@ void UniversityList::displayList(UniversityNode* firstNode, int viewMode, string
         while (index < 25 && temp != nullptr)
         {
             cout << left << setw(6) << temp->rank << setw(maxNameLength + setWidth(temp->institutionName)) << temp->institutionName << setw(maxLocationLength) << temp->location <<
-                setw(10) << checkAndDisplay(temp->arRank) << setw(10) << checkAndDisplay(temp->erRank) << setw(10) << checkAndDisplay(temp->fsrRank) << 
-                setw(10) << checkAndDisplay(temp->cpfRank) << setw(10) << checkAndDisplay(temp->ifrRank) << setw(10) << checkAndDisplay(temp->isrRank) << 
+                setw(10) << checkAndDisplay(temp->arRank) << setw(10) << checkAndDisplay(temp->erRank) << setw(10) << checkAndDisplay(temp->fsrRank) <<
+                setw(10) << checkAndDisplay(temp->cpfRank) << setw(10) << checkAndDisplay(temp->ifrRank) << setw(10) << checkAndDisplay(temp->isrRank) <<
                 setw(10) << checkAndDisplay(temp->irnRank) << setw(10) << checkAndDisplay(temp->gerRank) << setw(13) << checkAndDisplay(to_string(temp->scoreScaled)) << endl;
             lastRank = temp->rank;
             rankArr[index] = lastRank;
@@ -297,8 +238,8 @@ void UniversityList::displayList(UniversityNode* firstNode, int viewMode, string
         while (index < 25 && temp != nullptr)
         {
             cout << left << setw(6) << temp->rank << setw(maxNameLength + setWidth(temp->institutionName)) << temp->institutionName << setw(maxLocationLength) << temp->location <<
-                setw(10) << checkAndDisplay(to_string(temp->arScore)) << setw(10) << checkAndDisplay(to_string(temp->erScore)) << setw(10) << checkAndDisplay(to_string(temp->fsrScore)) << 
-                setw(10) << checkAndDisplay(to_string(temp->cpfScore)) << setw(10) << checkAndDisplay(to_string(temp->ifrScore)) << setw(10) << checkAndDisplay(to_string(temp->isrScore)) << 
+                setw(10) << checkAndDisplay(to_string(temp->arScore)) << setw(10) << checkAndDisplay(to_string(temp->erScore)) << setw(10) << checkAndDisplay(to_string(temp->fsrScore)) <<
+                setw(10) << checkAndDisplay(to_string(temp->cpfScore)) << setw(10) << checkAndDisplay(to_string(temp->ifrScore)) << setw(10) << checkAndDisplay(to_string(temp->isrScore)) <<
                 setw(10) << checkAndDisplay(to_string(temp->irnScore)) << setw(10) << checkAndDisplay(to_string(temp->gerScore)) << setw(13) << checkAndDisplay(to_string(temp->scoreScaled)) << endl;
             lastRank = temp->rank;
             rankArr[index] = lastRank;
@@ -361,28 +302,81 @@ void UniversityList::displayList(UniversityNode* firstNode, int viewMode, string
     }
 }
 
-UniversityNode* UniversityList::getHead() {
-    return head;
-}
+void UniversityList::displayUniversity(UniversityNode* university, string user) {
+    system("cls");
 
-UniversityNode* UniversityList::getTail() {
-    return tail;
-}
+    int maxLength = university->institutionName.length() + 50;
 
-void UniversityList::setHeadNull() {
-    head = tail = nullptr;
-}
+    string line(maxLength, '=');
 
-UniversityNode* UniversityList::getUniversity(int index) {
-    UniversityNode* current = head;
-    for (int i = 1; i < index; i++) {
-        current = current->nextUniversity;
+    cout << line << endl;
+    cout << string((maxLength / 2) + 1 - (11 / 2), ' ') << "University" << string((maxLength / 2) - (11 / 2), ' ') << endl;
+    cout << line << endl;
+    cout << " Rank:               |   " << university->rank << endl;
+    cout << " Institution Name:   |   " << university->institutionName << endl;
+    cout << " Location:           |   " << university->location << endl;
+    cout << line << endl;
+    cout << "   - AR Rank:        |   " << setw(6) << university->arRank << setw(6) << "   - AR Score:       |   " << university->arScore << endl;
+    cout << "   - ER Rank:        |   " << setw(6) << university->erRank << setw(6) << "   - ER Score:       |   " << university->erScore << endl;
+    cout << "   - FSR Rank:       |   " << setw(6) << university->fsrRank << setw(6) << "   - FSR Score:      |   " << university->fsrScore << endl;
+    cout << "   - CPF Rank:       |   " << setw(6) << university->cpfRank << setw(6) << "   - CPF Score:      |   " << university->cpfScore << endl;
+    cout << "   - IFR Rank:       |   " << setw(6) << university->ifrRank << setw(6) << "   - IFR Score:      |   " << university->ifrScore << endl;
+    cout << "   - ISR Rank:       |   " << setw(6) << university->isrRank << setw(6) << "   - ISR Score:      |   " << university->isrScore << endl;
+    cout << "   - IRN Rank:       |   " << setw(6) << university->irnRank << setw(6) << "   - IRN Score:      |   " << university->irnScore << endl;
+    cout << "   - GER Rank:       |   " << setw(6) << university->gerRank << setw(6) << "   - GER Score:      |   " << university->gerScore << endl;
+    cout << "   - FSR Score:      |   " << university->fsrScore << endl;
+    cout << line << endl;
+
+    int option;
+    if (user == "Customer" || user == "Favourite") {
+        if (user == "Customer" && !checkFavouriteExist(university->rank)) {
+            cout << "1. Save as Favourite" << endl;
+        }
+        else {
+            cout << "1. Delete from Favourite" << endl;
+        }
+        cout << "2. Write Feedback" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Please select an option: ";
+        option = readInteger(1, 3);
+        switch (option)
+        {
+        case 1:
+            if (user == "Customer" && !checkFavouriteExist(university->rank)) {
+                customerList.saveFavouriteUniversity(university->rank, customerList.getCustomer(loginCustomer.getCustomerID()));
+            }
+            else {
+                customerList.deleteFavouriteUniversity(university->rank);
+            } 
+            break;
+        case 2:
+            customerList.sendFeedback(loginCustomer, university, &feedbackList, &uniList);
+            break;
+        case 3:
+            break;
+        default:
+            break;
+        }
     }
-    return current;
 }
 
-int UniversityList::getSize() {
-    return size;
+bool UniversityList::inputValidation(string value, FieldName field) {
+    try {
+        if (field == FieldName::RANK || field == FieldName::AR_RANK || field == FieldName::ER_RANK || field == FieldName::FSR_RANK || field == FieldName::CPF_RANK ||
+            field == FieldName::IFR_RANK || field == FieldName::ISR_RANK || field == FieldName::IRN_RANK || field == FieldName::GER_RANK) {
+            int buffer;
+            buffer = stoi(value);
+            return true;
+        }
+        else {
+            double buffer;
+            buffer = stod(value);
+            return true;
+        }
+    }
+    catch (...) {
+        return false;
+    }
 }
 
 string UniversityList::checkAndDisplay(string value) {
@@ -411,35 +405,16 @@ string UniversityList::checkAndDisplay(string value) {
     return value;
 }
 
-int UniversityList::setWidth(string value) {
-    int additionalLength = 0;
-    for (int i = 0; i < value.length(); i++) {
-        if ((unsigned int) value[i] > 127) {
-            additionalLength++;
-            i++;
-        }
-    }
-    //cout << additionalLength << endl;
-    return additionalLength;
-}
-
-bool UniversityList::inputValidation(string value, FieldName field) {
-    try {
-        if (field == FieldName::RANK || field == FieldName::AR_RANK || field == FieldName::ER_RANK || field == FieldName::FSR_RANK || field == FieldName::CPF_RANK ||
-            field == FieldName::IFR_RANK || field == FieldName::ISR_RANK || field == FieldName::IRN_RANK || field == FieldName::GER_RANK) {
-            int buffer;
-            buffer = stoi(value);
+bool UniversityList::checkFavouriteExist(int universityRank) {
+    CustomerNode* customer = customerList.getCustomer(loginCustomer.getCustomerID());
+    FavouriteNode* current = customer->favourites;
+    while (current != nullptr) {
+        if (current->universityRank == universityRank) {
             return true;
         }
-        else {
-            double buffer;
-            buffer = stod(value);
-            return true;
-        }
+        current = current->nextFavourite;
     }
-    catch(...){
-        return false;
-    }
+    return false;
 }
 
 void UniversityList::clearTempUniversityList() {
@@ -455,14 +430,41 @@ void UniversityList::clearTempUniversityList() {
     tempUniversityList.setHeadNull();
 }
 
-bool UniversityList::checkFavouriteExist(int universityRank) {
-    CustomerNode* customer = customerList.getCustomer(loginCustomer.getCustomerID());
-    FavouriteNode* current = customer->favourites;
-    while (current != nullptr) {
-        if (current->universityRank == universityRank) {
-            return true;
-        }
-        current = current->nextFavourite;
+int UniversityList::getSize() {
+    return size;
+}
+
+UniversityNode* UniversityList::getHead() {
+    return head;
+}
+
+UniversityNode* UniversityList::getTail() {
+    return tail;
+}
+
+UniversityNode* UniversityList::getUniversity(int index) {
+    UniversityNode* current = head;
+    for (int i = 1; i < index; i++) {
+        current = current->nextUniversity;
     }
-    return false;
+    return current;
+}
+
+void UniversityList::setHeadNull() {
+    head = tail = nullptr;
+}
+
+void UniversityList::setHead(UniversityNode* university) {
+    head = university;
+}
+
+int UniversityList::setWidth(string value) {
+    int additionalLength = 0;
+    for (int i = 0; i < value.length(); i++) {
+        if ((unsigned int) value[i] > 127) {
+            additionalLength++;
+            i++;
+        }
+    }
+    return additionalLength;
 }

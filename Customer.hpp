@@ -24,8 +24,8 @@ private:
     struct tm lastLoginTime;
 public:
     Customer();
-    Customer(std::string customerID, std::string username, std::string email , std::string password, struct tm lastLoginTime);
     ~Customer();
+    Customer(std::string customerID, std::string username, std::string email , std::string password, struct tm lastLoginTime);
     std::string getCustomerID();
     std::string getUsername();
     std::string getEmail();
@@ -55,16 +55,12 @@ private:
 public:
     CustomerList();
     ~CustomerList();
+    std::string generateCustomerID();
     CustomerNode* createCustomerNode(std::string customerID, std::string username, std::string email, std::string password, struct tm lastLoginTime);
     void insertEnd(std::string customerID, std::string username, std::string email, std::string password, struct tm lastLoginTime);
-    std::string generateCustomerID();
-    void deleteCustomer();
-    void displayList();
-    CustomerNode* getHead();
-    CustomerNode* getTail();
-    int getSize();
     bool login(std::string username, std::string password);
     void logout();
+    void displayList();
     void displayUniversity();
     void sortUniversities();
     void searchUniversities();
@@ -72,14 +68,17 @@ public:
     void insertFavouriteEnd(int universityRank, CustomerNode* customer);
     void saveFavouriteUniversity(int universityRank, CustomerNode* customerNode);
     void deleteFavouriteUniversity(int universityRank);
-    void showFavouriteUniversities();
+    void displayFavouriteUniversities();
     void sendFeedback(Customer customer, UniversityNode* university, FeedbackList* feedbackList, UniversityList* universityList);
-    void viewAllFeedbacks(Customer customer);
-    void viewFeedbackReply(Customer customer, FeedbackNode* feedback);
+    void displayAllFeedbacks(Customer customer);
+    void displayFeedbackReply(Customer customer, FeedbackNode* feedback);
     void sendFeedbackReply(FeedbackNode* feedback);
     void updateLastLoginTime();
-    void setHead(CustomerNode* customer);
+    int getSize();
+    CustomerNode* getHead();
+    CustomerNode* getTail();
     CustomerNode* getCustomer(std::string customerID);
+    void setHead(CustomerNode* customer);
 };
 
 #endif
