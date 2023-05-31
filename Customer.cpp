@@ -132,6 +132,7 @@ bool CustomerList::login(string username, string password)
 {
     CustomerNode* temp = head;
 
+    // Validate credentials entered
     while (temp != nullptr)
     {
         if (temp->customer.getUsername() == username && temp->customer.getPassword() == password)
@@ -167,6 +168,7 @@ void CustomerList::logout()
 
 void CustomerList::displayList()
 {
+    // Display all customers
     CustomerNode* temp = head;
     cout << string(105, '-') << endl;
 

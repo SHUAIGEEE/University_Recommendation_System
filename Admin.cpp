@@ -12,8 +12,8 @@ using namespace std;
 
 Admin::Admin()
 {
-    this->adminName = "cxk";
-    this->password = "a";
+    this->adminName = "admin";
+    this->password = "123";
 }
 
 Admin::~Admin()
@@ -39,7 +39,7 @@ void Admin::displayUniversity()
 void Admin::sortUniversities()
 {
     uniList.sortUniversities(getSortField());
-    uniList.displayList(uniList.getHead(), -1, "Admin"); // can change to display sorted list
+    uniList.displayList(uniList.getHead(), -1, "Admin");
 }
 
 void Admin::searchUniversities()
@@ -59,6 +59,8 @@ void Admin::modifyCustomerDetails()
     string newUsername;
     string newPassword;
     string newEmail;
+
+    // Read customer ID to modify
     cout << endl << "Please enter Customer ID : ";
     getline(cin, customerID);
 
@@ -70,6 +72,7 @@ void Admin::modifyCustomerDetails()
         temp = customerList.getCustomer(customerID);
     }
 
+    // Read field to modify
     cout << "1. Modify username" << endl;
     cout << "2. Modify password" << endl;
     cout << "3. Modify email" << endl;
@@ -104,8 +107,9 @@ void Admin::modifyCustomerDetails()
 
 void Admin::deleteCustomerAccount()
 {
+    // Display all inactive customers
     string customerID;
-    cout << endl << "Customer that login 180 days ago: " << endl;
+    cout << endl << "Customer that logged in 180 days ago: " << endl;
     time_t currentTime = time(nullptr);
     CustomerNode* current = customerList.getHead();
     CustomerNode* previous = nullptr;
@@ -141,6 +145,7 @@ void Admin::deleteCustomerAccount()
     current = customerList.getHead();
     previous = nullptr;
 
+    //Read customer ID to delete
     cout << "Please enter customer ID to delete: ";
     cin >> customerID;
     while (current != nullptr)
@@ -273,6 +278,7 @@ void Admin::generateReport()
         return;
     }
 
+    // Summarize all the favourite universities by counting the number of favourites for each university
     while (currentCustomer != nullptr) {
 
         currentFavourite = currentCustomer->favourites;
@@ -311,6 +317,7 @@ void Admin::generateReport()
         currentCustomer = currentCustomer->nextCustomer;
     };
 
+    // Sort the summary by number of favourites in descending order
     int temp;
     bool swapResult = false;
     UniversityNode* prev;
@@ -353,6 +360,8 @@ void Admin::generateReport()
         swapResult = false;
     }
 
+
+    // Display the report
     currentUniversity = tempUniversityList.getHead();
     loopIndex = 0;
     int maxNameLength = 18;

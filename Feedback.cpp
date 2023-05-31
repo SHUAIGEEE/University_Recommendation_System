@@ -37,6 +37,7 @@ void FeedbackList::insertIntoSortedList(std::string customerID, UniversityNode* 
     {
         head = tail = newNode;
     }
+    // Compare time posted in insert so that latest feedback is in the front
     else if(mktime(&timePosted) >= mktime(&head->timePosted))
     {
         newNode->nextFeedback = head;
@@ -114,6 +115,7 @@ void FeedbackList::addReply(std::string content, bool isAdmin, struct tm timePos
         current->nextReply = newNode;
     }
 
+    // Move the feedback where the reply is associated with to the front because it is newly updated
     if (!readFromFile) {
         feedback->timePosted = newNode->timePosted;
         FeedbackNode* temp = feedback;

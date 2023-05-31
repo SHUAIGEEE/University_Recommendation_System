@@ -931,6 +931,7 @@ template bool compareFieldDesc<FieldName::SCORE_SCALED>(UniversityNode* a, Unive
 /* LINEAR SEARCH */
 FieldName getSearchField() {
 
+    // Get the field to be searched
     int fieldNum;
     cout << endl;
     cout << "1.  Rank" << endl;
@@ -959,6 +960,8 @@ FieldName getSearchField() {
 }
 
 string getFieldValue(UniversityNode* node, FieldName field) {
+
+    // Read the value of the search field of a specific university
     switch (field) {
     case FieldName::INSTITUTION_NAME: return node->institutionName; break;
     case FieldName::LOCATION: return node->location; break;
@@ -1002,6 +1005,7 @@ void LinearSearch(string searchValue, FieldName field, string user)
 
     while (current != NULL) {
 
+        // Searching string value
         if (field == FieldName::INSTITUTION_NAME || field == FieldName::LOCATION) {
             if (getFieldValue(current, field).find(searchValue) != string::npos) {
                 tempUniversityList.insertEnd(to_string(current->rank), to_string(current->arScore), to_string(current->erScore), 
@@ -1011,6 +1015,7 @@ void LinearSearch(string searchValue, FieldName field, string user)
                     current->isrRank, current->irnRank, current->gerRank);
             }
         }
+        // Searching integer value
         else if (field == FieldName::RANK || field == FieldName::AR_RANK || field == FieldName::ER_RANK || field == FieldName::FSR_RANK || field == FieldName::CPF_RANK || 
             field == FieldName::IFR_RANK || field == FieldName::ISR_RANK || field == FieldName::IRN_RANK || field == FieldName::GER_RANK){
             if(stoi(getFieldValue(current, field)) >= stoi(searchValue)){
@@ -1018,6 +1023,7 @@ void LinearSearch(string searchValue, FieldName field, string user)
                 break;
             }
         }
+        // Searching double value
         else {
             if (stod(getFieldValue(current, field)) >= stod(searchValue)) {
                 result = current;
@@ -1067,6 +1073,7 @@ void ExponentialSearch(string searchValue, FieldName field, string user) {
 
     UniversityNode* result;
 
+    // Check if the result is the first node, returns if yes
     if (field == FieldName::RANK || field == FieldName::AR_RANK || field == FieldName::ER_RANK || field == FieldName::FSR_RANK || field == FieldName::CPF_RANK ||
         field == FieldName::IFR_RANK || field == FieldName::ISR_RANK || field == FieldName::IRN_RANK || field == FieldName::GER_RANK) {
         if (stoi(getFieldValue(uniList.getHead(), field)) == stoi(searchValue)) {
@@ -1079,11 +1086,12 @@ void ExponentialSearch(string searchValue, FieldName field, string user) {
         }
     }
     
-
+    // If the result is not at the first node, search other nodes
     UniversityNode* upper = uniList.getHead()->nextUniversity;
     UniversityNode* lower = uniList.getHead()->nextUniversity;
     int bound = 1;
 
+    // Searching integer value
     if (field == FieldName::RANK || field == FieldName::AR_RANK || field == FieldName::ER_RANK || field == FieldName::FSR_RANK || field == FieldName::CPF_RANK ||
         field == FieldName::IFR_RANK || field == FieldName::ISR_RANK || field == FieldName::IRN_RANK || field == FieldName::GER_RANK) {
         while (bound < uniList.getSize() && stoi(getFieldValue(upper, field)) <= stoi(searchValue)) {
@@ -1099,6 +1107,7 @@ void ExponentialSearch(string searchValue, FieldName field, string user) {
             bound = bound * 2;
         }
     }
+    // Searching double value
     else {
         while (bound < uniList.getSize() && stod(getFieldValue(upper, field)) <= stod(searchValue)) {
             lower = upper;
@@ -1114,6 +1123,7 @@ void ExponentialSearch(string searchValue, FieldName field, string user) {
         }
     }
 
+    // Call binary search to continue the search
     result = BinarySearch(lower, upper, field, searchValue);
 
     auto stop = high_resolution_clock::now();
@@ -1143,6 +1153,7 @@ UniversityNode* BinarySearch(UniversityNode* lowerNode, UniversityNode* upperNod
 
     if (lowerNode != nullptr && upperNode != nullptr) {
 
+        // Find the indeces of the lower, middle, and upper nodes
         int upperIndex = 1;
 
         while (temp != upperNode) {
@@ -1170,44 +1181,56 @@ UniversityNode* BinarySearch(UniversityNode* lowerNode, UniversityNode* upperNod
             middleIndex++;
         }
         
-
+        // Searching interger value
         if (field == FieldName::RANK || field == FieldName::AR_RANK || field == FieldName::ER_RANK || field == FieldName::FSR_RANK || field == FieldName::CPF_RANK ||
             field == FieldName::IFR_RANK || field == FieldName::ISR_RANK || field == FieldName::IRN_RANK || field == FieldName::GER_RANK) {
 
+            // Return if the middle node is the result
             if (stoi(getFieldValue(middleNode, field)) == stoi(searchValue)) {
                 return middleNode;
             }
 
+            // If the value of the search value is smaller than the middle node, move the upper to the previous node of middle,
+            // then call binary search again to search the lower part of the list
             if (stoi(getFieldValue(middleNode, field)) > stoi(searchValue)) {
                 return BinarySearch(lowerNode, uniList.getUniversity(middleIndex - 1), field, searchValue);
             }
 
+            // If the search value is already greater than the value of the upper node, return the result from there
             if (stoi(getFieldValue(upperNode, field)) < stoi(searchValue)) {
                 return uniList.getUniversity(upperIndex + 1);
             }
 
+            // If the search value is already smaller than the value of the lower node, return the result from there
             if (stoi(getFieldValue(lowerNode, field)) > stoi(searchValue)) {
                 return uniList.getUniversity(lowerIndex - 2);
             }
         }
+        // Searching double value
         else {          
             if (stod(getFieldValue(middleNode, field)) == stod(searchValue)) {
                 return middleNode;
             }
 
+            // If the value of the search value is smaller than the middle node, move the upper to the previous node of middle,
+            // then call binary search again to search the lower part of the list
             if (stod(getFieldValue(middleNode, field)) > stod(searchValue)) {
                 return BinarySearch(lowerNode, uniList.getUniversity(middleIndex - 1), field, searchValue);
             }
 
+            // If the search value is already greater than the value of the upper node, return the result from there
             if (stod(getFieldValue(upperNode, field)) < stod(searchValue)) {
                 return uniList.getUniversity(upperIndex + 1);
             }
 
+            // If the search value is already smaller than the value of the lower node, return the result from there
             if (stod(getFieldValue(lowerNode, field)) > stod(searchValue)) {
                 return uniList.getUniversity(lowerIndex - 2);
             }
         }
 
+        // If the value of the search value is greater than the middle node, move the lower to the next node of middle,
+        // then call binary search again to search the upper part of the list
         return BinarySearch(middleNode->nextUniversity, upperNode, field, searchValue);
     }
 
