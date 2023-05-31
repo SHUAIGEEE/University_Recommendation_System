@@ -42,7 +42,6 @@ public:
     int getSize();
     UniversityNode* getHead();
     UniversityNode* getTail(UniversityNode* cur);
-    void setHeadNull();
     UniversityNode* getUniversity(int index);
     void setHeadNull();
     void setHead(UniversityNode* university);

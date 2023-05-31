@@ -372,9 +372,6 @@ void UniversityList::displayUniversity(UniversityNode* university, string user) 
         }
     }
 }
-UniversityNode* UniversityList::getTail(UniversityNode* cur) {
-    while (cur->nextUniversity != nullptr) cur = cur->nextUniversity;
-    return cur;
 
 bool UniversityList::inputValidation(string value, FieldName field) {
     try {
@@ -389,19 +386,6 @@ bool UniversityList::inputValidation(string value, FieldName field) {
             buffer = stod(value);
             return true;
         }
-UniversityNode* UniversityList::getTail(UniversityNode* cur) {
-    while (cur->nextUniversity != nullptr) cur = cur->nextUniversity;
-    return cur;
-}
-
-void UniversityList::setHeadNull() {
-    head = tail = nullptr;
-}
-
-UniversityNode* UniversityList::getUniversity(int index) {
-    UniversityNode* current = head;
-    for (int i = 1; i < index; i++) {
-        current = current->nextUniversity;
     }
     catch (...) {
         return false;
@@ -467,8 +451,9 @@ UniversityNode* UniversityList::getHead() {
     return head;
 }
 
-UniversityNode* UniversityList::getTail() {
-    return tail;
+UniversityNode* UniversityList::getTail(UniversityNode* cur) {
+    while (cur->nextUniversity != nullptr) cur = cur->nextUniversity;
+    return cur;
 }
 
 UniversityNode* UniversityList::getUniversity(int index) {
