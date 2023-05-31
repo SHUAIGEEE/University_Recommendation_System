@@ -143,6 +143,7 @@ void UniversityList::sortUniversities(FieldName field)
 void UniversityList::searchUniversities(FieldName field, string user)
 {
     int choice = 1;
+    cin.ignore();
     if (field != FieldName::INSTITUTION_NAME && field != FieldName::LOCATION) {
         cout << endl;
         cout << "Search using..." << endl;
@@ -156,11 +157,12 @@ void UniversityList::searchUniversities(FieldName field, string user)
     string searchValue = "";
     cout << endl << "Please enter search value: ";
     getline(cin, searchValue);
-    while (!inputValidation(searchValue, field)) {
-        cout << endl << "Please enter a valid search value: ";
-        getline(cin, searchValue);
+    if (field != FieldName::INSTITUTION_NAME && field != FieldName::LOCATION) {
+        while (!inputValidation(searchValue, field)) {
+            cout << endl << "Please enter a valid search value: ";
+            getline(cin, searchValue);
+        }
     }
-
     if (choice == 1) {
         LinearSearch(searchValue, field, user);
     }
