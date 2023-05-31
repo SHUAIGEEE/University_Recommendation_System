@@ -30,6 +30,13 @@ void MergeSort(UniversityNode** headRef, bool isAscending);
 void callMergeSort(FieldName field, bool isAscending);
 
 /* QUICK SORT */
+template <FieldName Field>
+UniversityNode* Partition(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template <FieldName Field>
+UniversityNode* SortQuick(UniversityNode* head, UniversityNode* end, bool isAscending);
+template <FieldName Field>
+void QuickSort(UniversityNode** headRef, bool isAscending);
+void callQuickSort(FieldName field, bool isAscending);
 
 /* LINEAR SEARCH */
 FieldName getSearchField();

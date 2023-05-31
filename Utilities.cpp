@@ -924,8 +924,228 @@ template bool compareFieldDesc<FieldName::SCORE_SCALED>(UniversityNode* a, Unive
 
 
 /* QUICK SORT */
+template <FieldName Field>
+UniversityNode* Partition(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending)
+{
+    UniversityNode* pivot = end;
+    UniversityNode* prev = nullptr;
+    UniversityNode* curr = head;
+    UniversityNode* tail = pivot;
+    while (curr != pivot)
+    {
+        if (isAscending)
+        {
+            if (compareFieldAsc<Field>(curr, pivot))
+            {
+                if (*newHead == nullptr)
+                    *newHead = curr;
+                prev = curr;
+                curr = curr->nextUniversity;
+            }
+            else
+            {
+                if (prev)
+                    prev->nextUniversity = curr->nextUniversity;
+                UniversityNode* temp = curr->nextUniversity;
+                curr->nextUniversity = nullptr;
+                tail->nextUniversity = curr;
+                tail = curr;
+                curr = temp;
+            }
+        }
+        else
+        {
+            if (compareFieldDesc<Field>(curr, pivot))
+            {
+                if (*newHead == nullptr)
+                    *newHead = curr;
+                prev = curr;
+                curr = curr->nextUniversity;
+            }
+            else
+            {
+                if (prev)
+                    prev->nextUniversity = curr->nextUniversity;
+                UniversityNode* temp = curr->nextUniversity;
+                curr->nextUniversity = nullptr;
+                tail->nextUniversity = curr;
+                tail = curr;
+                curr = temp;
+            }
+        }
+    }
+    if (*newHead == nullptr)
+        *newHead = pivot;
+    *newEnd = tail;
+    return pivot;
+}
+
+template <FieldName Field>
+UniversityNode* SortQuick(UniversityNode* head, UniversityNode* end, bool isAscending)
+{
+    if (!head || head == end)
+        return head;
+    UniversityNode* newHead = nullptr;
+    UniversityNode* newEnd = nullptr;
+    UniversityNode* pivot = Partition<Field>(head, end, &newHead, &newEnd, isAscending);
+    if (newHead != pivot)
+    {
+        UniversityNode* temp = newHead;
+        while (temp->nextUniversity != pivot)
+            temp = temp->nextUniversity;
+        temp->nextUniversity = nullptr;
+        newHead = SortQuick<Field>(newHead, temp, isAscending);
+        temp = uniList.getTail(newHead);
+        temp->nextUniversity = pivot;
+    }
+    pivot->nextUniversity = SortQuick<Field>(pivot->nextUniversity, newEnd, isAscending);
+    return newHead;
+}
+
+template <FieldName Field>
+void QuickSort(UniversityNode** headRef, bool isAscending)
+{
+    *headRef = SortQuick<Field>(*headRef, uniList.getTail(*headRef), isAscending);
+}
+
+template UniversityNode* Partition<FieldName::RANK>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::INSTITUTION_NAME>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::LOCATION>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::AR_FSR_ER_SCORE>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::AR_RANK>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::ER_RANK>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::FSR_RANK>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::CPF_RANK>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::IFR_RANK>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::ISR_RANK>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::IRN_RANK>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::GER_RANK>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::AR_SCORE>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::ER_SCORE>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::FSR_SCORE>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::CPF_SCORE>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::IFR_SCORE>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::ISR_SCORE>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::IRN_SCORE>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::GER_SCORE>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+template UniversityNode* Partition<FieldName::SCORE_SCALED>(UniversityNode* head, UniversityNode* end, UniversityNode** newHead, UniversityNode** newEnd, bool isAscending);
+
+template UniversityNode* SortQuick<FieldName::RANK>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::INSTITUTION_NAME>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::LOCATION>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::AR_FSR_ER_SCORE>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::AR_RANK>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::ER_RANK>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::FSR_RANK>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::CPF_RANK>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::IFR_RANK>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::ISR_RANK>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::IRN_RANK>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::GER_RANK>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::AR_SCORE>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::ER_SCORE>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::FSR_SCORE>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::CPF_SCORE>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::IFR_SCORE>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::ISR_SCORE>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::IRN_SCORE>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::GER_SCORE>(UniversityNode* head, UniversityNode* end, bool isAscending);
+template UniversityNode* SortQuick<FieldName::SCORE_SCALED>(UniversityNode* head, UniversityNode* end, bool isAscending);
+
+template void QuickSort<FieldName::RANK>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::INSTITUTION_NAME>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::LOCATION>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::AR_FSR_ER_SCORE>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::AR_RANK>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::ER_RANK>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::FSR_RANK>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::CPF_RANK>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::IFR_RANK>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::ISR_RANK>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::IRN_RANK>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::GER_RANK>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::AR_SCORE>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::ER_SCORE>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::FSR_SCORE>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::CPF_SCORE>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::IFR_SCORE>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::ISR_SCORE>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::IRN_SCORE>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::GER_SCORE>(UniversityNode** headRef, bool isAscending);
+template void QuickSort<FieldName::SCORE_SCALED>(UniversityNode** headRef, bool isAscending);
 
 
+void callQuickSort(FieldName field, bool isAscending)
+{
+    switch (field)
+    {
+        case FieldName::RANK:
+            QuickSort<FieldName::RANK>(&uniList.head, isAscending);
+            break;
+        case FieldName::INSTITUTION_NAME:
+            QuickSort<FieldName::INSTITUTION_NAME>(&uniList.head, isAscending);
+            break;
+        case FieldName::LOCATION:
+            QuickSort<FieldName::LOCATION>(&uniList.head, isAscending);
+            break;
+        case FieldName::AR_FSR_ER_SCORE:
+            QuickSort<FieldName::AR_FSR_ER_SCORE>(&uniList.head, isAscending);
+            break;
+        case FieldName::AR_RANK:
+            QuickSort<FieldName::AR_RANK>(&uniList.head, isAscending);
+            break;
+        case FieldName::ER_RANK:
+            QuickSort<FieldName::ER_RANK>(&uniList.head, isAscending);
+            break;
+        case FieldName::FSR_RANK:
+            QuickSort<FieldName::FSR_RANK>(&uniList.head, isAscending);
+            break;
+        case FieldName::CPF_RANK:
+            QuickSort<FieldName::CPF_RANK>(&uniList.head, isAscending);
+            break;  
+        case FieldName::IFR_RANK:
+            QuickSort<FieldName::IFR_RANK>(&uniList.head, isAscending);
+            break;
+        case FieldName::ISR_RANK:
+            QuickSort<FieldName::ISR_RANK>(&uniList.head, isAscending);
+            break;
+        case FieldName::IRN_RANK:
+            QuickSort<FieldName::IRN_RANK>(&uniList.head, isAscending);
+            break;
+        case FieldName::GER_RANK:
+            QuickSort<FieldName::GER_RANK>(&uniList.head, isAscending);
+            break;
+        case FieldName::AR_SCORE:
+            QuickSort<FieldName::AR_SCORE>(&uniList.head, isAscending);
+            break;
+        case FieldName::ER_SCORE:
+            QuickSort<FieldName::ER_SCORE>(&uniList.head, isAscending);
+            break;
+        case FieldName::FSR_SCORE:
+            QuickSort<FieldName::FSR_SCORE>(&uniList.head, isAscending);
+            break;
+        case FieldName::CPF_SCORE:
+            QuickSort<FieldName::CPF_SCORE>(&uniList.head, isAscending);
+            break;
+        case FieldName::IFR_SCORE:
+            QuickSort<FieldName::IFR_SCORE>(&uniList.head, isAscending);
+            break;
+        case FieldName::ISR_SCORE:
+            QuickSort<FieldName::ISR_SCORE>(&uniList.head, isAscending);
+            break;
+        case FieldName::IRN_SCORE:
+            QuickSort<FieldName::IRN_SCORE>(&uniList.head, isAscending);
+            break;
+        case FieldName::GER_SCORE:
+            QuickSort<FieldName::GER_SCORE>(&uniList.head, isAscending);
+            break;
+        case FieldName::SCORE_SCALED:
+            QuickSort<FieldName::SCORE_SCALED>(&uniList.head, isAscending);
+            break;
+        default:
+            break;
+    }
+}
 
 /* SEARCHING ALGORITHMS */
 /* LINEAR SEARCH */
